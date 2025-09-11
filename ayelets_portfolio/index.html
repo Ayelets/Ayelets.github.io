@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>איילת — פורטפוליו</title>
+  <meta name="description" content="פורטפוליו של איילת — ציורים, איורים ועבודות נבחרות." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="assets/favicon.png">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#">איילת ספירשטיין</a>
+      <nav class="nav">
+        <button class="menu-btn" aria-label="פתח תפריט" aria-expanded="false">☰</button>
+        <ul class="nav-list">
+          <li><a href="#works">עבודות</a></li>
+          <li><a href="#about">אודות</a></li>
+          <li><a href="#contact">יצירת קשר</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero container">
+      <h1>פורטפוליו</h1>
+      <p>אוסף עבודות נבחרות. לחיצה על תמונה תפתח תצוגה גדולה.</p>
+    </section>
+
+    <section id="works" class="gallery container">
+      <!-- דוגמאות — החליפי את קבצי ה-JPG בתקיית images -->
+      <a href="images/להכין קפה.png" class="card" data-caption="עבודה 1 — טוש על נייר">
+        <img loading="lazy" src="images/להכין קפה.png" alt="עבודה 1">
+      </a>
+      <a href="images/אווזי הבר.png" class="card" data-caption="עבודה 2 — אקריליק על קנבס">
+        <img loading="lazy" src="images/אווזי הבר.png" alt="עבודה 2">
+      </a>
+      <a href="images/השועל והחסידה.png" class="card" data-caption="עבודה 3 — צבע מים">
+        <img loading="lazy" src="images/השועל והחסידה.png" alt="עבודה 3">
+      </a>
+      <a href="images/לובשת הזברה פיג׳מה.png" class="card" data-caption="עבודה 4 — דיגיטלי">
+        <img loading="lazy" src="images/לובשת הזברה פיג׳מה.png" alt="עבודה 4">
+      </a>
+      <a href="images/מגן היצורים קול קורא.png" class="card" data-caption="עבודה 5 — עיפרון">
+        <img loading="lazy" src="images/מגן היצורים קול קורא.png" alt="עבודה 5">
+      </a>
+      <a href="images/מלון הילברט.png" class="card" data-caption="עבודה 6 — טוש על נייר">
+        <img loading="lazy" src="images/מלון הילברט.png" alt="עבודה 6">
+      </a>
+      <a href="images/נמרים.png" class="card" data-caption="עבודה 7 — צבעי גואש">
+        <img loading="lazy" src="images/נמרים.png" alt="עבודה 7">
+      </a>
+      <a href="images/סרטן השד גדל בזמן השינה.png" class="card" data-caption="עבודה 8 — שמן על בד">
+        <img loading="lazy" src="images/סרטן השד גדל בזמן השינה.png" alt="עבודה 8">
+      </a>
+      <a href="images/קופים.png" class="card" data-caption="עבודה 9 — רישום מהיר">
+        <img loading="lazy" src="images/קופים.png" alt="עבודה 9">
+      </a>
+      <a href="images/שועלי פנרוז A4.png" class="card" data-caption="עבודה 10 — קולאז'">
+        <img loading="lazy" src="images/שועלי פנרוז A4.png" alt="עבודה 10">
+      </a>
+      <a href="images/פיל.png" class="card" data-caption="עבודה 11 — דיו">
+        <img loading="lazy" src="images/פיל.png" alt="עבודה 11">
+      </a>
+      <a href="images/גברת עם סלים.png" class="card" data-caption="עבודה 12 — מרקר">
+        <img loading="lazy" src="images/גברת עם סלים.png" alt="עבודה 12">
+      </a>
+    </section>
+
+    <section id="about" class="container about">
+      <h2>אודות</h2>
+      <p>שלום! אני איילת, אלגוריתמאית ומאיירת. כאן תמצאו מבחר עבודות מהשנים האחרונות.</p>
+    </section>
+
+    <section id="contact" class="container contact">
+      <h2>יצירת קשר</h2>
+      <p>מייל: <a href="mailto:ayelet@example.com">ayelet126@gmail.com</a> · אינסטגרם: <a href="#" target="_blank" rel="noopener">https://www.instagram.com/unmatched_art/</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      © <span id="year"></span> איילת ספירשטיין. כל הזכויות שמורות.
+    </div>
+  </footer>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <div class="lightbox__inner">
+      <button class="lightbox__close" aria-label="סגירה">×</button>
+      <img id="lightbox-img" alt="תצוגה גדולה">
+      <p id="lightbox-caption"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
