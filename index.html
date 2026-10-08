@@ -1,103 +1,238 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>איילת — פורטפוליו</title>
-  <meta name="description" content="פורטפוליו של איילת — ציורים, איורים ועבודות נבחרות." />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>איילת ספירשטיין — פורטפוליו איורים</title>
+  <meta name="description" content="פורטפוליו של איילת ספירשטיין — אלגוריתמאית ומאיירת. מבחר איורים וציורים מהשנים האחרונות.">
+  <meta name="theme-color" content="#f6f0e6">
+  <link rel="canonical" href="https://ayeletsapirshtein.com/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+  <meta property="og:url" content="https://ayeletsapirshtein.com/">
+  <meta property="og:title" content="איילת ספירשטיין — פורטפוליו איורים">
+  <meta property="og:description" content="אלגוריתמאית ומאיירת. מבחר איורים וציורים מהשנים האחרונות.">
+  <meta property="og:image" content="https://ayeletsapirshtein.com/assets/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon.png" type="image/png" sizes="64x64">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="assets/favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="script.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#works">דילוג לעבודות</a>
+
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="#">איילת ספירשטיין</a>
-      <nav class="nav">
-        <button class="menu-btn" aria-label="פתח תפריט" aria-expanded="false">☰</button>
-        <ul class="nav-list">
-          <li><a href="#works">עבודות</a></li>
-          <li><a href="#about">אודות</a></li>
-          <li><a href="#contact">יצירת קשר</a></li>
-        </ul>
+      <a class="brand" href="#top">איילת ספירשטיין</a>
+      <nav class="nav" aria-label="ניווט ראשי">
+        <a href="#works">עבודות</a>
+        <a href="#about">אודות</a>
+        <a href="#contact" class="nav-cta">יצירת קשר</a>
       </nav>
     </div>
   </header>
 
-  <main>
-    <section class="hero container">
-      <h1>פורטפוליו</h1>
-      <p>אוסף עבודות נבחרות. לחיצה על תמונה תפתח תצוגה גדולה.</p>
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-text">
+          <p class="eyebrow">פורטפוליו איורים</p>
+          <h1>
+            איילת
+            <span class="hero-surname">ספירשטיין
+              <svg class="squiggle" viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 16 C 40 4, 70 22, 108 12 S 176 4, 212 14 S 270 20, 296 8"/></svg>
+            </span>
+          </h1>
+          <p class="lead">אלגוריתמאית ומאיירת. כאן תמצאו מבחר עבודות מהשנים האחרונות.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="#works">לעבודות
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+            </a>
+            <a class="btn btn-ghost" href="#contact">יצירת קשר</a>
+          </div>
+        </div>
+
+        <div class="hero-art" aria-hidden="true">
+          <span class="shape shape-sun"></span>
+          <span class="shape shape-leaf"></span>
+          <span class="shape shape-dot-pink"></span>
+          <figure class="print print-1"><img src="images/web/fox-and-stork-sm.webp" width="592" height="843" alt=""></figure>
+          <figure class="print print-2"><img src="images/web/tigers-sm.webp" width="695" height="491" alt=""></figure>
+          <figure class="print print-3"><img src="images/web/elephant-sm.webp" width="760" height="538" alt=""></figure>
+        </div>
+      </div>
     </section>
 
-    <section id="works" class="gallery container">
-      <!-- דוגמאות — החליפי את קבצי ה-JPG בתקיית images -->
-      <a href="images/להכין קפה.png" class="card" data-caption="עבודה 1 — טוש על נייר">
-        <img loading="lazy" src="images/להכין קפה.png" alt="עבודה 1">
-      </a>
-      <a href="images/אווזי הבר.png" class="card" data-caption="עבודה 2 — אקריליק על קנבס">
-        <img loading="lazy" src="images/אווזי הבר.png" alt="עבודה 2">
-      </a>
-      <a href="images/השועל והחסידה.png" class="card" data-caption="עבודה 3 — צבע מים">
-        <img loading="lazy" src="images/השועל והחסידה.png" alt="עבודה 3">
-      </a>
-      <a href="images/לובשת הזברה פיג׳מה.png" class="card" data-caption="עבודה 4 — דיגיטלי">
-        <img loading="lazy" src="images/לובשת הזברה פיג׳מה.png" alt="עבודה 4">
-      </a>
-      <a href="images/מגן היצורים קול קורא.png" class="card" data-caption="עבודה 5 — עיפרון">
-        <img loading="lazy" src="images/מגן היצורים קול קורא.png" alt="עבודה 5">
-      </a>
-      <a href="images/מלון הילברט.png" class="card" data-caption="עבודה 6 — טוש על נייר">
-        <img loading="lazy" src="images/מלון הילברט.png" alt="עבודה 6">
-      </a>
-      <a href="images/נמרים.png" class="card" data-caption="עבודה 7 — צבעי גואש">
-        <img loading="lazy" src="images/נמרים.png" alt="עבודה 7">
-      </a>
-      <a href="images/סרטן השד גדל בזמן השינה.png" class="card" data-caption="עבודה 8 — שמן על בד">
-        <img loading="lazy" src="images/סרטן השד גדל בזמן השינה.png" alt="עבודה 8">
-      </a>
-      <a href="images/קופים.png" class="card" data-caption="עבודה 9 — רישום מהיר">
-        <img loading="lazy" src="images/קופים.png" alt="עבודה 9">
-      </a>
-      <a href="images/שועלי פנרוז A4.png" class="card" data-caption="עבודה 10 — קולאז'">
-        <img loading="lazy" src="images/שועלי פנרוז A4.png" alt="עבודה 10">
-      </a>
-      <a href="images/פיל.png" class="card" data-caption="עבודה 11 — דיו">
-        <img loading="lazy" src="images/פיל.png" alt="עבודה 11">
-      </a>
-      <a href="images/גברת עם סלים.png" class="card" data-caption="עבודה 12 — מרקר">
-        <img loading="lazy" src="images/גברת עם סלים.png" alt="עבודה 12">
-      </a>
+    <section id="works" class="section works">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">עבודות נבחרות</p>
+          <h2>גלריה</h2>
+          <p class="section-note">לחיצה על עבודה תפתח אותה בגדול</p>
+        </header>
+
+        <div class="gallery">
+          <figure class="work" style="--r:0.707">
+            <a href="images/web/making-coffee.webp" data-title="להכין קפה">
+              <img src="images/web/making-coffee-sm.webp" srcset="images/web/making-coffee-sm.webp 760w, images/web/making-coffee.webp 877w"
+                   sizes="(max-width: 700px) 92vw, 40vw" width="877" height="1240" loading="lazy" decoding="async" alt="להכין קפה">
+            </a>
+            <figcaption>להכין קפה</figcaption>
+          </figure>
+          <figure class="work" style="--r:1.414">
+            <a href="images/web/wild-geese.webp" data-title="אווזי הבר">
+              <img src="images/web/wild-geese-sm.webp" srcset="images/web/wild-geese-sm.webp 760w, images/web/wild-geese.webp 891w"
+                   sizes="(max-width: 700px) 92vw, 40vw" width="891" height="630" loading="lazy" decoding="async" alt="אווזי הבר">
+            </a>
+            <figcaption>אווזי הבר</figcaption>
+          </figure>
+          <figure class="work" style="--r:0.702">
+            <a href="images/web/fox-and-stork.webp" data-title="השועל והחסידה">
+              <img src="images/web/fox-and-stork-sm.webp" srcset="images/web/fox-and-stork-sm.webp 592w, images/web/fox-and-stork.webp 592w"
+                   sizes="(max-width: 700px) 92vw, 40vw" width="592" height="843" loading="lazy" decoding="async" alt="השועל והחסידה">
+            </a>
+            <figcaption>השועל והחסידה</figcaption>
+          </figure>
+          <figure class="work" style="--r:0.722">
+            <a href="images/web/zebra-pajamas.webp" data-title="לובשת הזברה פיג׳מה">
+              <img src="images/web/zebra-pajamas-sm.webp" srcset="images/web/zebra-pajamas-sm.webp 463w, images/web/zebra-pajamas.webp 463w"
+                   sizes="(max-width: 700px) 92vw, 40vw" width="463" height="641" loading="lazy" decoding="async" alt="לובשת הזברה פיג׳מה">
+            </a>
+            <figcaption>לובשת הזברה פיג׳מה</figcaption>
+          </figure>
+          <figure class="work" style="--r:0.714">
+            <a href="images/web/creature-guardian.webp" data-title="מגן היצורים קול קורא">
+              <img src="images/web/creature-guardian-sm.webp" srcset="images/web/creature-guardian-sm.webp 425w, images/web/creature-guardian.webp 425w"
+                   sizes="(max-width: 700px) 92vw, 40vw" width="425" height="595" loading="lazy" decoding="async" alt="מגן היצורים קול קורא">
+            </a>
+            <figcaption>מגן היצורים קול קורא</figcaption>
+          </figure>
+          <figure class="work" style="--r:0.716">
+            <a href="images/web/hilbert-hotel.webp" data-title="מלון הילברט">
+              <img src="images/web/hilbert-hotel-sm.webp" srcset="images/web/hilbert-hotel-sm.webp 760w, images/web/hilbert-hotel.webp 964w"
+                   sizes="(max-width: 700px) 92vw, 40vw" width="964" height="1347" loading="lazy" decoding="async" alt="מלון הילברט">
+            </a>
+            <figcaption>מלון הילברט</figcaption>
+          </figure>
+          <figure class="work" style="--r:1.415">
+            <a href="images/web/tigers.webp" data-title="נמרים">
+              <img src="images/web/tigers-sm.webp" srcset="images/web/tigers-sm.webp 695w, images/web/tigers.webp 695w"
+                   sizes="(max-width: 700px) 92vw, 40vw" width="695" height="491" loading="lazy" decoding="async" alt="נמרים">
+            </a>
+            <figcaption>נמרים</figcaption>
+          </figure>
+          <figure class="work" style="--r:1.019">
+            <a href="images/web/growing-while-sleeping.webp" data-title="סרטן השד גדל בזמן השינה">
+              <img src="images/web/growing-while-sleeping-sm.webp" srcset="images/web/growing-while-sleeping-sm.webp 494w, images/web/growing-while-sleeping.webp 494w"
+                   sizes="(max-width: 700px) 92vw, 40vw" width="494" height="485" loading="lazy" decoding="async" alt="סרטן השד גדל בזמן השינה">
+            </a>
+            <figcaption>סרטן השד גדל בזמן השינה</figcaption>
+          </figure>
+          <figure class="work" style="--r:1.000">
+            <a href="images/web/monkeys.webp" data-title="קופים">
+              <img src="images/web/monkeys-sm.webp" srcset="images/web/monkeys-sm.webp 760w, images/web/monkeys.webp 1800w"
+                   sizes="(max-width: 700px) 92vw, 40vw" width="1800" height="1800" loading="lazy" decoding="async" alt="קופים">
+            </a>
+            <figcaption>קופים</figcaption>
+          </figure>
+          <figure class="work" style="--r:1.013">
+            <a href="images/web/monkeys-playing.webp" data-title="קופים משחקים">
+              <img src="images/web/monkeys-playing-sm.webp" srcset="images/web/monkeys-playing-sm.webp 475w, images/web/monkeys-playing.webp 475w"
+                   sizes="(max-width: 700px) 92vw, 40vw" width="475" height="469" loading="lazy" decoding="async" alt="קופים משחקים">
+            </a>
+            <figcaption>קופים משחקים</figcaption>
+          </figure>
+          <figure class="work" style="--r:1.000">
+            <a href="images/web/penrose-foxes.webp" data-title="שועלי פנרוז">
+              <img src="images/web/penrose-foxes-sm.webp" srcset="images/web/penrose-foxes-sm.webp 620w, images/web/penrose-foxes.webp 620w"
+                   sizes="(max-width: 700px) 92vw, 40vw" width="620" height="620" loading="lazy" decoding="async" alt="שועלי פנרוז">
+            </a>
+            <figcaption>שועלי פנרוז</figcaption>
+          </figure>
+          <figure class="work" style="--r:1.414">
+            <a href="images/web/elephant.webp" data-title="פיל">
+              <img src="images/web/elephant-sm.webp" srcset="images/web/elephant-sm.webp 760w, images/web/elephant.webp 1240w"
+                   sizes="(max-width: 700px) 92vw, 40vw" width="1240" height="877" loading="lazy" decoding="async" alt="פיל">
+            </a>
+            <figcaption>פיל</figcaption>
+          </figure>
+          <figure class="work" style="--r:0.792">
+            <a href="images/web/lady-with-baskets.webp" data-title="גברת עם סלים">
+              <img src="images/web/lady-with-baskets-sm.webp" srcset="images/web/lady-with-baskets-sm.webp 460w, images/web/lady-with-baskets.webp 460w"
+                   sizes="(max-width: 700px) 92vw, 40vw" width="460" height="581" loading="lazy" decoding="async" alt="גברת עם סלים">
+            </a>
+            <figcaption>גברת עם סלים</figcaption>
+          </figure>
+        </div>
+      </div>
     </section>
 
-    <section id="about" class="container about">
-      <h2>אודות</h2>
-      <p>שלום! אני איילת, אלגוריתמאית ומאיירת. כאן תמצאו מבחר עבודות מהשנים האחרונות.</p>
+    <section id="about" class="section about">
+      <div class="container about-inner">
+        <figure class="about-art reveal">
+          <img src="images/web/penrose-foxes-sm.webp" width="620" height="620" loading="lazy" decoding="async" alt="שועלי פנרוז">
+        </figure>
+        <div class="about-text reveal">
+          <p class="eyebrow">אודות</p>
+          <h2>שלום! אני איילת,<br><mark>אלגוריתמאית</mark> ו<mark class="mark-2">מאיירת</mark>.</h2>
+          <p>כאן תמצאו מבחר עבודות מהשנים האחרונות.</p>
+        </div>
+      </div>
     </section>
 
-    <section id="contact" class="container contact">
-      <h2>יצירת קשר</h2>
-      <p>מייל: <a href="mailto:ayelet@example.com">ayelet126@gmail.com</a> · אינסטגרם: <a href="#" target="_blank" rel="noopener">https://www.instagram.com/unmatched_art/</a></p>
+    <section id="contact" class="section contact">
+      <div class="container">
+        <div class="contact-card reveal">
+          <span class="shape shape-dot" aria-hidden="true"></span>
+          <p class="eyebrow">יצירת קשר</p>
+          <h2>אשמח לשמוע מכם</h2>
+          <div class="contact-links">
+            <a class="contact-link" href="mailto:ayelet126@gmail.com">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              <span><small>מייל</small><bdi dir="ltr">ayelet126@gmail.com</bdi></span>
+            </a>
+            <a class="contact-link" href="https://www.instagram.com/unmatched_art/" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/></svg>
+              <span><small>אינסטגרם</small><bdi dir="ltr">@unmatched_art</bdi></span>
+            </a>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="container">
-      © <span id="year"></span> איילת ספירשטיין. כל הזכויות שמורות.
+    <div class="container footer-inner">
+      <span>© <span id="year">2025</span> איילת ספירשטיין. כל הזכויות שמורות.</span>
+      <a href="#top" class="to-top">חזרה למעלה ↑</a>
     </div>
   </footer>
 
-  <!-- Lightbox -->
-  <div id="lightbox" class="lightbox" aria-hidden="true">
-    <div class="lightbox__inner">
-      <button class="lightbox__close" aria-label="סגירה">×</button>
-      <img id="lightbox-img" alt="תצוגה גדולה">
-      <p id="lightbox-caption"></p>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
+  <dialog id="lightbox" class="lightbox" aria-label="תצוגת עבודה">
+    <button class="lb-btn lb-close" type="button" aria-label="סגירה">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <button class="lb-btn lb-nav lb-prev" type="button" aria-label="העבודה הקודמת">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+    </button>
+    <figure class="lb-stage">
+      <img id="lb-img" alt="">
+      <figcaption><span id="lb-title"></span><span id="lb-count" dir="ltr"></span></figcaption>
+    </figure>
+    <button class="lb-btn lb-nav lb-next" type="button" aria-label="העבודה הבאה">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg>
+    </button>
+  </dialog>
 </body>
 </html>

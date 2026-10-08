@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="16" fill="#d8462d"/>
+  <circle cx="51" cy="51" r="6" fill="#eeb243"/>
+  <text x="31" y="48" text-anchor="middle" font-family="'Frank Ruhl Libre','David Libre',Georgia,serif" font-weight="900" font-size="44" fill="#f6f0e6">א</text>
+</svg>
