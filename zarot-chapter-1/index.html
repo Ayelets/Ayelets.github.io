@@ -217,7 +217,7 @@
         <h1>איילת ספירשטיין</h1>
         <p>באגים בהייטק · פרק ראשון</p>
       </div>
-      <a class="head-cta" href="https://headstart.co.il/project/91364" target="_blank" rel="noopener">לתמיכה</a>
+      <a class="head-cta" href="https://headstart.co.il/project/91364?amb=bd03d3cc-d62f-11f1-8981-4201ac1c90e4" target="_blank" rel="noopener">לתמיכה</a>
     </header>
 
     <section class="carousel" tabindex="0" aria-roledescription="carousel" aria-label="באגים בהייטק – פרק ראשון">
@@ -243,7 +243,7 @@
         <figure class="slide"><img data-src="pages/19-1440.webp" data-srcset="pages/19-720.webp 720w, pages/19-1200.webp 1200w, pages/19-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="עמוד 18" loading="lazy" decoding="async"></figure>
         <figure class="slide"><img data-src="pages/20-1440.webp" data-srcset="pages/20-720.webp 720w, pages/20-1200.webp 1200w, pages/20-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="עמוד 19" loading="lazy" decoding="async"></figure>
         <div class="slide cta-slide">
-          <a class="dialog" href="https://headstart.co.il/project/91364" target="_blank" rel="noopener">
+          <a class="dialog" href="https://headstart.co.il/project/91364?amb=bd03d3cc-d62f-11f1-8981-4201ac1c90e4" target="_blank" rel="noopener">
             <div class="dialog-bar"><span>באגים בהייטק</span><span class="dialog-x" aria-hidden="true">X</span></div>
             <div class="dialog-body">
               <h2>אהבתם ואתם רוצים לעזור לספר הזה לצאת לאור?</h2>
@@ -275,7 +275,7 @@
           </p>
           <p class="caption">
             רוצים שהספר יצא לאור? תמכו בקמפיין בהדסטארט:<br>
-            <a class="link" href="https://headstart.co.il/project/91364" target="_blank" rel="noopener">https://headstart.co.il/project/91364</a>
+            <a class="link" href="https://headstart.co.il/project/91364?amb=bd03d3cc-d62f-11f1-8981-4201ac1c90e4" target="_blank" rel="noopener">https://headstart.co.il/project/91364</a>
           </p>
         </div>
       </div>
@@ -379,13 +379,18 @@
       });
       render(0);
 
+      // Headstart ambassador links: the hrefs carry the chapter page's own link; a visit from a
+      // paid ad (utm_medium=paid, set on every ad's URL) swaps in the "chapter page, from an ad" one.
+      const fromAd = new URLSearchParams(location.search).get('utm_medium') === 'paid';
       // Every link to the Headstart page counts as a lead, so ads can optimize for it.
       document.querySelectorAll('a[href*="headstart.co.il"]').forEach(a => {
+        if (fromAd) a.href = a.href.replace('amb=bd03d3cc-d62f-11f1-8981-4201ac1c90e4', 'amb=dc1f2b62-d62f-11f1-8981-4201ac1c90e4');
         a.addEventListener('click', () => fbq('track', 'Lead', { content_name: 'headstart' }));
       });
 
       // Sharing
-      const url = location.href.split('#')[0];
+      // Without the query string, so friends of an ad visitor don't count as ad traffic.
+      const url = location.origin + location.pathname;
       const text = 'קראו את הפרק הראשון של ״באגים בהייטק״ מאת איילת ספירשטיין';
       const u = encodeURIComponent(url), t = encodeURIComponent(text);
       const links = {
