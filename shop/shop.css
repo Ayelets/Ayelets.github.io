@@ -6,8 +6,6 @@
   --buy-line: #3aa5b4;
 }
 
-.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-
 /* Cart button in header */
 .cart-btn {
   position: relative;
@@ -218,4 +216,8 @@
   .products { grid-template-columns: minmax(0, 1fr); row-gap: 2.5rem; }
   .product { width: min(100%, 420px); margin-inline: auto; }
   .product h3 { min-height: 0; }
+}
+
+@media (max-width: 380px) {
+  .cart-btn { width: 2.15rem; height: 2.15rem; }
 }
