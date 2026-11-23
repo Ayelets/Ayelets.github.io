@@ -101,12 +101,26 @@
     <div class="cart-foot">
       <p class="cart-total">סה״כ: <strong>0 ש״ח</strong></p>
       <button class="checkout-btn" type="button" disabled>לתשלום</button>
-      <p class="cart-note">התשלום באתר ייפתח בקרוב.</p>
+      <p class="cart-note" hidden>התשלום באתר ייפתח בקרוב.</p>
     </div>
+    <form class="checkout-form" hidden novalidate>
+      <p class="form-title">פרטים למשלוח ולחשבונית</p>
+      <label>שם מלא<input name="name" autocomplete="name" required></label>
+      <label>טלפון<input name="phone" type="tel" autocomplete="tel" dir="ltr" required></label>
+      <label>אימייל<input name="email" type="email" autocomplete="email" dir="ltr" required></label>
+      <label>עיר<input name="city" autocomplete="address-level2" required></label>
+      <label>כתובת (רחוב, מספר, דירה)<input name="address" autocomplete="street-address" required></label>
+      <p class="form-error" role="alert" hidden></p>
+      <p class="cart-total">לתשלום: <strong>0 ש״ח</strong></p>
+      <button class="checkout-btn pay-btn" type="submit">מעבר לתשלום מאובטח</button>
+      <button class="back-btn" type="button">חזרה לעגלה</button>
+      <p class="cart-note">התשלום מתבצע בדף המאובטח של SUMIT. החשבונית תישלח לאימייל.</p>
+    </form>
   </dialog>
 
   <div class="toast" role="status" aria-live="polite"></div>
 
+  <script src="config.js"></script>
   <script src="shop.js"></script>
 </body>
 </html>

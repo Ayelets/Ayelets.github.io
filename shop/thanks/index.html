@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LHGCGQ23CV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LHGCGQ23CV');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>תודה על ההזמנה — איילת ספירשטיין</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#261c63">
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../assets/favicon.png" type="image/png" sizes="64x64">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../shop.css">
+  <style>
+    .thanks { max-width: 36rem; padding-block: clamp(3rem, 10vw, 6rem); text-align: center; }
+    .thanks-card { background: var(--lav); color: var(--lav-ink); padding: clamp(2rem, 6vw, 3rem) 1.5rem; display: grid; gap: 1rem; justify-items: center; }
+    .thanks h1 { font-size: clamp(1.8rem, 5vw, 2.4rem); }
+    .thanks .meta { font-size: .95rem; opacity: .8; }
+    .thanks .actions { justify-content: center; margin-top: .5rem; }
+    .thanks .btn { border-color: var(--lav-ink); color: var(--lav-ink); }
+    .thanks .btn-primary { background: var(--lav-ink); color: #fff; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">איילת ספירשטיין</a>
+      <nav class="nav" aria-label="ניווט ראשי">
+        <a href="/#works">עבודות</a>
+        <a href="/#about">אודות</a>
+        <a href="/shop/">חנות</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container thanks">
+    <div class="thanks-card" aria-live="polite">
+      <h1 id="title">בודקים את התשלום…</h1>
+      <p id="text">רק רגע.</p>
+      <p id="meta" class="meta" hidden></p>
+      <div class="actions">
+        <a class="btn btn-primary" href="/shop/">חזרה לחנות</a>
+        <a class="btn btn-ghost" href="/#contact">יצירת קשר</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="../config.js"></script>
+  <script>
+    (function () {
+      var CHECKOUT_API = (window.SHOP_CHECKOUT_API || '').replace(/\/+$/, '');
+      var params = new URLSearchParams(location.search);
+      var id = params.get('OG-PaymentID') || params.get('og-paymentid');
+      var title = document.getElementById('title');
+      var text = document.getElementById('text');
+      var meta = document.getElementById('meta');
+
+      function paid(amount, paymentId) {
+        try { localStorage.removeItem('shop-cart'); } catch (e) {}
+        title.textContent = 'תודה! התשלום התקבל';
+        text.textContent = 'החשבונית נשלחה לאימייל שלך. אצור איתך קשר לגבי המשלוח.';
+        if (amount != null) { meta.textContent = 'סכום: ' + amount + ' ש״ח · מספר תשלום: ' + paymentId; meta.hidden = false; }
+      }
+      function unknown() {
+        title.textContent = 'לא הצלחנו לאמת את התשלום';
+        text.textContent = 'אם חויבת, אין מה לדאוג: החשבונית תגיע לאימייל. אפשר גם לפנות אליי ונבדוק את ההזמנה.';
+      }
+
+      if (!id || !CHECKOUT_API) return unknown();
+      fetch(CHECKOUT_API + '/verify?id=' + encodeURIComponent(id))
+        .then(function (r) { return r.json(); })
+        .then(function (res) { if (res && res.valid) paid(res.amount, res.id); else unknown(); })
+        .catch(unknown);
+    })();
+  </script>
+</body>
+</html>

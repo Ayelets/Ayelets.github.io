@@ -1,5 +1,8 @@
-// Shop cart: kept in the visitor's browser. Checkout is disabled until payment is connected.
+// Shop cart: kept in the visitor's browser. Checkout goes through a small
+// Cloudflare Worker (see checkout-worker/README.md) that opens a SUMIT payment page.
 (function () {
+  var CHECKOUT_API = (window.SHOP_CHECKOUT_API || '').replace(/\/+$/, '');
+
   var PRODUCTS = {
     book:     { name: 'הספר ״באגים בהייטק״ — מכירה מוקדמת', price: 88, img: '../images/shop/book.webp' },
     tote:     { name: 'תיק טוקן',                           price: 75, img: '../images/shop/tote.webp' },
@@ -12,7 +15,12 @@
   var dialog = document.getElementById('cart');
   var list = dialog.querySelector('.cart-items');
   var empty = dialog.querySelector('.cart-empty');
-  var total = dialog.querySelector('.cart-total strong');
+  var totals = dialog.querySelectorAll('.cart-total strong');
+  var foot = dialog.querySelector('.cart-foot');
+  var checkoutBtn = foot.querySelector('.checkout-btn');
+  var form = dialog.querySelector('.checkout-form');
+  var formError = form.querySelector('.form-error');
+  var payBtn = form.querySelector('.pay-btn');
   var count = document.querySelector('.cart-count');
   var toast = document.querySelector('.toast');
   var toastTimer;
@@ -47,7 +55,9 @@
       list.appendChild(li);
     });
     empty.hidden = ids.length > 0;
-    total.textContent = shekel(sum);
+    totals.forEach(function (t) { t.textContent = shekel(sum); });
+    checkoutBtn.disabled = !CHECKOUT_API || items === 0;
+    if (items === 0) showStep('cart');
     count.textContent = items;
     count.hidden = items === 0;
   }
@@ -64,6 +74,57 @@
   }
   function openCart() { if (!dialog.open) dialog.showModal(); }
 
+  function showStep(step) {
+    var checkout = step === 'checkout';
+    form.hidden = !checkout;
+    foot.hidden = checkout;
+    list.hidden = checkout;
+    if (checkout) { formError.hidden = true; form.elements.name.focus(); }
+  }
+
+  // Remember the buyer's details in this browser so a retry doesn't mean retyping.
+  var DETAILS_KEY = 'shop-details';
+  try {
+    var saved = JSON.parse(localStorage.getItem(DETAILS_KEY)) || {};
+    Object.keys(saved).forEach(function (k) { if (form.elements[k]) form.elements[k].value = saved[k]; });
+  } catch (e) {}
+
+  form.addEventListener('input', function () { formError.hidden = true; });
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var customer = {};
+    ['name', 'phone', 'email', 'city', 'address'].forEach(function (k) { customer[k] = form.elements[k].value.trim(); });
+    var missing = Object.keys(customer).filter(function (k) { return !customer[k]; });
+    if (missing.length) return fail('יש למלא את כל השדות.', form.elements[missing[0]]);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email)) return fail('כתובת האימייל לא תקינה.', form.elements.email);
+    try { localStorage.setItem(DETAILS_KEY, JSON.stringify(customer)); } catch (e2) {}
+
+    var items = Object.keys(cart).map(function (id) { return { id: id, qty: cart[id] }; });
+    payBtn.disabled = true;
+    payBtn.textContent = 'פותח את דף התשלום…';
+    formError.hidden = true;
+    fetch(CHECKOUT_API + '/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: items, customer: customer })
+    })
+      .then(function (r) { return r.json().catch(function () { return {}; }); })
+      .then(function (res) {
+        if (res && res.redirectUrl) { window.location.href = res.redirectUrl; return; }
+        throw new Error(res && res.error);
+      })
+      .catch(function (err) {
+        fail((err && err.message) || 'לא ניתן לפתוח את דף התשלום כרגע. נסו שוב מאוחר יותר.');
+        payBtn.disabled = false;
+        payBtn.textContent = 'מעבר לתשלום מאובטח';
+      });
+  });
+  function fail(msg, field) {
+    formError.textContent = msg;
+    formError.hidden = false;
+    if (field) field.focus();
+  }
+
   document.addEventListener('click', function (e) {
     var t = e.target.closest('button');
     if (!t) return;
@@ -78,6 +139,8 @@
     } else if (t.dataset.remove) { delete cart[t.dataset.remove]; save(); render(); }
     else if (t.classList.contains('cart-btn')) openCart();
     else if (t.classList.contains('cart-close')) dialog.close();
+    else if (t === checkoutBtn) showStep('checkout');
+    else if (t.classList.contains('back-btn')) showStep('cart');
   });
   // Click on the backdrop closes the cart
   dialog.addEventListener('click', function (e) {
@@ -89,5 +152,6 @@
   var y = document.getElementById('year');
   if (y) y.textContent = new Date().getFullYear();
 
+  if (!CHECKOUT_API) dialog.querySelector('.cart-foot .cart-note').hidden = false;
   render();
 })();
