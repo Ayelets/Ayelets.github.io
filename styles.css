@@ -526,7 +526,10 @@ mark.mark-2 { background: linear-gradient(transparent 58%, rgba(228, 64, 127, .5
 }
 @media (max-width: 380px) {
   .brand::after { display: none; }
-  .nav { gap: .6rem; }
+  .nav { gap: .55rem; }
+  .brand { font-size: 1.05rem; }
+  .nav a { font-size: .82rem; }
+  .nav-cta { padding: .3rem .6rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
