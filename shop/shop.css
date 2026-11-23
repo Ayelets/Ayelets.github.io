@@ -49,7 +49,8 @@
   cursor: pointer;
   transition: background-color .2s, color .2s;
 }
-.buy-btn:hover { background: var(--magenta-deep); color: #fff; }
+@media (hover: hover) { .buy-btn:hover { background: var(--magenta-deep); color: #fff; } }
+.buy-btn:active { background: var(--magenta-deep); }
 
 /* Product row */
 .products {
