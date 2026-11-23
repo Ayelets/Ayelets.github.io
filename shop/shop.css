@@ -2,8 +2,8 @@
 :root {
   --lav: #d9d7fb;         /* panel lavender */
   --lav-ink: #261c63;     /* text on lavender */
-  --buy-bg: #eefcff;
-  --buy-line: #3aa5b4;
+  --magenta: #d24e7e;
+  --magenta-deep: #b83a68;
 }
 
 
@@ -40,15 +40,16 @@
 .buy-btn {
   margin-top: 1.25rem;
   padding: .8rem 3rem;
-  border: 1px solid var(--buy-line);
-  background: var(--buy-bg);
-  color: var(--pink);
+  border: 0;
+  border-radius: 999px;
+  background: var(--magenta);
+  color: var(--lav);
   font: inherit;
   font-size: 1.3rem;
   cursor: pointer;
   transition: background-color .2s, color .2s;
 }
-.buy-btn:hover { background: var(--pink); color: #fff; border-color: var(--pink); }
+.buy-btn:hover { background: var(--magenta-deep); color: #fff; }
 
 /* Product row */
 .products {
