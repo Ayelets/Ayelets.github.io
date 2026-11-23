@@ -21,7 +21,7 @@
 ## החנות
 - `shop/` — העגלה ודף התודה.
 - `checkout-worker/` — השרת הקטן ב-Cloudflare שפותח את דף התשלום ב-SUMIT. ההוראות ב-`checkout-worker/README.md`.
-- `orders-sheet/` — הסקריפט ששומר כל הזמנה בגיליון Google Sheets, עם עמודה לסמן מי קיבל את ההזמנה. ההוראות ב-`orders-sheet/README.md`.
+- `orders-sheet/` — הסקריפט ששומר כל הזמנה בגיליון Google Sheets, עם עמודה לסמן מי קיבל את ההזמנה, ושולח הודעה לקבוצת טלגרם על כל תשלום. ההוראות ב-`orders-sheet/README.md`.
 
 ## הוספת עבודה חדשה
 1. שימי את קובץ ה-PNG בתיקיית `images` (שם הקובץ הוא גם הכותרת).
