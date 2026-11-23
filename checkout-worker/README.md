@@ -38,4 +38,4 @@
 - `shop/shop.js` ו-`shop/index.html` — מה שמוצג באתר.
 - `checkout-worker/worker.js` — מה שבאמת נגבה. אחרי שינוי, הדביקי את הקובץ מחדש ב-Cloudflare (שלב 2.3).
 
-דמי משלוח: `SHIPPING_PRICE` בראש `worker.js` (0 = משלוח חינם).
+דמי משלוח: `SHIPPING_PRICE` בראש `worker.js` ובראש `shop/shop.js` (כרגע 35 ש״ח; איסוף עצמי חינם).

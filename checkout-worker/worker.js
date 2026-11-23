@@ -9,7 +9,8 @@
 //   SUMIT_API_KEY     — the private API key from SUMIT (type: Secret)
 //
 // Routes:
-//   POST /checkout  { items: [{ id, qty }], customer: { name, phone, email, city, address } }
+//   POST /checkout  { items: [{ id, qty }], shipping: 'delivery' | 'pickup',
+//                     customer: { name, phone, email, city, address } }  (city/address only for delivery)
 //                   → { redirectUrl }
 //   GET  /verify?id=<OG-PaymentID>
 //                   → { valid, amount, id }
@@ -25,8 +26,8 @@ const PRODUCTS = {
   card:     { name: 'כרטיס ברכה לפטופ מנצנץ',             price: 25 },
 };
 
-// Shipping fee in shekels (0 = free). Prices include VAT.
-const SHIPPING_PRICE = 0;
+// Home delivery fee in shekels. Self pickup is free.
+const SHIPPING_PRICE = 35;
 
 const SUMIT_API = 'https://api.sumit.co.il';
 
@@ -70,9 +71,9 @@ async function checkout(body, env) {
     name: clean(c.name), phone: clean(c.phone), email: clean(c.email),
     city: clean(c.city), address: clean(c.address),
   };
-  if (!customer.name || !customer.phone || !customer.email || !customer.city || !customer.address) {
-    throw new UserError('יש למלא שם, טלפון, אימייל, עיר וכתובת למשלוח.');
-  }
+  const delivery = body.shipping !== 'pickup';
+  if (!customer.name || !customer.phone || !customer.email) throw new UserError('יש למלא שם, טלפון ואימייל.');
+  if (delivery && (!customer.city || !customer.address)) throw new UserError('למשלוח יש למלא עיר וכתובת.');
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email)) throw new UserError('כתובת האימייל לא תקינה.');
 
   const lines = Array.isArray(body.items) ? body.items : [];
@@ -85,7 +86,7 @@ async function checkout(body, env) {
     items.push({ Item: { Name: p.name, ExternalIdentifier: line.id }, Quantity: qty, UnitPrice: p.price, Currency: 'ILS' });
   }
   if (!items.length) throw new UserError('העגלה ריקה.');
-  if (SHIPPING_PRICE > 0) {
+  if (delivery && SHIPPING_PRICE > 0) {
     items.push({ Item: { Name: 'משלוח', ExternalIdentifier: 'shipping' }, Quantity: 1, UnitPrice: SHIPPING_PRICE, Currency: 'ILS' });
   }
 
@@ -95,13 +96,12 @@ async function checkout(body, env) {
       Name: customer.name,
       Phone: customer.phone,
       EmailAddress: customer.email,
-      City: customer.city,
-      Address: customer.address,
+      City: delivery ? customer.city : null,
+      Address: delivery ? customer.address : null,
     },
     Items: items,
-    VATIncluded: true,
     ExternalIdentifier: orderId,
-    DocumentDescription: 'משלוח לכתובת: ' + customer.address + ', ' + customer.city,
+    DocumentDescription: delivery ? 'משלוח לכתובת: ' + customer.address + ', ' + customer.city : 'איסוף עצמי',
     RedirectURL: SITE + '/shop/thanks/',
     CancelRedirectURL: SITE + '/shop/',
     SendUpdateByEmailAddress: customer.email,

@@ -108,10 +108,19 @@
       <label>שם מלא<input name="name" autocomplete="name" required></label>
       <label>טלפון<input name="phone" type="tel" autocomplete="tel" dir="ltr" required></label>
       <label>אימייל<input name="email" type="email" autocomplete="email" dir="ltr" required></label>
-      <label>עיר<input name="city" autocomplete="address-level2" required></label>
-      <label>כתובת (רחוב, מספר, דירה)<input name="address" autocomplete="street-address" required></label>
+      <fieldset class="ship-choice">
+        <legend>איך לקבל את ההזמנה?</legend>
+        <label class="radio"><input type="radio" name="shipping" value="delivery" checked> משלוח עד הבית — 35 ש״ח</label>
+        <label class="radio"><input type="radio" name="shipping" value="pickup"> איסוף עצמי — חינם</label>
+      </fieldset>
+      <div class="ship-fields">
+        <label>עיר<input name="city" autocomplete="address-level2"></label>
+        <label>כתובת (רחוב, מספר, דירה)<input name="address" autocomplete="street-address"></label>
+      </div>
+      <p class="pickup-note" hidden>ניצור איתך קשר לתיאום האיסוף.</p>
       <p class="form-error" role="alert" hidden></p>
-      <p class="cart-total">לתשלום: <strong>0 ש״ח</strong></p>
+      <p class="ship-line">משלוח: <span class="ship-price">35 ש״ח</span></p>
+      <p class="cart-total">לתשלום: <strong class="grand-total">0 ש״ח</strong></p>
       <button class="checkout-btn pay-btn" type="submit">מעבר לתשלום מאובטח</button>
       <button class="back-btn" type="button">חזרה לעגלה</button>
       <p class="cart-note">התשלום מתבצע בדף המאובטח של SUMIT. החשבונית תישלח לאימייל.</p>

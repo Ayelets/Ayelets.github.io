@@ -15,7 +15,13 @@
   var dialog = document.getElementById('cart');
   var list = dialog.querySelector('.cart-items');
   var empty = dialog.querySelector('.cart-empty');
-  var totals = dialog.querySelectorAll('.cart-total strong');
+  var SHIPPING_PRICE = 35; // keep in sync with checkout-worker/worker.js
+  var totals = dialog.querySelectorAll('.cart-foot .cart-total strong');
+  var grandTotal = dialog.querySelector('.grand-total');
+  var shipPrice = dialog.querySelector('.ship-price');
+  var shipFields = dialog.querySelector('.ship-fields');
+  var pickupNote = dialog.querySelector('.pickup-note');
+  var cartSum = 0;
   var foot = dialog.querySelector('.cart-foot');
   var checkoutBtn = foot.querySelector('.checkout-btn');
   var form = dialog.querySelector('.checkout-form');
@@ -56,6 +62,8 @@
     });
     empty.hidden = ids.length > 0;
     totals.forEach(function (t) { t.textContent = shekel(sum); });
+    cartSum = sum;
+    updateShipping();
     checkoutBtn.disabled = !CHECKOUT_API || items === 0;
     if (items === 0) showStep('cart');
     count.textContent = items;
@@ -73,6 +81,17 @@
     toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 2200);
   }
   function openCart() { if (!dialog.open) dialog.showModal(); }
+
+  function shippingMethod() { return form.elements.shipping.value === 'pickup' ? 'pickup' : 'delivery'; }
+  function updateShipping() {
+    var delivery = shippingMethod() === 'delivery';
+    var fee = delivery ? SHIPPING_PRICE : 0;
+    shipFields.hidden = !delivery;
+    pickupNote.hidden = delivery;
+    shipPrice.textContent = fee ? shekel(fee) : 'חינם';
+    grandTotal.textContent = shekel(cartSum + fee);
+  }
+  form.addEventListener('change', function (e) { if (e.target.name === 'shipping') updateShipping(); });
 
   function showStep(step) {
     var checkout = step === 'checkout';
@@ -93,11 +112,17 @@
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var customer = {};
-    ['name', 'phone', 'email', 'city', 'address'].forEach(function (k) { customer[k] = form.elements[k].value.trim(); });
-    var missing = Object.keys(customer).filter(function (k) { return !customer[k]; });
+    var method = shippingMethod();
+    var fields = method === 'delivery' ? ['name', 'phone', 'email', 'city', 'address'] : ['name', 'phone', 'email'];
+    fields.forEach(function (k) { customer[k] = form.elements[k].value.trim(); });
+    var missing = fields.filter(function (k) { return !customer[k]; });
     if (missing.length) return fail('יש למלא את כל השדות.', form.elements[missing[0]]);
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email)) return fail('כתובת האימייל לא תקינה.', form.elements.email);
-    try { localStorage.setItem(DETAILS_KEY, JSON.stringify(customer)); } catch (e2) {}
+    try {
+      var keep = {};
+      ['name', 'phone', 'email', 'city', 'address'].forEach(function (k) { keep[k] = form.elements[k].value.trim(); });
+      localStorage.setItem(DETAILS_KEY, JSON.stringify(keep));
+    } catch (e2) {}
 
     var items = Object.keys(cart).map(function (id) { return { id: id, qty: cart[id] }; });
     payBtn.disabled = true;
@@ -106,7 +131,7 @@
     fetch(CHECKOUT_API + '/checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items: items, customer: customer })
+      body: JSON.stringify({ items: items, customer: customer, shipping: method })
     })
       .then(function (r) { return r.json().catch(function () { return {}; }); })
       .then(function (res) {
