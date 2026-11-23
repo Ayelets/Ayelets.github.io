@@ -16,7 +16,7 @@ The personal site of Ayelet Sapirshtein, an algorithm developer and illustrator.
 
 ## עמודים
 
-- [חנות: ״באגים בהייטק״ במכירה מוקדמת](https://ayeletsapirshtein.com/): הספר, המוצרים הנלווים, המחירים, המשלוח ושאלות נפוצות.
+- [חנות: ״באגים בהייטק״ במכירה מוקדמת](https://ayeletsapirshtein.com/): הספר, המוצרים הנלווים, המחירים והמשלוח.
 - [״באגים בהייטק״, פרק ראשון](https://ayeletsapirshtein.com/zarot-chapter-1/): הפרק הראשון של הקומיקס, לקריאה חינם.
 - [רכישה לארגונים וחברות](https://ayeletsapirshtein.com/organizations/): הזמנה כמותית של הספר, והרצאה וסדנה לעובדים.
 - [תיק עבודות](https://ayeletsapirshtein.com/portfolio/): איורים וציורים של איילת ספירשטיין, ביניהם ״להכין קפה״, ״אווזי הבר״, ״השועל והחסידה״, ״מלון הילברט״ ו״שועלי פנרוז״.

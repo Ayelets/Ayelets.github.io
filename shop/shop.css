@@ -173,32 +173,6 @@
 }
 .toast.show { transform: translate(-50%, 0); visibility: visible; transition: transform .3s var(--ease); }
 
-/* About the book and FAQ, below the products */
-.about-book,
-.faq { max-width: 46rem; margin: clamp(3.5rem, 8vw, 5rem) auto 0; }
-.faq { margin-top: clamp(2.5rem, 6vw, 3.5rem); }
-.about-book h2,
-.faq h2 { font-family: var(--font-body); font-weight: 500; font-size: clamp(1.35rem, 2.4vw, 1.6rem); margin-bottom: 1rem; }
-.about-book p + p { margin-top: .75rem; }
-.about-book a,
-.faq a { text-underline-offset: .2em; }
-.faq details { border-top: 1px solid var(--line); }
-.faq details:last-of-type { border-bottom: 1px solid var(--line); }
-.faq summary {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem 0;
-  cursor: pointer;
-  list-style: none;
-  font-weight: 500;
-}
-.faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: "+"; flex: none; font-size: 1.4rem; font-weight: 300; line-height: 1; transition: transform .2s var(--ease); }
-.faq details[open] summary::after { transform: rotate(45deg); }
-.faq details p { padding-bottom: 1.1rem; color: var(--text-soft); }
-
 @media (max-width: 800px) {
   .featured { grid-template-columns: 1fr; }
   .featured-img { order: 0; }
