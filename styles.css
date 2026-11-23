@@ -338,54 +338,6 @@ p { margin: 0; }
   font-variant-numeric: tabular-nums;
 }
 
-/* ---------- Contact ---------- */
-.contact-card {
-  position: relative;
-  overflow: hidden;
-  padding: clamp(2.5rem, 7vw, 5rem) clamp(1.5rem, 6vw, 5rem);
-  background: var(--ink);
-  color: var(--paper);
-  border-radius: 28px;
-}
-.contact-card .eyebrow { color: var(--sun); }
-.contact-card h1,
-.contact-card h2 { font-size: clamp(2.4rem, 6vw, 4.4rem); margin-bottom: 2.25rem; position: relative; }
-.shape-dot {
-  width: clamp(180px, 34vw, 380px);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--accent);
-  inset-inline-end: -6%;
-  top: -30%;
-  opacity: .95;
-}
-.contact-links { position: relative; display: flex; flex-wrap: wrap; gap: 1rem; }
-.contact-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem 1.5rem 1rem 1.75rem;
-  border: 1px solid rgba(246, 240, 230, .22);
-  border-radius: 18px;
-  text-decoration: none;
-  background: rgba(246, 240, 230, .04);
-  transition: background-color .25s, border-color .25s, transform .25s var(--ease);
-}
-.contact-link:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); transform: translateY(-3px); }
-.contact-link svg {
-  flex: none;
-  width: 26px;
-  height: 26px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.contact-link span { display: flex; flex-direction: column; line-height: 1.35; }
-.contact-link small { font-size: .8rem; opacity: .65; }
-.contact-link bdi { font-size: 1.12rem; font-weight: 500; }
-
 /* ---------- Footer ---------- */
 .site-footer { padding-block: 2rem 2.5rem; font-size: .9rem; color: var(--text-soft); }
 .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; }
@@ -506,7 +458,6 @@ p { margin: 0; }
   .work figcaption { font-size: .95rem; margin-top: .55rem; }
   .section-head { grid-template-columns: 1fr; }
   .section-note { margin-top: .5rem; }
-  .contact-link { width: 100%; }
   .lightbox[open] { grid-template-columns: minmax(0, 1fr); }
   .lb-stage { --avail-h: calc(100dvh - 12rem); padding: 4rem 1rem 6rem; }
   .lb-nav { position: absolute; bottom: 1.25rem; margin: 0; }
