@@ -182,8 +182,10 @@ p { margin: 0; }
   position: relative;
   display: grid;
   place-items: center;
+  flex: none;             /* never squeezed by the nav row: it stays a circle */
   width: 2.5rem;
   height: 2.5rem;
+  aspect-ratio: 1;
   padding: 0;
   border: 0;
   border-radius: 50%;
@@ -538,19 +540,22 @@ p { margin: 0; }
   .org-grid { grid-template-columns: 1fr; }
   html { scroll-padding-top: 7rem; }
   .header-inner { height: auto; flex-wrap: wrap; row-gap: .35rem; padding-block: .7rem .6rem; }
-  .nav { width: 100%; justify-content: space-between; }
+  .nav { width: 100%; justify-content: space-between; gap: min(.9rem, 2.5vw); }
+  .nav a { font-size: min(.98rem, 2.45vw); }
 }
 @media (max-width: 600px) {
   body { font-size: 1rem; }
   .container { width: calc(100% - 2rem); }
   .brand { font-size: 1.2rem; }
-  .nav { gap: .9rem; }
-  .nav a { font-size: .9rem; }
+  /* Nav text, gaps and cart follow the screen width, so the row fits
+     even when the phone's text size is set larger than default */
+  .nav { gap: min(.9rem, 1.6vw); }
+  .nav a { font-size: min(.9rem, 3.5vw); }
   .nav a[aria-current="page"] { padding: .35rem .8rem; }
+  .cart-btn { width: min(2.5rem, 10vw); height: auto; }
   .nav-long { display: none; }
-  /* two-column masonry on phones */
-  .gallery { display: block; columns: 2; column-gap: 14px; }
-  .work { display: inline-block; width: 100%; margin-bottom: 1.25rem; }
+  /* one work per row on phones */
+  .gallery { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; }
   .work figcaption::after { display: none; }
   .work figcaption { font-size: .95rem; margin-top: .55rem; }
   .section-head { grid-template-columns: 1fr; }
@@ -561,14 +566,8 @@ p { margin: 0; }
   .lb-prev { right: 1.25rem; }
   .lb-next { left: 1.25rem; }
 }
-@media (max-width: 420px) {
-  .nav { gap: .6rem; }
-}
 @media (max-width: 380px) {
-  .nav { gap: .4rem; }
-  .cart-btn { width: 2.15rem; height: 2.15rem; }
   .brand { font-size: 1.05rem; }
-  .nav a { font-size: .82rem; }
   .nav a[aria-current="page"] { padding: .3rem .6rem; }
 }
 
