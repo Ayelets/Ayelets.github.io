@@ -235,7 +235,12 @@
     })
       .then(function (r) { return r.json().catch(function () { return {}; }); })
       .then(function (res) {
-        if (res && res.redirectUrl) { window.location.href = res.redirectUrl; return; }
+        if (res && res.redirectUrl) {
+          // The thanks page sends this back with the payment, so the orders sheet can mark this order paid.
+          try { localStorage.setItem('shop-order', res.orderId || ''); } catch (e3) {}
+          window.location.href = res.redirectUrl;
+          return;
+        }
         throw new Error(res && res.error);
       })
       .catch(function (err) {
