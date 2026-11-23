@@ -506,6 +506,7 @@ mark.mark-2 { background: linear-gradient(transparent 58%, rgba(228, 64, 127, .5
   .nav { gap: .9rem; }
   .nav a { font-size: .9rem; }
   .nav-cta { padding: .35rem .8rem; }
+  .nav a[href$="#about"] { display: none; }
   /* two-column masonry on phones */
   .gallery { display: block; columns: 2; column-gap: 14px; }
   .gallery::after { display: none; }
@@ -523,7 +524,7 @@ mark.mark-2 { background: linear-gradient(transparent 58%, rgba(228, 64, 127, .5
 }
 @media (max-width: 380px) {
   .brand::after { display: none; }
-  .nav a[href="#about"] { display: none; }
+  .nav a[href$="#works"] { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

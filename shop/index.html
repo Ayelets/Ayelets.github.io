@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LHGCGQ23CV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LHGCGQ23CV');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>חנות — איילת ספירשטיין</title>
+  <meta name="description" content="הספר ״באגים בהייטק״ במכירה מוקדמת, ומוצרים נלווים: תיק, דף מדבקות וכרטיס ברכה.">
+  <meta name="theme-color" content="#261c63">
+  <link rel="canonical" href="https://ayeletsapirshtein.com/shop/">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/favicon.png" type="image/png" sizes="64x64">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="shop.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">איילת ספירשטיין</a>
+      <nav class="nav" aria-label="ניווט ראשי">
+        <a href="/#works">עבודות</a>
+        <a href="/#about">אודות</a>
+        <a href="/shop/" aria-current="page">חנות</a>
+        <button class="cart-btn" type="button" aria-label="עגלת קניות">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.4 11.2a1 1 0 0 0 1 .8h9.2a1 1 0 0 0 1-.8L21 8H6.2"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></svg>
+          <span class="cart-count" hidden>0</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" class="shop container">
+    <section class="featured">
+      <div class="featured-img"><img src="../images/shop/book.webp" width="386" height="396" alt="כריכת הספר ״באגים בהייטק״"></div>
+      <div class="featured-body">
+        <h1>הספר ״באגים בהייטק״ מכירה מוקדמת</h1>
+        <hr class="rule">
+        <p class="price"><s>98 ש״ח</s> <span>88 ש״ח</span></p>
+        <button class="buy-btn" type="button" data-add="book" data-open>אני רוצה לקנות</button>
+      </div>
+    </section>
+
+    <h2 class="visually-hidden">מוצרים</h2>
+    <ul class="products">
+      <li class="product">
+        <img src="../images/shop/book.webp" width="386" height="396" loading="lazy" alt="">
+        <h3>הספר ״באגים בהייטק״<br>מכירה מוקדמת</h3>
+        <hr class="rule">
+        <p class="price"><span>88 ש״ח</span></p>
+        <button class="add-btn" type="button" data-add="book">הוספה לעגלה</button>
+      </li>
+      <li class="product">
+        <img src="../images/shop/tote.webp" width="211" height="208" loading="lazy" alt="">
+        <h3>תיק טוקן</h3>
+        <hr class="rule">
+        <p class="price"><span>75 ש״ח</span></p>
+        <button class="add-btn" type="button" data-add="tote">הוספה לעגלה</button>
+      </li>
+      <li class="product">
+        <img src="../images/shop/stickers.webp" width="211" height="208" loading="lazy" alt="">
+        <h3>דף מדבקות<br>״באגים בהייטק״</h3>
+        <hr class="rule">
+        <p class="price"><span>25 ש״ח</span></p>
+        <button class="add-btn" type="button" data-add="stickers">הוספה לעגלה</button>
+      </li>
+      <li class="product">
+        <img src="../images/shop/card.webp" width="211" height="208" loading="lazy" alt="">
+        <h3>כרטיס ברכה<br>לפטופ מנצנץ</h3>
+        <hr class="rule">
+        <p class="price"><span>25 ש״ח</span></p>
+        <button class="add-btn" type="button" data-add="card">הוספה לעגלה</button>
+      </li>
+    </ul>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© <span id="year">2026</span> איילת ספירשטיין. כל הזכויות שמורות.</span>
+      <a href="/privacy/">מדיניות פרטיות</a>
+      <a href="/" class="to-top">חזרה לאתר ←</a>
+    </div>
+  </footer>
+
+  <dialog id="cart" class="cart" aria-label="עגלת קניות">
+    <div class="cart-head">
+      <h2>העגלה שלי</h2>
+      <button class="cart-close" type="button" aria-label="סגירה">✕</button>
+    </div>
+    <p class="cart-empty">העגלה ריקה.</p>
+    <ul class="cart-items"></ul>
+    <div class="cart-foot">
+      <p class="cart-total">סה״כ: <strong>0 ש״ח</strong></p>
+      <button class="checkout-btn" type="button" disabled>לתשלום</button>
+      <p class="cart-note">התשלום באתר ייפתח בקרוב.</p>
+    </div>
+  </dialog>
+
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <script src="shop.js"></script>
+</body>
+</html>
