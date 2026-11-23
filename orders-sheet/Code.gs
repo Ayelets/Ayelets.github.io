@@ -256,9 +256,24 @@ function connectTelegram() {
   const props = PropertiesService.getScriptProperties();
   const token = (props.getProperty('TELEGRAM_TOKEN') || '').trim();
   if (!token) throw new Error('חסר TELEGRAM_TOKEN ב-Script Properties. ההוראות ב-README.');
+  props.setProperty('TELEGRAM_TOKEN', token);
+
+  // The group can also be set by hand, as TELEGRAM_CHAT_ID in Script Properties (see the README).
+  // Then only a first message is sent. To move to another group, delete TELEGRAM_CHAT_ID and run again.
+  if (props.getProperty('TELEGRAM_CHAT_ID')) {
+    if (!sendTelegram('✅ מחובר! מעכשיו אודיע כאן על כל הזמנה מהאתר.')) {
+      throw new Error('לא הצלחתי לשלוח הודעה לקבוצה ' + props.getProperty('TELEGRAM_CHAT_ID') + '. פרטים ב-Execution log.');
+    }
+    console.log('נשלחה הודעה לקבוצה. עכשיו: Deploy → Manage deployments → New version.');
+    return;
+  }
+
   const res = telegram(token, 'getUpdates', {});
   if (!res.ok && res.error_code === 401) throw new Error('טלגרם לא מכיר את הטוקן הזה. בדקי את TELEGRAM_TOKEN.');
-  if (!res.ok && res.error_code === 429) throw new Error('טלגרם מבקשת לחכות דקה. הריצי שוב בעוד דקה.');
+  if (!res.ok && res.error_code === 429) {
+    throw new Error('טלגרם לא עונה לבקשת חיפוש הקבוצה מהשרתים של Google. ' +
+      'אפשר להזין את מספר הקבוצה ידנית כ-TELEGRAM_CHAT_ID. ההוראות ב-README.');
+  }
   if (!res.ok) throw new Error('טלגרם החזירה שגיאה: ' + res.description);
   let chat = null;
   res.result.forEach(function (u) {
@@ -268,7 +283,6 @@ function connectTelegram() {
   if (!chat) {
     throw new Error('לא מצאתי קבוצה. ודאי שהבוט נוסף לקבוצה, כתבי בקבוצה /start והריצי שוב את connectTelegram.');
   }
-  props.setProperty('TELEGRAM_TOKEN', token);
   props.setProperty('TELEGRAM_CHAT_ID', String(chat.id));
   if (!sendTelegram('✅ מחובר! מעכשיו אודיע כאן על כל הזמנה מהאתר.')) {
     throw new Error('לא הצלחתי לשלוח הודעה לקבוצה "' + chat.title + '". פרטים ב-Execution log.');
@@ -300,12 +314,20 @@ function sendTelegram(text) {
   }
 }
 
+// When Telegram asks to wait ("Too Many Requests"), waits as asked and tries once more.
 function telegram(token, method, payload) {
-  const res = UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/' + method, {
-    method: 'post',
-    contentType: 'application/json',
-    payload: JSON.stringify(payload),
-    muteHttpExceptions: true,
-  });
-  return JSON.parse(res.getContentText());
+  let res;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const http = UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/' + method, {
+      method: 'post',
+      contentType: 'application/json',
+      payload: JSON.stringify(payload),
+      muteHttpExceptions: true,
+    });
+    res = JSON.parse(http.getContentText());
+    const wait = res.error_code === 429 && res.parameters && res.parameters.retry_after;
+    if (!wait || attempt === 1) break;
+    Utilities.sleep(Math.min(Number(wait), 40) * 1000 + 1000);
+  }
+  return res;
 }
