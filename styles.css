@@ -28,6 +28,17 @@
   --ease: cubic-bezier(.2, .7, .2, 1);
 }
 
+/* Portfolio page: light lavender surface with dark indigo text */
+.page-portfolio {
+  --bg: #dad8ff;
+  --bg-raised: #cbc8f5;
+  --text: #261c63;
+  --text-soft: #4f4790;
+  --line: rgba(38, 28, 99, .16);
+}
+.page-portfolio .site-header { background: rgba(218, 216, 255, .82); }
+.page-portfolio .site-header.scrolled { box-shadow: 0 8px 24px -18px rgba(38, 28, 99, .45); }
+
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 5rem; -webkit-text-size-adjust: 100%; }
