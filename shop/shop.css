@@ -2,9 +2,9 @@
 :root {
   --lav: #d9d7fb;         /* panel lavender */
   --lav-ink: #261c63;     /* text on lavender */
-  --magenta: #d24e7e;
+  --magenta: var(--pink); /* #da2e70 */
   --hover-bg: #261c63;    /* indigo */
-  --hover-ink: #e3b4cf;   /* dusty pink */
+  --hover-ink: #e9a0be;   /* light pink */
 }
 
 

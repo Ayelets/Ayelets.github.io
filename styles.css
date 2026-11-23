@@ -9,7 +9,7 @@
   --accent-deep: #b8361f;
   --sun: #eeb243;         /* mustard */
   --leaf: #2f6b5f;        /* deep teal-green */
-  --pink: #e4407f;
+  --pink: #da2e70;        /* magenta */
 
   /* Page surface and the text that sits on it */
   --bg: #261c63;          /* deep indigo */
@@ -163,7 +163,7 @@ p { margin: 0; }
   inset-inline: 0;
   bottom: -4px;
   height: 2px;
-  background: var(--accent);
+  background: var(--pink);
   transform: scaleX(0);
   transform-origin: right;
   transition: transform .3s var(--ease);
@@ -193,7 +193,7 @@ p { margin: 0; }
   cursor: pointer;
   transition: background-color .25s, color .25s;
 }
-.cart-btn:hover { background: var(--accent); color: var(--paper); }
+.cart-btn:hover { background: var(--pink); color: var(--paper); }
 .cart-btn svg { width: 1.25rem; height: 1.25rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .cart-count {
   position: absolute;
