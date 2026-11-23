@@ -12,7 +12,7 @@
 /* Featured product */
 .featured {
   display: grid;
-  grid-template-columns: minmax(0, 400px) 1fr;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   background: var(--lav);
   color: var(--lav-ink);
 }
