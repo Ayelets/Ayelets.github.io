@@ -128,13 +128,12 @@ p { margin: 0; }
 .site-header.scrolled { border-color: var(--line); box-shadow: 0 8px 24px -18px rgba(8, 4, 30, .8); }
 .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: 4.25rem; }
 .brand {
-  font-family: var(--font-display);
-  font-weight: 900;
+  font-family: var(--font-body);
+  font-weight: 600;
   font-size: 1.45rem;
   text-decoration: none;
   white-space: nowrap;
 }
-.brand::after { content: "."; color: var(--accent); }
 .nav { display: flex; align-items: center; gap: clamp(.9rem, 2.5vw, 2rem); }
 .nav a {
   position: relative;
@@ -525,7 +524,6 @@ mark.mark-2 { background: linear-gradient(transparent 58%, rgba(228, 64, 127, .5
   .lb-next { left: 1.25rem; }
 }
 @media (max-width: 380px) {
-  .brand::after { display: none; }
   .nav { gap: .55rem; }
   .brand { font-size: 1.05rem; }
   .nav a { font-size: .82rem; }
