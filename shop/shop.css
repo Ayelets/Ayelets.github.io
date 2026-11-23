@@ -3,7 +3,8 @@
   --lav: #d9d7fb;         /* panel lavender */
   --lav-ink: #261c63;     /* text on lavender */
   --magenta: #d24e7e;
-  --magenta-deep: #b83a68;
+  --hover-bg: #261c63;    /* indigo */
+  --hover-ink: #e3b4cf;   /* dusty pink */
 }
 
 
@@ -49,8 +50,8 @@
   cursor: pointer;
   transition: background-color .2s, color .2s;
 }
-@media (hover: hover) { .buy-btn:hover { background: var(--magenta-deep); color: #fff; } }
-.buy-btn:active { background: var(--magenta-deep); }
+@media (hover: hover) { .buy-btn:hover { background: var(--hover-bg); color: var(--hover-ink); } }
+.buy-btn:active { background: var(--hover-bg); color: var(--hover-ink); }
 
 /* Product row */
 .products {
@@ -128,10 +129,10 @@
   color: var(--lav);
   font: inherit;
   font-size: 1.1rem;
-  transition: background-color .2s;
+  transition: background-color .2s, color .2s;
 }
-@media (hover: hover) { .checkout-btn:not(:disabled):hover { background: var(--magenta-deep); } }
-.checkout-btn:not(:disabled):active { background: var(--magenta-deep); }
+@media (hover: hover) { .checkout-btn:not(:disabled):hover { background: var(--hover-bg); color: var(--hover-ink); } }
+.checkout-btn:not(:disabled):active { background: var(--hover-bg); color: var(--hover-ink); }
 .checkout-btn:disabled { opacity: .45; cursor: not-allowed; }
 .cart-note { font-size: .85rem; text-align: center; opacity: .8; }
 
