@@ -359,7 +359,7 @@ p { margin: 0; }
 .org { padding-block: clamp(2rem, 5vw, 3.5rem) clamp(3rem, 7vw, 5rem); }
 .org h1 {
   font-size: clamp(2.2rem, 5.5vw, 4rem);
-  color: var(--leaf);
+  color: var(--text);
   margin-bottom: clamp(2rem, 5vw, 3.5rem);
 }
 .org-grid {
@@ -405,7 +405,7 @@ p { margin: 0; }
   cursor: pointer;
   transition: background-color .25s;
 }
-.org-submit:hover { background: var(--leaf); }
+.org-submit:hover { background: var(--accent); color: var(--paper); }
 .org-submit svg { width: 1.4rem; height: 1.4rem; fill: currentColor; }
 .org-error { color: var(--accent-deep); font-weight: 500; }
 .org-sent { margin-top: .5rem; color: var(--text-soft); }
