@@ -189,4 +189,9 @@
     return;
   }
   render();
+  // Cart icon on other pages links to /#cart
+  if (location.hash === '#cart') {
+    history.replaceState(null, '', location.pathname + location.search);
+    openCart();
+  }
 })();

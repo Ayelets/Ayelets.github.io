@@ -17,6 +17,9 @@
   --text: #f6f0e6;
   --text-soft: #c9c1e3;
   --line: rgba(246, 240, 230, .16);
+  /* Current-tab pill and cart button */
+  --chip-bg: #dad8ff;
+  --chip-ink: #261c63;
 
   --font-display: 'Frank Ruhl Libre', 'David Libre', Georgia, serif;
   --font-body: 'Heebo', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
@@ -34,6 +37,8 @@
   --text: #261c63;
   --text-soft: #4f4790;
   --line: rgba(38, 28, 99, .16);
+  --chip-bg: #261c63;
+  --chip-ink: #dad8ff;
 }
 .page-light .site-header { background: rgba(218, 216, 255, .82); }
 .page-light .site-header.scrolled { box-shadow: 0 8px 24px -18px rgba(38, 28, 99, .45); }
@@ -168,9 +173,44 @@ p { margin: 0; }
 .nav a[aria-current="page"] {
   padding: .45rem 1.1rem;
   border-radius: 999px;
-  background: var(--text);
-  color: var(--bg);
+  background: var(--chip-bg);
+  color: var(--chip-ink);
 }
+
+/* Cart button in header */
+.cart-btn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--chip-bg);
+  color: var(--chip-ink);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .25s, color .25s;
+}
+.cart-btn:hover { background: var(--accent); color: var(--paper); }
+.cart-btn svg { width: 1.25rem; height: 1.25rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.cart-count {
+  position: absolute;
+  top: -.3rem;
+  inset-inline-end: -.3rem;
+  min-width: 1.2rem;
+  height: 1.2rem;
+  padding: 0 .3rem;
+  border-radius: 999px;
+  background: var(--pink);
+  color: #fff;
+  font-size: .72rem;
+  font-weight: 600;
+  line-height: 1.2rem;
+  text-align: center;
+}
+.cart-count[hidden] { display: none; }
 
 /* ---------- Hero ---------- */
 .hero { padding-block: clamp(2.5rem, 7vw, 6rem) clamp(3rem, 7vw, 5.5rem); }
@@ -526,6 +566,7 @@ p { margin: 0; }
 }
 @media (max-width: 380px) {
   .nav { gap: .4rem; }
+  .cart-btn { width: 2.15rem; height: 2.15rem; }
   .brand { font-size: 1.05rem; }
   .nav a { font-size: .82rem; }
   .nav a[aria-current="page"] { padding: .3rem .6rem; }
