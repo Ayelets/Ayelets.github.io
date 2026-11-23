@@ -13,7 +13,6 @@
 
   /* Page surface and the text that sits on it */
   --bg: #261c63;          /* deep indigo */
-  --bg-deep: #1d1550;     /* about band */
   --bg-raised: #30257a;   /* image placeholders */
   --text: #f6f0e6;
   --text-soft: #c9c1e3;
@@ -338,31 +337,6 @@ p { margin: 0; }
   font-variant-numeric: tabular-nums;
 }
 
-/* ---------- About ---------- */
-.about { background: var(--bg-deep); }
-.about-inner {
-  display: grid;
-  grid-template-columns: minmax(0, .8fr) minmax(0, 1fr);
-  align-items: center;
-  gap: clamp(2rem, 6vw, 6rem);
-}
-.about-art { margin: 0; justify-self: center; width: min(100%, 440px); }
-.about-art img {
-  width: 100%;
-  height: auto;
-  border-radius: 50%;
-}
-.js .about-art img { animation: spin 90s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.about-text h2 { font-size: clamp(2rem, 4.2vw, 3.3rem); line-height: 1.2; margin-bottom: 1.4rem; }
-.about-text p:last-child { font-size: 1.2rem; color: var(--text-soft); font-weight: 300; }
-mark {
-  color: inherit;
-  background: linear-gradient(transparent 58%, rgba(238, 178, 67, .45) 58%, rgba(238, 178, 67, .45) 92%, transparent 92%);
-  padding-inline: .08em;
-}
-mark.mark-2 { background: linear-gradient(transparent 58%, rgba(228, 64, 127, .5) 58%, rgba(228, 64, 127, .5) 92%, transparent 92%); }
-
 /* ---------- Contact ---------- */
 .contact-card {
   position: relative;
@@ -510,9 +484,6 @@ mark.mark-2 { background: linear-gradient(transparent 58%, rgba(228, 64, 127, .5
   .hero-inner { grid-template-columns: 1fr; }
   .hero-art { max-width: 460px; }
   .gallery { --row: 220px; }
-  .about-inner { grid-template-columns: 1fr; text-align: center; }
-  .about-art { width: min(70%, 320px); }
-  .about-text .eyebrow::before { display: none; }
 }
 @media (max-width: 600px) {
   body { font-size: 1rem; }
@@ -522,7 +493,6 @@ mark.mark-2 { background: linear-gradient(transparent 58%, rgba(228, 64, 127, .5
   .nav { gap: .9rem; }
   .nav a { font-size: .9rem; }
   .nav-cta { padding: .35rem .8rem; }
-  .nav a[href$="#about"] { display: none; }
   .nav a[href$="#works"] { display: none; }
   .nav-long { display: none; }
   /* two-column masonry on phones */
