@@ -1,13 +1,14 @@
 # איילת ספירשטיין — ״באגים בהייטק״
 
-> האתר של איילת ספירשטיין (Ayelet Sapirshtein), אלגוריתמאית ומאיירת. כאן נמכר ספר הקומיקס שלה ״באגים בהייטק״, ספר מצחיק ומדויק על החיים בהייטק הישראלי, ואפשר לקרוא את הפרק הראשון חינם ולראות את תיק העבודות שלה.
+> האתר של איילת ספירשטיין (Ayelet Sapirshtein), אלגוריתמאית ומאיירת. כאן נמכר ספר הקומיקס שלה ״באגים בהייטק״, ספר קומיקס סאטירי על החיים בהייטק הישראלי, ואפשר לקרוא את הפרק הראשון חינם ולראות את תיק העבודות שלה.
 
-The personal site of Ayelet Sapirshtein, an algorithm developer and illustrator. It sells her Hebrew comic book "באגים בהייטק" (literally "Bugs in High-Tech"), a funny, accurate comic about life in the Israeli tech industry: sprints, meetings and bugs. The site is in Hebrew; prices are in Israeli shekels (ש״ח / ILS).
+The personal site of Ayelet Sapirshtein, an algorithm developer and illustrator. It sells her Hebrew comic book "באגים בהייטק" (literally "Bugs in High-Tech"), a satirical comic about life in the Israeli tech industry: sprints, meetings and bugs. 168 hand-illustrated pages, hardcover. The site is in Hebrew; prices are in Israeli shekels (ש״ח / ILS).
 
 ## עובדות עיקריות
 
-- הספר: ״באגים בהייטק״, ספר קומיקס בעברית על החיים בהייטק הישראלי. כתבה ואיירה: איילת ספירשטיין.
-- הספר זכה במענק מפעל הפיס ומכר מאות עותקים.
+- הספר: ״באגים בהייטק״, ספר קומיקס סאטירי בעברית על החיים בהייטק הישראלי. כתבה ואיירה: איילת ספירשטיין.
+- 168 עמודים מאוירים בעבודת יד, בכריכה קשה.
+- הספר זכה במענק מפעל הפיס, ויותר מ-250 עותקים כבר נמכרו בהדסטארט.
 - הפרק הראשון: אשל משתחרר אחרי שלוש שנים בצבא ומתחיל את ״החיים האמיתיים״. הפרק זמין לקריאה חינם באתר.
 - מחיר: 88 ש״ח במכירה מוקדמת (במקום 98 ש״ח).
 - מוצרים נלווים: תיק טוקן (75 ש״ח), דף מדבקות ״באגים בהייטק״ (25 ש״ח), כרטיס ברכה ״לפטופ מנצנץ״ (25 ש״ח).
