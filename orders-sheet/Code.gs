@@ -257,7 +257,9 @@ function connectTelegram() {
   const token = (props.getProperty('TELEGRAM_TOKEN') || '').trim();
   if (!token) throw new Error('חסר TELEGRAM_TOKEN ב-Script Properties. ההוראות ב-README.');
   const res = telegram(token, 'getUpdates', {});
-  if (!res.ok) throw new Error('טלגרם לא מכיר את הטוקן הזה: ' + res.description);
+  if (!res.ok && res.error_code === 401) throw new Error('טלגרם לא מכיר את הטוקן הזה. בדקי את TELEGRAM_TOKEN.');
+  if (!res.ok && res.error_code === 429) throw new Error('טלגרם מבקשת לחכות דקה. הריצי שוב בעוד דקה.');
+  if (!res.ok) throw new Error('טלגרם החזירה שגיאה: ' + res.description);
   let chat = null;
   res.result.forEach(function (u) {
     const m = u.message || u.edited_message || u.my_chat_member || u.chat_member;
