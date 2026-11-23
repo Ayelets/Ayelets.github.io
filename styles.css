@@ -163,7 +163,8 @@ p { margin: 0; }
   transform-origin: right;
   transition: transform .3s var(--ease);
 }
-.nav a:not(.nav-cta):hover::after { transform: scaleX(1); }
+.nav a:not(.nav-cta):hover::after,
+.nav a[aria-current="page"]:not(.nav-cta)::after { transform: scaleX(1); }
 .nav-cta {
   padding: .45rem 1.1rem;
   border-radius: 999px;
@@ -485,15 +486,18 @@ p { margin: 0; }
   .hero-art { max-width: 460px; }
   .gallery { --row: 220px; }
 }
+@media (max-width: 720px) {
+  html { scroll-padding-top: 7rem; }
+  .header-inner { height: auto; flex-wrap: wrap; row-gap: .35rem; padding-block: .7rem .6rem; }
+  .nav { width: 100%; justify-content: space-between; }
+}
 @media (max-width: 600px) {
   body { font-size: 1rem; }
   .container { width: calc(100% - 2rem); }
-  .header-inner { height: 3.75rem; }
   .brand { font-size: 1.2rem; }
   .nav { gap: .9rem; }
   .nav a { font-size: .9rem; }
   .nav-cta { padding: .35rem .8rem; }
-  .nav a[href$="#works"] { display: none; }
   .nav-long { display: none; }
   /* two-column masonry on phones */
   .gallery { display: block; columns: 2; column-gap: 14px; }
