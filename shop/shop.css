@@ -2,8 +2,9 @@
 :root {
   --lav: #d9d7fb;         /* panel lavender */
   --lav-ink: #261c63;     /* text on lavender */
-  --buy-bg: #eefcff;
-  --buy-line: #3aa5b4;
+  --magenta: #d24e7e;
+  --hover-bg: #261c63;    /* indigo */
+  --hover-ink: #e3b4cf;   /* dusty pink */
 }
 
 
@@ -40,15 +41,17 @@
 .buy-btn {
   margin-top: 1.25rem;
   padding: .8rem 3rem;
-  border: 1px solid var(--buy-line);
-  background: var(--buy-bg);
-  color: var(--pink);
+  border: 0;
+  border-radius: 999px;
+  background: var(--magenta);
+  color: var(--lav);
   font: inherit;
   font-size: 1.3rem;
   cursor: pointer;
   transition: background-color .2s, color .2s;
 }
-.buy-btn:hover { background: var(--pink); color: #fff; border-color: var(--pink); }
+@media (hover: hover) { .buy-btn:hover { background: var(--hover-bg); color: var(--hover-ink); } }
+.buy-btn:active { background: var(--hover-bg); color: var(--hover-ink); }
 
 /* Product row */
 .products {
@@ -122,11 +125,14 @@
   padding: .85rem;
   border: 0;
   border-radius: 999px;
-  background: var(--lav-ink);
-  color: #fff;
+  background: var(--magenta);
+  color: var(--lav);
   font: inherit;
   font-size: 1.1rem;
+  transition: background-color .2s, color .2s;
 }
+@media (hover: hover) { .checkout-btn:not(:disabled):hover { background: var(--hover-bg); color: var(--hover-ink); } }
+.checkout-btn:not(:disabled):active { background: var(--hover-bg); color: var(--hover-ink); }
 .checkout-btn:disabled { opacity: .45; cursor: not-allowed; }
 .cart-note { font-size: .85rem; text-align: center; opacity: .8; }
 
