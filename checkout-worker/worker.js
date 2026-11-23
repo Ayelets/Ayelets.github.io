@@ -103,7 +103,7 @@ async function checkout(body, env) {
     ExternalIdentifier: orderId,
     DocumentDescription: delivery ? 'משלוח לכתובת: ' + customer.address + ', ' + customer.city : 'איסוף עצמי',
     RedirectURL: SITE + '/shop/thanks/',
-    CancelRedirectURL: SITE + '/shop/',
+    CancelRedirectURL: SITE + '/',
     SendUpdateByEmailAddress: customer.email,
     DraftDocument: false,
   }, env);

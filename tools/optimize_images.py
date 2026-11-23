@@ -2,7 +2,7 @@
 
 Run from the repo root:  python3 tools/optimize_images.py
 Writes images/web/<slug>.webp (large) and <slug>-sm.webp (grid size),
-then prints the <figure> markup to paste into index.html.
+then prints the <figure> markup to paste into portfolio/index.html.
 """
 from pathlib import Path
 from PIL import Image
@@ -51,8 +51,8 @@ def main():
         title_clean = title.replace(" A4", "")
         print(
             f'      <figure class="work" style="--r:{big.width / big.height:.3f}">\n'
-            f'        <a href="images/web/{slug}.webp" data-title="{title_clean}">\n'
-            f'          <img src="images/web/{slug}-sm.webp" srcset="images/web/{slug}-sm.webp {small.width}w, images/web/{slug}.webp {big.width}w"\n'
+            f'        <a href="/images/web/{slug}.webp" data-title="{title_clean}">\n'
+            f'          <img src="/images/web/{slug}-sm.webp" srcset="/images/web/{slug}-sm.webp {small.width}w, /images/web/{slug}.webp {big.width}w"\n'
             f'               sizes="(max-width: 700px) 92vw, 40vw" width="{big.width}" height="{big.height}" loading="lazy" decoding="async" alt="{title_clean}">\n'
             f'        </a>\n'
             f'        <figcaption>{title_clean}</figcaption>\n'
