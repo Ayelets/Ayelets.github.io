@@ -277,6 +277,7 @@ p { margin: 0; }
 .section-note { color: var(--text-soft); font-size: .95rem; }
 
 /* ---------- Gallery: justified rows that keep each work uncropped ---------- */
+.works { padding-block: clamp(1.5rem, 3vw, 2.5rem) clamp(2.5rem, 5vw, 4rem); }
 .gallery {
   --row: 300px;
   --gap: clamp(14px, 2.2vw, 28px);
@@ -286,7 +287,6 @@ p { margin: 0; }
   gap: calc(var(--gap) * 1.4) var(--gap);
   counter-reset: work;
 }
-.gallery::after { content: ""; flex: 100000 1 0; }
 .work {
   flex: var(--r) 1 calc(var(--r) * var(--row));
   margin: 0;
@@ -510,7 +510,6 @@ mark.mark-2 { background: linear-gradient(transparent 58%, rgba(228, 64, 127, .5
   .nav-long { display: none; }
   /* two-column masonry on phones */
   .gallery { display: block; columns: 2; column-gap: 14px; }
-  .gallery::after { display: none; }
   .work { display: inline-block; width: 100%; margin-bottom: 1.25rem; }
   .work figcaption::after { display: none; }
   .work figcaption { font-size: .95rem; margin-top: .55rem; }

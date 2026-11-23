@@ -25,6 +25,61 @@ if ('IntersectionObserver' in window) {
   revealEls.forEach((el) => el.classList.add('in'));
 }
 
+// גלריה: חלוקה מאוזנת לשורות כך שכל שורה, גם האחרונה, מגיעה בדיוק עד הקצוות
+const gallery = document.querySelector('.gallery');
+if (gallery && works.length) {
+  const ratios = works.map((w) => parseFloat(w.style.getPropertyValue('--r')) || 1);
+  const phone = window.matchMedia('(max-width: 600px)');
+  let lastWidth = 0;
+
+  const layout = () => {
+    if (phone.matches) {
+      works.forEach((w) => w.style.removeProperty('flex'));
+      lastWidth = 0;
+      return;
+    }
+    const width = gallery.clientWidth;
+    if (!width || width === lastWidth) return;
+    lastWidth = width;
+    const cs = getComputedStyle(gallery);
+    const gap = parseFloat(cs.columnGap) || 0;
+    const target = parseFloat(cs.getPropertyValue('--row')) || 300;
+
+    // תכנון דינמי: בוחרים את נקודות השבירה שגובה השורות בהן הכי קרוב לגובה המטרה
+    const n = ratios.length;
+    const cost = new Array(n + 1).fill(Infinity);
+    const from = new Array(n + 1).fill(0);
+    cost[0] = 0;
+    for (let j = 1; j <= n; j++) {
+      let sum = 0;
+      for (let i = j - 1; i >= 0; i--) {
+        sum += ratios[i];
+        const h = (width - gap * (j - i - 1)) / sum;
+        if (h <= 0) break;
+        const c = cost[i] + Math.log(h / target) ** 2;
+        if (c < cost[j]) { cost[j] = c; from[j] = i; }
+        if (h < target / 2) break;
+      }
+    }
+
+    for (let j = n; j > 0; j = from[j]) {
+      const i = from[j];
+      let sum = 0;
+      for (let k = i; k < j; k++) sum += ratios[k];
+      const h = (width - gap * (j - i - 1)) / sum;
+      // רוחב מעוגל כלפי מטה; שארית הפיקסלים מתחלקת בעזרת flex-grow
+      for (let k = i; k < j; k++) {
+        works[k].style.flex = `${ratios[k]} 1 ${Math.floor(ratios[k] * h * 10) / 10}px`;
+      }
+    }
+  };
+
+  layout();
+  if ('ResizeObserver' in window) new ResizeObserver(layout).observe(gallery);
+  else window.addEventListener('resize', layout);
+  phone.addEventListener?.('change', layout);
+}
+
 // לייטבוקס: תצוגה גדולה עם מעבר בין עבודות (חיצים, מקלדת והחלקה)
 const links = works.map((w) => w.querySelector('a'));
 const dialog = document.getElementById('lightbox');
