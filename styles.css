@@ -5,12 +5,19 @@
   --card: #fffdf9;
   --ink: #1e1a16;
   --ink-soft: #5d5349;
-  --line: rgba(30, 26, 22, .12);
   --accent: #d8462d;      /* vermilion */
   --accent-deep: #b8361f;
   --sun: #eeb243;         /* mustard */
   --leaf: #2f6b5f;        /* deep teal-green */
   --pink: #e4407f;
+
+  /* Page surface and the text that sits on it */
+  --bg: #261c63;          /* deep indigo */
+  --bg-deep: #1d1550;     /* about band */
+  --bg-raised: #30257a;   /* image placeholders */
+  --text: #f6f0e6;
+  --text-soft: #c9c1e3;
+  --line: rgba(246, 240, 230, .16);
 
   --font-display: 'Frank Ruhl Libre', 'David Libre', Georgia, serif;
   --font-body: 'Heebo', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
@@ -31,8 +38,8 @@ body {
   font-size: 1.0625rem;
   font-weight: 400;
   line-height: 1.7;
-  color: var(--ink);
-  background: var(--paper);
+  color: var(--text);
+  background: var(--bg);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -61,8 +68,8 @@ p { margin: 0; }
   top: -3rem;
   z-index: 200;
   padding: .5rem 1rem;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--text);
+  color: var(--bg);
   border-radius: 999px;
   text-decoration: none;
   transition: top .2s;
@@ -76,7 +83,7 @@ p { margin: 0; }
   font-size: .82rem;
   font-weight: 600;
   letter-spacing: .08em;
-  color: var(--accent);
+  color: var(--sun);
   margin-bottom: 1rem;
 }
 .eyebrow::before {
@@ -98,27 +105,27 @@ p { margin: 0; }
   font-weight: 500;
   font-size: 1rem;
   text-decoration: none;
-  border: 1.5px solid var(--ink);
+  border: 1.5px solid var(--text);
   transition: background-color .25s, color .25s, border-color .25s, transform .25s var(--ease);
 }
 .btn svg { width: 1.1em; height: 1.1em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .btn:hover { transform: translateY(-2px); }
-.btn-primary { background: var(--ink); color: var(--paper); }
-.btn-primary:hover { background: var(--accent); border-color: var(--accent); }
-.btn-ghost:hover { background: var(--ink); color: var(--paper); }
+.btn-primary { background: var(--text); color: var(--bg); }
+.btn-primary:hover { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+.btn-ghost:hover { background: var(--text); color: var(--bg); }
 
 /* ---------- Header ---------- */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(246, 240, 230, .78);
+  background: rgba(38, 28, 99, .8);
   backdrop-filter: saturate(1.4) blur(12px);
   -webkit-backdrop-filter: saturate(1.4) blur(12px);
   border-bottom: 1px solid transparent;
   transition: border-color .3s, box-shadow .3s;
 }
-.site-header.scrolled { border-color: var(--line); box-shadow: 0 8px 24px -18px rgba(40, 28, 16, .5); }
+.site-header.scrolled { border-color: var(--line); box-shadow: 0 8px 24px -18px rgba(8, 4, 30, .8); }
 .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: 4.25rem; }
 .brand {
   font-family: var(--font-display);
@@ -151,11 +158,11 @@ p { margin: 0; }
 .nav-cta {
   padding: .45rem 1.1rem;
   border-radius: 999px;
-  background: var(--ink);
-  color: var(--paper);
-  transition: background-color .25s;
+  background: var(--text);
+  color: var(--bg);
+  transition: background-color .25s, color .25s;
 }
-.nav-cta:hover { background: var(--accent); }
+.nav-cta:hover { background: var(--accent); color: var(--paper); }
 
 /* ---------- Hero ---------- */
 .hero { padding-block: clamp(2.5rem, 7vw, 6rem) clamp(3rem, 7vw, 5.5rem); }
@@ -194,7 +201,7 @@ p { margin: 0; }
 .lead {
   font-size: clamp(1.1rem, 1.6vw, 1.3rem);
   font-weight: 300;
-  color: var(--ink-soft);
+  color: var(--text-soft);
   max-width: 30ch;
   margin-bottom: 2.25rem;
 }
@@ -268,7 +275,7 @@ p { margin: 0; }
   border-bottom: 1px solid var(--line);
 }
 .section-head .eyebrow { grid-column: 1 / -1; }
-.section-note { color: var(--ink-soft); font-size: .95rem; }
+.section-note { color: var(--text-soft); font-size: .95rem; }
 
 /* ---------- Gallery: justified rows that keep each work uncropped ---------- */
 .gallery {
@@ -294,7 +301,7 @@ p { margin: 0; }
   aspect-ratio: var(--r);
   object-fit: cover;
   border-radius: var(--radius);
-  background: var(--paper-deep);
+  background: var(--bg-raised);
   box-shadow: var(--shadow-sm);
   transition: transform .5s var(--ease), box-shadow .5s var(--ease);
 }
@@ -316,13 +323,13 @@ p { margin: 0; }
   font-family: var(--font-body);
   font-size: .75rem;
   font-weight: 500;
-  color: var(--ink-soft);
+  color: var(--text-soft);
   opacity: .7;
   font-variant-numeric: tabular-nums;
 }
 
 /* ---------- About ---------- */
-.about { background: var(--paper-deep); }
+.about { background: var(--bg-deep); }
 .about-inner {
   display: grid;
   grid-template-columns: minmax(0, .8fr) minmax(0, 1fr);
@@ -334,18 +341,17 @@ p { margin: 0; }
   width: 100%;
   height: auto;
   border-radius: 50%;
-  mix-blend-mode: multiply;
 }
 .js .about-art img { animation: spin 90s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .about-text h2 { font-size: clamp(2rem, 4.2vw, 3.3rem); line-height: 1.2; margin-bottom: 1.4rem; }
-.about-text p:last-child { font-size: 1.2rem; color: var(--ink-soft); font-weight: 300; }
+.about-text p:last-child { font-size: 1.2rem; color: var(--text-soft); font-weight: 300; }
 mark {
   color: inherit;
-  background: linear-gradient(transparent 58%, rgba(238, 178, 67, .75) 58%, rgba(238, 178, 67, .75) 92%, transparent 92%);
+  background: linear-gradient(transparent 58%, rgba(238, 178, 67, .45) 58%, rgba(238, 178, 67, .45) 92%, transparent 92%);
   padding-inline: .08em;
 }
-mark.mark-2 { background: linear-gradient(transparent 58%, rgba(228, 64, 127, .35) 58%, rgba(228, 64, 127, .35) 92%, transparent 92%); }
+mark.mark-2 { background: linear-gradient(transparent 58%, rgba(228, 64, 127, .5) 58%, rgba(228, 64, 127, .5) 92%, transparent 92%); }
 
 /* ---------- Contact ---------- */
 .contact-card {
@@ -395,7 +401,7 @@ mark.mark-2 { background: linear-gradient(transparent 58%, rgba(228, 64, 127, .3
 .contact-link bdi { font-size: 1.12rem; font-weight: 500; }
 
 /* ---------- Footer ---------- */
-.site-footer { padding-block: 2rem 2.5rem; font-size: .9rem; color: var(--ink-soft); }
+.site-footer { padding-block: 2rem 2.5rem; font-size: .9rem; color: var(--text-soft); }
 .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; }
 .to-top { text-decoration: none; }
 .to-top:hover { color: var(--accent); }
