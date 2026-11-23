@@ -4,12 +4,12 @@
   var CHECKOUT_API = (window.SHOP_CHECKOUT_API || '').replace(/\/+$/, '');
 
   var PRODUCTS = {
-    book:     { name: 'הספר ״באגים בהייטק״ — מכירה מוקדמת', price: 88, img: '../images/shop/book.webp' },
-    tote:     { name: 'תיק טוקן',                           price: 75, img: '../images/shop/tote.webp' },
-    stickers: { name: 'דף מדבקות ״באגים בהייטק״',           price: 25, img: '../images/shop/stickers.webp' },
-    card:     { name: 'כרטיס ברכה לפטופ מנצנץ',             price: 25, img: '../images/shop/card.webp' },
-    // Hidden 1 ש״ח item for testing payments: open /shop/?test — remove after testing
-    test:     { name: 'בדיקת תשלום',                         price: 1,  img: '../images/shop/card.webp' }
+    book:     { name: 'הספר ״באגים בהייטק״ — מכירה מוקדמת', price: 88, img: '/images/shop/book.webp' },
+    tote:     { name: 'תיק טוקן',                           price: 75, img: '/images/shop/tote.webp' },
+    stickers: { name: 'דף מדבקות ״באגים בהייטק״',           price: 25, img: '/images/shop/stickers.webp' },
+    card:     { name: 'כרטיס ברכה לפטופ מנצנץ',             price: 25, img: '/images/shop/card.webp' },
+    // Hidden 1 ש״ח item for testing payments: open /?test — remove after testing
+    test:     { name: 'בדיקת תשלום',                         price: 1,  img: '/images/shop/card.webp' }
   };
   var KEY = 'shop-cart';
   var cart = load();
@@ -180,7 +180,7 @@
   if (y) y.textContent = new Date().getFullYear();
 
   if (!CHECKOUT_API) dialog.querySelector('.cart-foot .cart-note').hidden = false;
-  // /shop/?test puts the hidden 1 ש״ח test item in the cart.
+  // /?test puts the hidden 1 ש״ח test item in the cart.
   if (/[?&]test\b/.test(location.search)) {
     cart = { test: 1 };
     save();
