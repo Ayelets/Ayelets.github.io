@@ -152,7 +152,7 @@ p { margin: 0; }
   font-size: .98rem;
   white-space: nowrap;
 }
-.nav a:not(.nav-cta)::after {
+.nav a:not([aria-current])::after {
   content: "";
   position: absolute;
   inset-inline: 0;
@@ -163,16 +163,14 @@ p { margin: 0; }
   transform-origin: right;
   transition: transform .3s var(--ease);
 }
-.nav a:not(.nav-cta):hover::after,
-.nav a[aria-current="page"]:not(.nav-cta)::after { transform: scaleX(1); }
-.nav-cta {
+.nav a:not([aria-current]):hover::after { transform: scaleX(1); }
+/* The current page's tab is a filled pill */
+.nav a[aria-current="page"] {
   padding: .45rem 1.1rem;
   border-radius: 999px;
   background: var(--text);
   color: var(--bg);
-  transition: background-color .25s, color .25s;
 }
-.nav-cta:hover { background: var(--accent); color: var(--paper); }
 
 /* ---------- Hero ---------- */
 .hero { padding-block: clamp(2.5rem, 7vw, 6rem) clamp(3rem, 7vw, 5.5rem); }
@@ -508,7 +506,7 @@ p { margin: 0; }
   .brand { font-size: 1.2rem; }
   .nav { gap: .9rem; }
   .nav a { font-size: .9rem; }
-  .nav-cta { padding: .35rem .8rem; }
+  .nav a[aria-current="page"] { padding: .35rem .8rem; }
   .nav-long { display: none; }
   /* two-column masonry on phones */
   .gallery { display: block; columns: 2; column-gap: 14px; }
@@ -530,7 +528,7 @@ p { margin: 0; }
   .nav { gap: .4rem; }
   .brand { font-size: 1.05rem; }
   .nav a { font-size: .82rem; }
-  .nav-cta { padding: .3rem .6rem; }
+  .nav a[aria-current="page"] { padding: .3rem .6rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
