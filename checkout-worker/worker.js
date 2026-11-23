@@ -24,6 +24,8 @@ const PRODUCTS = {
   tote:     { name: 'תיק טוקן',                           price: 75 },
   stickers: { name: 'דף מדבקות "באגים בהייטק"',           price: 25 },
   card:     { name: 'כרטיס ברכה לפטופ מנצנץ',             price: 25 },
+  // Hidden 1 ש״ח item for testing payments (/shop/?test) — remove after testing
+  test:     { name: 'בדיקת תשלום',                         price: 1 },
 };
 
 // Home delivery fee in shekels. Self pickup is free.
