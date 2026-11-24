@@ -55,7 +55,8 @@
   border: 0;
   border-radius: 999px;
   background: var(--magenta);
-  color: var(--lav);
+  /* White, not lavender: lavender on magenta is 3.3:1, under the 4.5:1 accessibility minimum */
+  color: #fff;
   font: inherit;
   font-size: 1.3rem;
   font-weight: 600;

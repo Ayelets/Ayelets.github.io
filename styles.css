@@ -289,6 +289,8 @@ p { margin: 0; }
 /* ---------- Footer ---------- */
 .site-footer { margin-top: auto; padding-block: 2rem 2.5rem; font-size: 1rem; color: var(--text-soft); }
 .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; }
+/* Room at the end for the floating WhatsApp button, so it never covers a footer link */
+.footer-inner { padding-inline-end: 4.5rem; }
 /* Desktop: the name, the menu and the content reach out toward the screen edges,
    the same on every page. Phones keep the regular margin. */
 @media (min-width: 601px) {
