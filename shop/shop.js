@@ -4,10 +4,14 @@
   var CHECKOUT_API = (window.SHOP_CHECKOUT_API || '').replace(/\/+$/, '');
 
   var PRODUCTS = {
-    book:     { name: 'הספר ״באגים בהייטק״ — מכירה מוקדמת', price: 88, img: '/images/shop/book.webp' },
-    tote:     { name: 'תיק טוקן',                           price: 75, img: '/images/shop/tote.webp' },
-    stickers: { name: 'דף מדבקות ״באגים בהייטק״',           price: 25, img: '/images/shop/stickers.webp' },
-    card:     { name: 'כרטיס ברכה לפטופ מנצנץ',             price: 25, img: '/images/shop/card.webp' },
+    book:     { name: 'הספר ״באגים בהייטק״ — מכירה מוקדמת', price: 88, was: 98, img: '/images/shop/book.webp',
+                desc: 'ספר קומיקס סאטירי על החיים בהייטק הישראלי. 168 עמודים מאוירים ידנית בכריכה קשה. זוכה מענק מפעל הפיס לשנת 2026.' },
+    tote:     { name: 'תיק טוקן',                           price: 75, img: '/images/shop/tote.webp',
+                desc: 'תיק בד עם איור של טוקן מתוך עולם ״באגים בהייטק״.' },
+    stickers: { name: 'דף מדבקות ״באגים בהייטק״',           price: 25, img: '/images/shop/stickers.webp',
+                desc: 'דף מדבקות עם דמויות ואיורים מתוך הקומיקס ״באגים בהייטק״.' },
+    card:     { name: 'כרטיס ברכה לפטופ מנצנץ',             price: 25, img: '/images/shop/card.webp',
+                desc: 'כרטיס ברכה מאויר של לפטופ, מתוך עולם ״באגים בהייטק״.' },
     // Hidden 1 ש״ח item for testing payments: open /?test — remove after testing
     test:     { name: 'בדיקת תשלום',                         price: 1,  img: '/images/shop/card.webp' }
   };
@@ -72,8 +76,8 @@
     count.hidden = items === 0;
   }
 
-  function add(id) {
-    cart[id] = (cart[id] || 0) + 1;
+  function add(id, n) {
+    cart[id] = (cart[id] || 0) + (n || 1);
     save(); render();
   }
   function showToast(msg) {
@@ -82,7 +86,35 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 2200);
   }
-  function openCart() { if (!dialog.open) dialog.showModal(); }
+  function openCart() { if (qv.open) qv.close(); if (!dialog.open) dialog.showModal(); }
+
+  // Product quick view: click a product's picture or name to see it bigger with details.
+  var qv = document.getElementById('quickview');
+  var qvId = null, qvQty = 1;
+  var qvCount = qv.querySelector('.qv-count');
+  function openView(id) {
+    var p = PRODUCTS[id];
+    qvId = id; qvQty = 1; qvCount.textContent = 1;
+    qv.querySelector('.qv-name').textContent = p.name;
+    qv.querySelector('.qv-desc').textContent = p.desc || '';
+    qv.querySelector('.qv-price').innerHTML = (p.was ? '<s>' + shekel(p.was) + '</s> ' : '') + '<span>' + shekel(p.price) + '</span>';
+    var img = qv.querySelector('.qv-img img');
+    img.src = p.img; img.alt = p.name;
+    qv.showModal();
+  }
+  qv.addEventListener('click', function (e) {
+    var t = e.target.closest('button');
+    if (e.target === qv) return qv.close(); // backdrop
+    if (!t) return;
+    if (t.classList.contains('qv-close')) qv.close();
+    else if (t.classList.contains('qv-plus')) qvCount.textContent = ++qvQty;
+    else if (t.classList.contains('qv-minus')) { if (qvQty > 1) qvCount.textContent = --qvQty; }
+    else if (t.classList.contains('qv-add')) {
+      add(qvId, qvQty);
+      qv.close();
+      showToast('נוסף לעגלה: ' + PRODUCTS[qvId].name);
+    }
+  });
 
   function shippingMethod() { return form.elements.shipping.value === 'pickup' ? 'pickup' : 'delivery'; }
   function updateShipping() {
@@ -155,7 +187,8 @@
   document.addEventListener('click', function (e) {
     var t = e.target.closest('button');
     if (!t) return;
-    if (t.dataset.add) {
+    if (t.dataset.view) openView(t.dataset.view);
+    else if (t.dataset.add) {
       add(t.dataset.add);
       if (t.hasAttribute('data-open')) openCart();
       else showToast('נוסף לעגלה: ' + PRODUCTS[t.dataset.add].name);

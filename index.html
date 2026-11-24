@@ -187,29 +187,37 @@
     <h2 class="visually-hidden">מוצרים</h2>
     <ul class="products">
       <li class="product">
-        <img src="/images/shop/book.webp" width="386" height="396" loading="lazy" alt="">
-        <h3>הספר ״באגים בהייטק״<br>מכירה מוקדמת</h3>
+        <button class="product-view" type="button" data-view="book" aria-label="פרטים נוספים">
+          <img src="/images/shop/book.webp" width="386" height="396" loading="lazy" alt="">
+        </button>
+        <h3><button class="product-title" type="button" data-view="book">הספר ״באגים בהייטק״<br>מכירה מוקדמת</button></h3>
         <hr class="rule">
         <p class="price"><span>88 ש״ח</span></p>
         <button class="add-btn" type="button" data-add="book">הוספה לעגלה</button>
       </li>
       <li class="product">
-        <img src="/images/shop/tote.webp" width="211" height="208" loading="lazy" alt="">
-        <h3>תיק טוקן</h3>
+        <button class="product-view" type="button" data-view="tote" aria-label="פרטים נוספים">
+          <img src="/images/shop/tote.webp" width="211" height="208" loading="lazy" alt="">
+        </button>
+        <h3><button class="product-title" type="button" data-view="tote">תיק טוקן</button></h3>
         <hr class="rule">
         <p class="price"><span>75 ש״ח</span></p>
         <button class="add-btn" type="button" data-add="tote">הוספה לעגלה</button>
       </li>
       <li class="product">
-        <img src="/images/shop/stickers.webp" width="211" height="208" loading="lazy" alt="">
-        <h3>דף מדבקות<br>״באגים בהייטק״</h3>
+        <button class="product-view" type="button" data-view="stickers" aria-label="פרטים נוספים">
+          <img src="/images/shop/stickers.webp" width="211" height="208" loading="lazy" alt="">
+        </button>
+        <h3><button class="product-title" type="button" data-view="stickers">דף מדבקות<br>״באגים בהייטק״</button></h3>
         <hr class="rule">
         <p class="price"><span>25 ש״ח</span></p>
         <button class="add-btn" type="button" data-add="stickers">הוספה לעגלה</button>
       </li>
       <li class="product">
-        <img src="/images/shop/card.webp" width="211" height="208" loading="lazy" alt="">
-        <h3>כרטיס ברכה<br>לפטופ מנצנץ</h3>
+        <button class="product-view" type="button" data-view="card" aria-label="פרטים נוספים">
+          <img src="/images/shop/card.webp" width="211" height="208" loading="lazy" alt="">
+        </button>
+        <h3><button class="product-title" type="button" data-view="card">כרטיס ברכה<br>לפטופ מנצנץ</button></h3>
         <hr class="rule">
         <p class="price"><span>25 ש״ח</span></p>
         <button class="add-btn" type="button" data-add="card">הוספה לעגלה</button>
@@ -260,6 +268,25 @@
       <button class="back-btn" type="button">חזרה לעגלה</button>
       <p class="cart-note">התשלום מתבצע בדף המאובטח של SUMIT. החשבונית תישלח לאימייל.</p>
     </form>
+  </dialog>
+
+  <dialog id="quickview" class="quickview" aria-labelledby="qv-name">
+    <button class="qv-close" type="button" aria-label="סגירה">✕</button>
+    <div class="qv-body">
+      <h2 id="qv-name" class="qv-name"></h2>
+      <p class="price qv-price"></p>
+      <p class="qv-desc"></p>
+      <div class="qv-qty-wrap">
+        <span class="qv-label">כמות</span>
+        <div class="qv-qty">
+          <button type="button" class="qv-plus" aria-label="עוד אחד">+</button>
+          <span class="qv-count" aria-live="polite">1</span>
+          <button type="button" class="qv-minus" aria-label="אחד פחות">−</button>
+        </div>
+      </div>
+      <button class="checkout-btn qv-add" type="button">הוספה לעגלה</button>
+    </div>
+    <div class="qv-img"><img alt=""></div>
   </dialog>
 
   <div class="toast" role="status" aria-live="polite"></div>
