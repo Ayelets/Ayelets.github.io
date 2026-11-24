@@ -10,6 +10,7 @@
   --sun: #eeb243;         /* mustard */
   --leaf: #2f6b5f;        /* deep teal-green */
   --pink: #da2e70;        /* magenta */
+  --rose: #e4a2c8;        /* baby pink */
 
   /* Page surface and the text that sits on it */
   --bg: #261c63;          /* deep indigo */
@@ -408,6 +409,9 @@ p { margin: 0; }
 /* ---------- Organizations: bulk orders ---------- */
 .org { padding-block: clamp(2rem, 5vw, 3.5rem) clamp(3rem, 7vw, 5rem); }
 .org h1 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0;
   font-size: clamp(2.2rem, 5.5vw, 4rem);
   color: var(--text);
   margin-bottom: clamp(2rem, 5vw, 3.5rem);
@@ -427,7 +431,7 @@ p { margin: 0; }
   width: 100%;
   padding: 1.1rem 1.25rem;
   border: 0;
-  border-radius: 0;
+  border-radius: 16px;
   background: #fff;
   color: var(--text);
   font: inherit;
@@ -440,24 +444,29 @@ p { margin: 0; }
 .org-form textarea::placeholder { color: var(--text-soft); opacity: 1; }
 .org-form textarea { resize: vertical; min-height: 9rem; }
 .org-form input:focus-visible,
-.org-form textarea:focus-visible { outline: 2px solid var(--text); outline-offset: 0; }
+.org-form textarea:focus-visible { outline: 2px solid var(--pink); outline-offset: 0; }
 .org-submit {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 1.1rem 1.25rem;
+  justify-content: center;
+  gap: .5em;
+  margin-top: .5rem;
+  padding: 1rem 1.25rem;
   border: 0;
-  background: var(--text);
-  color: var(--bg);
+  border-radius: 999px;
+  background: var(--rose);
+  color: var(--text);
   font: inherit;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color .25s;
+  transition: background-color .2s, color .2s;
 }
-.org-submit:hover { background: var(--accent); color: var(--paper); }
+.org-submit:focus-visible { outline: 2px solid var(--pink); outline-offset: 3px; }
+@media (hover: hover) { .org-submit:hover { background: var(--pink); color: #fff; } }
+.org-submit:active { background: var(--pink); color: #fff; }
 .org-submit svg { width: 1.4rem; height: 1.4rem; fill: currentColor; }
-.org-error { color: var(--accent-deep); font-weight: 500; }
+.org-error { color: #b3125a; font-weight: 500; }
 .org-sent { margin-top: .5rem; color: var(--text-soft); }
 .org-sent a { color: var(--text); }
 .org-error[hidden], .org-sent[hidden] { display: none; }
