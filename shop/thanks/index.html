@@ -22,8 +22,19 @@
   <link rel="stylesheet" href="../../styles.css">
   <link rel="stylesheet" href="../shop.css">
   <style>
-    .thanks { max-width: 36rem; padding-block: clamp(3rem, 10vw, 6rem); text-align: center; }
-    .thanks-card { background: var(--lav); color: var(--lav-ink); padding: clamp(2rem, 6vw, 3rem) 1.5rem; display: grid; gap: 1rem; justify-items: center; }
+    .thanks { max-width: 60rem; padding-block: clamp(2rem, 7vw, 5rem); text-align: center; }
+    /* Same build as the shop's featured book: the illustration on white beside the lavender text */
+    .thanks-wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); background: var(--lav); }
+    .thanks-art { order: 2; background: #fff; display: grid; place-items: center; }
+    .thanks-art img { width: 100%; height: auto; }
+    .thanks-wrap.no-art { grid-template-columns: minmax(0, 1fr); max-width: 36rem; margin-inline: auto; }
+    .no-art .thanks-art { display: none; }
+    .thanks-card { color: var(--lav-ink); padding: clamp(2rem, 6vw, 3rem) 1.5rem; display: grid; gap: 1rem; justify-items: center; align-content: center; }
+    @media (max-width: 700px) {
+      .thanks-wrap { grid-template-columns: minmax(0, 1fr); }
+      .thanks-art { order: 0; }
+      .thanks-art img { max-width: 340px; }
+    }
     .thanks h1 { font-size: clamp(1.6rem, 4.5vw, 2rem); }
     .thanks h1 + p { margin-top: -.4rem; font-size: 1.125rem; line-height: 1.6; }
     .thanks .meta { font-size: .95rem; opacity: .8; }
@@ -31,7 +42,7 @@
     .thanks .btn { border-color: var(--lav-ink); color: var(--lav-ink); }
     .thanks .btn-primary { background: var(--lav-ink); color: #fff; }
 
-    /* Paid: a few magenta pixel sparkles twinkle around the card, like a game's win screen */
+    /* Paid: a few lime pixel sparkles twinkle around the card, like a game's win screen */
     .sparkles { position: absolute; top: 0; left: 0; width: 0; height: 0; pointer-events: none; }
     .sparkle { position: absolute; translate: -50% -50%; }
     .sparkle svg { position: absolute; left: 50%; top: 50%; translate: -50% -50%; display: block; shape-rendering: crispEdges; }
@@ -55,6 +66,8 @@
   </header>
 
   <main class="container thanks">
+    <div class="thanks-wrap">
+    <div class="thanks-art"><img src="/images/shop/thanks.webp" width="988" height="954" alt="איור: הדמות של איילת שמחה, עם ידיים באוויר וקונפטי צבעוני מסביב"></div>
     <div class="thanks-card" aria-live="polite">
       <h1 id="title">בודקים את התשלום…</h1>
       <p id="text">רק רגע.</p>
@@ -63,6 +76,7 @@
         <a class="btn btn-primary" href="/">חזרה לחנות</a>
         <a class="btn btn-ghost" href="mailto:ayelet126@gmail.com">יצירת קשר</a>
       </div>
+    </div>
     </div>
   </main>
 
@@ -81,7 +95,7 @@
         small: ['.M.', 'MWM', '.M.'],
         big:   ['...M...', '...M...', '..MWM..', 'MMWWWMM', '..MWM..', '...M...', '...M...']
       };
-      var SPARK_COLORS = { M: '#da2e70', W: '#ffffff' };
+      var SPARK_COLORS = { M: '#d7f85f', W: '#ffffff' };   // the site's lime
       function sprite(rows, px) {
         var r = '';
         rows.forEach(function (row, y) {
@@ -139,7 +153,7 @@
 
       // Swap "בודקים את התשלום…" for the answer smoothly: the card eases to its new
       // height and the new text fades in, instead of everything jumping at once.
-      var card = document.querySelector('.thanks-card');
+      var card = document.querySelector('.thanks-wrap');   // the whole block: picture and text
       var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       function reveal(write, then) {
         var actions = card.querySelector('.actions');
@@ -169,10 +183,11 @@
         }, celebrate);   // sparkles once the card has its final size
       }
       function showUnknown() {
+        card.classList.add('no-art');   // the happy picture is not for a payment we could not confirm
         title.textContent = 'לא הצלחנו לאמת את התשלום';
         text.textContent = 'אם חויבת, אין מה לדאוג: החשבונית תגיע לאימייל. אפשר גם לפנות אליי ונבדוק את ההזמנה.';
       }
-      function unknown() { reveal(showUnknown); }
+      var unknown = showUnknown;
 
       if (!id || !CHECKOUT_API) return showUnknown();   // known before the page shows: nothing to animate
       fetch(CHECKOUT_API + '/verify?id=' + encodeURIComponent(id))
