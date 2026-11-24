@@ -350,8 +350,9 @@ p { margin: 0; }
   transition: background-color .2s, color .2s;
 }
 .org-submit:focus-visible { outline: 2px solid var(--pink); outline-offset: 3px; }
-@media (hover: hover) { .org-submit:hover { background: var(--pink); color: #fff; } }
-.org-submit:active { background: var(--pink); color: #fff; }
+/* lime against the pink page: its complementary color, so the button pops */
+@media (hover: hover) { .org-submit:hover { background: var(--lime); color: var(--text); } }
+.org-submit:active { background: var(--lime); color: var(--text); }
 .org-submit svg { width: 1.4rem; height: 1.4rem; fill: currentColor; }
 .org-error { color: #b3125a; font-weight: 500; }
 .org-sent { margin-top: .5rem; color: var(--text-soft); }
