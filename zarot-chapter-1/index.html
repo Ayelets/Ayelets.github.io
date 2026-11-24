@@ -106,6 +106,7 @@
     :root {
       --page-ratio: 1440 / 1964;
       --rose: #e4a2c8;        /* accents */
+      --pink-glow: #ec4a8a;   /* buy button under the mouse */
       --lilac: #c9a6dc;       /* book facts */
       /* Last slide, styled after the cover's error dialog */
       --sky: #78b4e6;
@@ -196,7 +197,8 @@
     .hint { margin-top: .5rem; text-align: center; font-size: .85rem; color: var(--text-soft); }
     @media (hover: hover) { .hint { display: none; } }
 
-    /* "אני רוצה לקנות": the site's magenta pill (same as the shop), lime under the mouse.
+    /* "אני רוצה לקנות": the site's magenta pill (same as the shop). Under the mouse it stays
+       magenta, only brighter, and the heart fills in: the warm feeling holds at the moment of choice.
        Floats at the bottom of the screen on phones, under the pages elsewhere */
     .buy-bar {
       display: flex; align-items: center; justify-content: center; gap: .45em;
@@ -212,8 +214,8 @@
       fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round;
       transition: fill .25s, transform .25s var(--ease);
     }
-    @media (hover: hover) { .buy-bar:hover { background: var(--lime); color: var(--bg); } }
-    .buy-bar:active { background: var(--lime); color: var(--bg); }
+    @media (hover: hover) { .buy-bar:hover { background: var(--pink-glow); } }
+    .buy-bar:active { background: var(--pink-glow); }
     .buy-bar:hover svg, .buy-bar:focus-visible svg { fill: currentColor; transform: scale(1.08); }
     .buy-bar:focus-visible { outline-offset: 3px; border-radius: 999px; }
 
