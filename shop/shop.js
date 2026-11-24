@@ -86,8 +86,8 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 2200);
   }
-  // Like collecting a coin in a game: the button's label pops away and
-  // "+price" rises out of it, then the label comes back.
+  // Like collecting a coin in a game: the button vanishes, "+price" appears
+  // in its place, drifts up a little and fades, then the button comes back.
   var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
   function score(btn, price) {
     if (calm.matches) return;
@@ -98,12 +98,18 @@
     s.dir = 'ltr';
     s.setAttribute('aria-hidden', 'true');
     s.textContent = '+' + price;
+    btn.classList.remove('back');
     btn.classList.add('scored');
     btn.appendChild(s);
-    clearTimeout(btn._scoreTimer);
-    btn._scoreTimer = setTimeout(function () { btn.classList.remove('scored'); }, 650);
-    s.addEventListener('animationend', function () { s.remove(); });
+    s.addEventListener('animationend', function () {
+      s.remove();
+      btn.classList.remove('scored');
+      btn.classList.add('back');
+    });
   }
+  document.addEventListener('animationend', function (e) {
+    if (e.animationName === 'btn-back') e.target.classList.remove('back');
+  });
   function openCart() { if (qv.open) qv.close(); if (!dialog.open) dialog.showModal(); }
 
   // Product quick view: click a product's picture or name to see it bigger with details.
