@@ -499,7 +499,22 @@ p { margin: 0; }
   .js .reveal, .js .work { opacity: 1; transform: none; }
 }
 
-/* WhatsApp contact link in the footer */
-.footer-wa { display: inline-flex; align-items: center; gap: .35rem; color: inherit; text-decoration: none; }
-.footer-wa svg { color: #25d366; flex: none; }
-.footer-wa:hover span { text-decoration: underline; }
+/* WhatsApp contact button, floating at the bottom corner of every page */
+.footer-wa {
+  position: fixed;
+  bottom: 1.25rem;
+  inset-inline-end: 1.25rem;
+  z-index: 150;
+  display: grid;
+  place-items: center;
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: 50%;
+  background: #25d366;
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .3);
+  transition: transform .2s var(--ease);
+}
+.footer-wa:hover { transform: scale(1.08); }
+.footer-wa svg { width: 2.1rem; height: 2.1rem; }
+.footer-wa span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
