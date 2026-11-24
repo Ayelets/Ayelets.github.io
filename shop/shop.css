@@ -39,12 +39,12 @@
 }
 .featured h1 { font-family: var(--font-body); font-weight: var(--heading-weight); font-size: clamp(1.4rem, 2.6vw, 1.9rem); line-height: 1.3; }
 
-.featured-desc { max-width: 32rem; font-size: 1.125rem; line-height: 1.6; display: grid; gap: .5rem; }
+.featured-desc { max-width: 34rem; font-size: 1.25rem; line-height: 1.6; display: grid; gap: .5rem; }
 .featured-desc a { text-underline-offset: .2em; }
 .rule { width: 1.2rem; margin: 0 auto; border: 0; border-top: 1px solid currentColor; }
 .product .rule { width: 55%; border-top-width: 2px; }
 
-.price { display: flex; gap: 1.5rem; justify-content: center; font-size: 1.15rem; }
+.price { display: flex; gap: 1.5rem; justify-content: center; font-size: 1.3rem; }
 .price s { opacity: .8; }
 
 .buy-btn {
@@ -125,14 +125,14 @@
 .cart-item { display: grid; grid-template-columns: 64px 1fr auto; gap: .8rem; align-items: center; }
 .cart-item img { width: 64px; height: 64px; object-fit: contain; background: #fff; }
 .cart-item .name { font-size: 1.05rem; line-height: 1.3; }
-.cart-item .sub { font-size: .95rem; opacity: .75; }
+.cart-item .sub { font-size: 1rem; opacity: .75; }
 .qty { display: inline-flex; align-items: center; gap: .4rem; margin-top: .3rem; }
 .qty button {
   width: 1.7rem; height: 1.7rem; padding: 0;
   border: 1px solid currentColor; border-radius: 50%;
   background: none; color: inherit; font: inherit; line-height: 1; cursor: pointer;
 }
-.remove { border: 0; background: none; color: inherit; opacity: .6; cursor: pointer; font-size: .85rem; text-decoration: underline; }
+.remove { border: 0; background: none; color: inherit; opacity: .6; cursor: pointer; font-size: .95rem; text-decoration: underline; }
 .cart-empty { opacity: .8; }
 .cart-foot { border-top: 1px solid rgba(38, 28, 99, .2); padding-top: 1rem; display: grid; gap: .6rem; }
 .cart-total { font-size: 1.15rem; }
@@ -149,14 +149,14 @@
 @media (hover: hover) { .checkout-btn:not(:disabled):hover { background: var(--hover-bg); color: var(--hover-ink); } }
 .checkout-btn:not(:disabled):active { background: var(--hover-bg); color: var(--hover-ink); }
 .checkout-btn:disabled { opacity: .45; cursor: not-allowed; }
-.cart-note { font-size: .95rem; text-align: center; opacity: .8; }
+.cart-note { font-size: 1rem; text-align: center; opacity: .8; }
 
 /* Checkout details form */
 .cart-foot[hidden], .checkout-form[hidden], .cart-items[hidden] { display: none; }
 .checkout-form { display: grid; gap: .75rem; overflow-y: auto; align-content: start; flex: 1; }
 .form-title { font-weight: 600; }
 .ship-choice { border: 0; margin: 0; padding: 0; display: grid; gap: .35rem; }
-.ship-choice legend { font-size: .9rem; margin-bottom: .35rem; padding: 0; }
+.ship-choice legend { font-size: 1rem; margin-bottom: .35rem; padding: 0; }
 .checkout-form .radio { display: flex; align-items: center; gap: .5rem; font-size: 1.05rem; cursor: pointer; }
 .checkout-form .radio input { accent-color: var(--lav-ink); width: 1.05rem; height: 1.05rem; margin: 0; }
 .ship-fields { display: grid; gap: .75rem; }
@@ -174,10 +174,10 @@
 }
 .checkout-form input[dir="ltr"] { text-align: right; }
 .checkout-form input:focus-visible { outline: 2px solid var(--lav-ink); outline-offset: 1px; }
-.form-error { color: #b3261e; font-size: .9rem; }
+.form-error { color: #b3261e; font-size: 1rem; }
 .checkout-form .cart-total { margin-top: .25rem; }
 .checkout-btn:not(:disabled) { cursor: pointer; }
-.back-btn { border: 0; background: none; color: inherit; font: inherit; font-size: .9rem; text-decoration: underline; cursor: pointer; justify-self: center; }
+.back-btn { border: 0; background: none; color: inherit; font: inherit; font-size: 1rem; text-decoration: underline; cursor: pointer; justify-self: center; }
 
 .toast {
   position: fixed;
@@ -275,4 +275,9 @@
   0%   { opacity: 1; transform: translate(-50%, -50%); }
   65%  { opacity: 1; transform: translate(-50%, calc(-50% - 1.1rem)); }
   100% { opacity: 0; transform: translate(-50%, calc(-50% - 1.6rem)); }
+}
+
+/* Phones: the pre-sale text a step smaller than on desktop */
+@media (max-width: 600px) {
+  .featured-desc { font-size: 1.125rem; }
 }
