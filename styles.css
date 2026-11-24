@@ -8,6 +8,7 @@
   --accent: #d8462d;      /* vermilion */
   --accent-deep: #b8361f;
   --sun: #eeb243;         /* mustard */
+  --lime: #d7f85f;        /* chartreuse, used for text selection */
   --leaf: #2f6b5f;        /* deep teal-green */
   --pink: #da2e70;        /* magenta */
   --rose: #e4a2c8;        /* baby pink */
@@ -91,7 +92,7 @@ img { max-width: 100%; display: block; }
 a { color: inherit; }
 h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.1; margin: 0; letter-spacing: -.01em; }
 p { margin: 0; }
-::selection { background: var(--sun); color: var(--ink); }
+::selection { background: var(--lime); color: var(--ink); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 
 .container { width: min(1180px, 100% - 2.5rem); margin-inline: auto; }
