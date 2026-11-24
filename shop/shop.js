@@ -74,6 +74,20 @@
     if (items === 0) showStep('cart');
     count.textContent = items;
     count.hidden = items === 0;
+    // A collected product's button says so: "בעגלה ✓" (clicking still adds another)
+    document.querySelectorAll('.products .add-btn').forEach(function (b) {
+      if (!b._label) {
+        b._label = document.createElement('span');
+        b._label.textContent = b.textContent;
+        b.textContent = '';
+        b.appendChild(b._label);
+      }
+      var inCart = !!cart[b.dataset.add];
+      b.classList.toggle('in-cart', inCart);
+      b._label.textContent = inCart ? 'בעגלה ✓' : 'הוספה לעגלה';
+      if (inCart) b.setAttribute('aria-label', 'בעגלה. לחיצה מוסיפה עוד אחד');
+      else b.removeAttribute('aria-label');
+    });
   }
 
   function add(id, n) {
@@ -86,6 +100,30 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 2200);
   }
+  // Like collecting a coin in a game: the button vanishes, "+price" appears
+  // in its place, drifts up a little and fades, then the button comes back.
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function score(btn, price) {
+    if (calm.matches) return;
+    var old = btn.querySelector('.score');
+    if (old) old.remove();
+    var s = document.createElement('span');
+    s.className = 'score';
+    s.dir = 'ltr';
+    s.setAttribute('aria-hidden', 'true');
+    s.textContent = '+' + price;
+    btn.classList.remove('back');
+    btn.classList.add('scored');
+    btn.appendChild(s);
+    s.addEventListener('animationend', function () {
+      s.remove();
+      btn.classList.remove('scored');
+      btn.classList.add('back');
+    });
+  }
+  document.addEventListener('animationend', function (e) {
+    if (e.animationName === 'btn-back') e.target.classList.remove('back');
+  });
   function openCart() { if (qv.open) qv.close(); if (!dialog.open) dialog.showModal(); }
 
   // Product quick view: click a product's picture or name to see it bigger with details.
@@ -191,7 +229,10 @@
     else if (t.dataset.add) {
       add(t.dataset.add);
       if (t.hasAttribute('data-open')) openCart();
-      else showToast('נוסף לעגלה: ' + PRODUCTS[t.dataset.add].name);
+      else {
+        score(t, PRODUCTS[t.dataset.add].price);
+        showToast('נוסף לעגלה: ' + PRODUCTS[t.dataset.add].name);
+      }
     } else if (t.dataset.inc) { cart[t.dataset.inc]++; save(); render(); }
     else if (t.dataset.dec) {
       if (--cart[t.dataset.dec] <= 0) delete cart[t.dataset.dec];

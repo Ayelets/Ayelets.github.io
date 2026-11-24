@@ -22,14 +22,29 @@
   <link rel="stylesheet" href="../../styles.css">
   <link rel="stylesheet" href="../shop.css">
   <style>
-    .thanks { max-width: 36rem; padding-block: clamp(3rem, 10vw, 6rem); text-align: center; }
-    .thanks-card { background: var(--lav); color: var(--lav-ink); padding: clamp(2rem, 6vw, 3rem) 1.5rem; display: grid; gap: 1rem; justify-items: center; }
+    .thanks { max-width: 32rem; padding-block: clamp(2rem, 7vw, 5rem); text-align: center; }
+    /* One card: the message on top, and once the payment is confirmed, the happy illustration
+       under it. Lavender while checking (like the cart the buyer came from), the pink of the
+       character's shirt once it is paid. */
+    .thanks-wrap { background: var(--lav); color: var(--lav-ink); transition: background-color .5s ease-out; }
+    .thanks-wrap.is-paid { background: #fcb0ea; }
+    .thanks-card { padding: clamp(2rem, 6vw, 3rem) 1.5rem; display: grid; gap: 1rem; justify-items: center; }
+    .thanks-art { background: #fff; }
+    /* Trim the empty confetti above her head so the picture balances the text above it */
+    .thanks-art img { display: block; width: 100%; height: auto; aspect-ratio: 988 / 810; object-fit: cover; object-position: bottom; }
+    .thanks-art[hidden], .thanks .actions[hidden] { display: none; }
+    @media (prefers-reduced-motion: reduce) { .thanks-wrap { transition: none; } }
     .thanks h1 { font-size: clamp(1.6rem, 4.5vw, 2rem); }
     .thanks h1 + p { margin-top: -.4rem; font-size: 1.125rem; line-height: 1.6; }
     .thanks .meta { font-size: .95rem; opacity: .8; }
     .thanks .actions { justify-content: center; margin-top: .5rem; }
     .thanks .btn { border-color: var(--lav-ink); color: var(--lav-ink); }
     .thanks .btn-primary { background: var(--lav-ink); color: #fff; }
+
+    /* Paid: a few lime pixel sparkles twinkle around the card, like a game's win screen */
+    .sparkles { position: absolute; top: 0; left: 0; width: 0; height: 0; pointer-events: none; }
+    .sparkle { position: absolute; translate: -50% -50%; }
+    .sparkle svg { position: absolute; left: 50%; top: 50%; translate: -50% -50%; display: block; shape-rendering: crispEdges; }
   </style>
 </head>
 <body>
@@ -50,14 +65,18 @@
   </header>
 
   <main class="container thanks">
-    <div class="thanks-card" aria-live="polite">
-      <h1 id="title">בודקים את התשלום…</h1>
-      <p id="text">רק רגע.</p>
-      <p id="meta" class="meta" hidden></p>
-      <div class="actions">
-        <a class="btn btn-primary" href="/">חזרה לחנות</a>
-        <a class="btn btn-ghost" href="mailto:ayelet126@gmail.com">יצירת קשר</a>
+    <div class="thanks-wrap">
+      <div class="thanks-card" aria-live="polite">
+        <h1 id="title">בודקים את התשלום…</h1>
+        <p id="text">רק רגע.</p>
+        <p id="meta" class="meta" hidden></p>
+        <!-- Only when the payment could not be confirmed: after a successful one nothing more is asked of the buyer -->
+        <div class="actions" hidden>
+          <a class="btn btn-primary" href="/">חזרה לחנות</a>
+          <a class="btn btn-ghost" href="mailto:ayelet126@gmail.com">יצירת קשר</a>
+        </div>
       </div>
+      <div class="thanks-art" hidden><img src="/images/shop/thanks.webp" width="988" height="954" alt="איור: הדמות של איילת שמחה, עם ידיים באוויר וקונפטי צבעוני מסביב"></div>
     </div>
   </main>
 
@@ -71,17 +90,106 @@
       var text = document.getElementById('text');
       var meta = document.getElementById('meta');
 
+      // Pixel sparkle in two frames, small and big, swapped to twinkle like on a game's win screen
+      var SPARK = {
+        small: ['.M.', 'MWM', '.M.'],
+        big:   ['...M...', '...M...', '..MWM..', 'MMWWWMM', '..MWM..', '...M...', '...M...']
+      };
+      var SPARK_COLORS = { M: '#d7f85f', W: '#ffffff' };   // the site's lime
+      function sprite(rows, px) {
+        var r = '';
+        rows.forEach(function (row, y) {
+          for (var x = 0; x < row.length; x++) {
+            if (row[x] !== '.') r += '<rect x="' + x + '" y="' + y + '" width="1" height="1" fill="' + SPARK_COLORS[row[x]] + '"/>';
+          }
+        });
+        var n = rows.length;
+        return '<svg viewBox="0 0 ' + n + ' ' + n + '" width="' + n * px + '" height="' + n * px + '">' + r + '</svg>';
+      }
+      // Spots around the card, on the dark page and never over the text
+      function spots(rect) {
+        var vw = document.documentElement.clientWidth, out = [];
+        var gap = function () { return 22 + Math.random() * 26; };
+        var side = rect.left > 70;   // room beside the card (not on phones)
+        out.push([rect.left + rect.width * (.12 + Math.random() * .2), rect.top - gap()]);
+        out.push([rect.right - rect.width * (.1 + Math.random() * .2), rect.top - gap() * .8]);
+        out.push([rect.right - rect.width * (.2 + Math.random() * .25), rect.bottom + gap()]);
+        if (side) {
+          out.push([rect.left - gap(), rect.top + rect.height * (.25 + Math.random() * .2)]);
+          out.push([rect.right + gap(), rect.top + rect.height * (.55 + Math.random() * .25)]);
+          out.push([rect.left - gap() * 1.4, rect.bottom - rect.height * .1]);
+        } else {
+          out.push([rect.left + rect.width * (.15 + Math.random() * .2), rect.bottom + gap() * 1.3]);
+        }
+        return out.map(function (p) { return [Math.min(Math.max(p[0], 14), vw - 14), p[1] + window.scrollY]; });
+      }
+      function celebrate() {
+        var box = document.createElement('div');
+        box.className = 'sparkles';
+        box.setAttribute('aria-hidden', 'true');
+        spots(card.getBoundingClientRect()).forEach(function (p, i) {
+          var px = i % 3 === 1 ? 3 : 4;
+          var el = document.createElement('span');
+          el.className = 'sparkle';
+          el.style.left = p[0] + 'px';
+          el.style.top = p[1] + 'px';
+          el.innerHTML = sprite(SPARK.small, px) + sprite(SPARK.big, px);
+          var small = el.children[0], big = el.children[1];
+          box.appendChild(el);
+          if (calm) { small.style.display = 'none'; return; }   // a still sparkle, no twinkling
+          // small, big, small, gone — twice, starting at a different moment for each sparkle
+          var frames = ['s', 'b', 's', '', '', 's', 'b', 's', ''], step = 0;
+          small.style.display = big.style.display = 'none';
+          setTimeout(function tick() {
+            var f = frames[step++];
+            small.style.display = f === 's' ? '' : 'none';
+            big.style.display = f === 'b' ? '' : 'none';
+            if (step < frames.length) setTimeout(tick, 110);
+            else el.remove();
+          }, 150 + Math.random() * 900);
+        });
+        document.body.appendChild(box);
+      }
+
+      // Swap "בודקים את התשלום…" for the answer smoothly: the card eases to its new
+      // height (the picture opening up under the text) and the new content fades in.
+      var card = document.querySelector('.thanks-wrap');
+      var art = card.querySelector('.thanks-art');
+      var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function reveal(write, then) {
+        var from = card.offsetHeight;
+        write();
+        if (calm || !card.animate) { if (then) then(); return; }
+        var to = card.offsetHeight;
+        card.style.overflow = 'hidden';
+        var grow = card.animate([{ height: from + 'px' }, { height: to + 'px' }], { duration: 520, easing: 'cubic-bezier(.2, .7, .2, 1)' });
+        [title, text, meta, art].forEach(function (el, i) {
+          el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 400, delay: 80 + i * 60, easing: 'ease-out', fill: 'backwards' });
+        });
+        grow.onfinish = function () { card.style.overflow = ''; if (then) then(); };
+      }
+
       function paid(amount, paymentId) {
         try { localStorage.removeItem('shop-cart'); } catch (e) {}
         var badge = document.querySelector('.cart-count');
         if (badge) badge.hidden = true;
-        title.textContent = 'תודה! התשלום התקבל';
-        text.textContent = 'החשבונית נשלחה לאימייל שלך. אצור איתך קשר לגבי המשלוח.';
-        if (amount != null) { meta.textContent = 'סכום: ' + amount + ' ש״ח · מספר תשלום: ' + paymentId; meta.hidden = false; }
+        var img = art.querySelector('img');
+        // wait for the picture to be ready, so the card opens to its real size in one go
+        var ready = img.decode ? img.decode().catch(function () {}) : Promise.resolve();
+        ready.then(function () {
+          reveal(function () {
+            card.classList.add('is-paid');
+            art.hidden = false;
+            title.textContent = 'תודה! התשלום התקבל';
+            text.textContent = 'החשבונית נשלחה לאימייל שלך. אצור איתך קשר לגבי המשלוח.';
+            if (amount != null) { meta.textContent = 'סכום: ' + amount + ' ש״ח · מספר תשלום: ' + paymentId; meta.hidden = false; }
+          }, celebrate);   // sparkles once the card has its final size
+        });
       }
       function unknown() {
         title.textContent = 'לא הצלחנו לאמת את התשלום';
         text.textContent = 'אם חויבת, אין מה לדאוג: החשבונית תגיע לאימייל. אפשר גם לפנות אליי ונבדוק את ההזמנה.';
+        card.querySelector('.actions').hidden = false;
       }
 
       if (!id || !CHECKOUT_API) return unknown();

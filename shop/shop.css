@@ -86,6 +86,11 @@
 }
 .add-btn:hover,
 .add-btn:active { background: var(--pink); color: #fff; }
+/* Collected: once the product is in the cart its button comes back quieter, as
+   "בעגלה ✓". It still adds another one; under the mouse it lights up as before */
+.add-btn.in-cart { border-color: rgba(246, 240, 230, .3); color: var(--text-soft); }
+.add-btn.in-cart:hover,
+.add-btn.in-cart:active { border-color: var(--pink); }
 
 /* Cart drawer */
 .cart {
@@ -234,4 +239,31 @@
 @media (max-width: 700px) {
   .quickview[open] { grid-template-columns: 1fr; }
   .qv-img { order: -1; margin-top: 1.5rem; }
+}
+
+/* "Won something" moment on הוספה לעגלה, like collecting a coin in a game:
+   the button vanishes at once, "+price" appears in its place, drifts up a little
+   and fades, then the button comes back */
+.add-btn { position: relative; }
+.add-btn.scored,
+.add-btn.scored:hover,
+.add-btn.scored:active { background: transparent; border-color: transparent; color: transparent; transition: none; }
+.add-btn.back { animation: btn-back .3s var(--ease) both; }
+@keyframes btn-back { from { opacity: 0; } }
+.score {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  color: #fff;
+  font-size: .8rem;
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: score .9s linear both;
+}
+@keyframes score {
+  0%   { opacity: 1; transform: translate(-50%, -50%); }
+  65%  { opacity: 1; transform: translate(-50%, calc(-50% - 1.1rem)); }
+  100% { opacity: 0; transform: translate(-50%, calc(-50% - 1.6rem)); }
 }
