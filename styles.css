@@ -498,3 +498,8 @@ p { margin: 0; }
   *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
   .js .reveal, .js .work { opacity: 1; transform: none; }
 }
+
+/* WhatsApp contact link in the footer */
+.footer-wa { display: inline-flex; align-items: center; gap: .35rem; color: inherit; text-decoration: none; }
+.footer-wa svg { color: #25d366; flex: none; }
+.footer-wa:hover span { text-decoration: underline; }
