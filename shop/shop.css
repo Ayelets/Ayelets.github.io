@@ -39,7 +39,7 @@
 }
 .featured h1 { font-family: var(--font-body); font-weight: var(--heading-weight); font-size: clamp(1.4rem, 2.6vw, 1.9rem); line-height: 1.3; }
 
-.featured-desc { max-width: 40rem; font-size: 1.5rem; line-height: 1.6; display: grid; gap: .5rem; }
+.featured-desc { max-width: 44rem; font-size: clamp(1.2rem, 2.1vw, 1.6rem); /* same as the organizations text */ line-height: 1.6; display: grid; gap: .5rem; }
 .featured-desc a { text-underline-offset: .2em; }
 .rule { width: 1.2rem; margin: 0 auto; border: 0; border-top: 1px solid currentColor; }
 .product .rule { width: 55%; border-top-width: 2px; }
