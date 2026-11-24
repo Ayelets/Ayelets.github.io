@@ -135,24 +135,24 @@
       display: block;
       margin-bottom: 1.4rem;
       font-family: var(--font-body);
-      font-size: 1.0625rem;
+      font-size: 1.1875rem;
       font-weight: 500;
       letter-spacing: 0;
       text-decoration: underline;
       text-decoration-thickness: 1.5px;
       text-underline-offset: .35em;
     }
-    .about p { font-size: 1.0625rem; line-height: 1.65; }
+    .about p { font-size: 1.1875rem; line-height: 1.65; }
     .about p + p { margin-top: 1.4em; }
 
     .nowrap { white-space: nowrap; }
 
     /* Book facts */
-    .facts ul { list-style: none; margin: 0; padding: 0; color: var(--lilac); font-size: 1.0625rem; font-weight: 500; line-height: 1.9; }
+    .facts ul { list-style: none; margin: 0; padding: 0; color: var(--lilac); font-size: 1.1875rem; font-weight: 500; line-height: 1.9; }
 
     /* Press */
     .press { margin-top: 2.5rem; }
-    .press ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; font-size: 1.0625rem; line-height: 1.5; }
+    .press ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; font-size: 1.1875rem; line-height: 1.5; }
     .press a { text-decoration-thickness: 1px; text-underline-offset: .3em; transition: color .2s; }
     .press a:hover { color: var(--lime); }
 
@@ -175,7 +175,7 @@
     .slide img { display: block; width: 100%; height: 100%; object-fit: contain; }
     .counter {
       position: absolute; top: 12px; left: 12px; padding: 3px 9px; border-radius: 12px;
-      background: rgba(18, 18, 18, .7); color: #fff; font-size: 12px; line-height: 1.45; direction: ltr;
+      background: rgba(18, 18, 18, .7); color: #fff; font-size: 14px; line-height: 1.45; direction: ltr;
       pointer-events: none;
     }
     .arrow {
@@ -194,7 +194,7 @@
     .dots { display: flex; justify-content: center; gap: 4px; padding: 12px 0 0; }
     .dots span { width: 6px; height: 6px; border-radius: 50%; background: rgba(246, 240, 230, .28); transition: background .2s, transform .2s; }
     .dots span.on { background: var(--lime); transform: scale(1.15); }
-    .hint { margin-top: .5rem; text-align: center; font-size: .85rem; color: var(--text-soft); }
+    .hint { margin-top: .5rem; text-align: center; font-size: .95rem; color: var(--text-soft); }
     @media (hover: hover) { .hint { display: none; } }
 
     /* "אני רוצה לקנות": the site's magenta pill (same as the shop). Under the mouse it stays
@@ -257,7 +257,7 @@
     .dialog-x { width: 20px; height: 20px; border: 1px solid #fff; border-radius: 2px; display: grid; place-items: center; font-size: 13px; line-height: 1; background: #c9c9e8; color: var(--dlg-blue); }
     .dialog-body { padding: 20px 20px 22px; text-align: center; }
     .dialog-body h2 { margin: 0 0 8px; font-family: var(--font-body); font-weight: var(--heading-weight); font-size: clamp(20px, 5.4vw, 26px); line-height: 1.25; letter-spacing: 0; }
-    .dialog-body p { margin: 0 0 18px; font-size: clamp(15px, 4vw, 17px); }
+    .dialog-body p { margin: 0 0 18px; font-size: clamp(16px, 4.2vw, 18px); }
     /* A real dialog button in the dialog's own pink: dark border, magenta glow,
        the dotted line Windows draws on the default button */
     .dialog-ok {
@@ -298,7 +298,7 @@
       .about { align-self: start; width: min(100%, clamp(17rem, 22vw, 26rem)); max-width: none; }
       /* Short screens make the pages small: a little more width keeps the text above the bar */
       @media (max-height: 760px) { .about { width: min(100%, clamp(18rem, 26vw, 26rem)); } }
-      .about p { font-size: 1.0625rem; line-height: 1.65; }
+      .about p { font-size: 1.1875rem; line-height: 1.65; }
       /* Facts flush with the left edge, mirroring the book text on the right edge;
          press at the bottom, level with the buy bar */
       .facts { display: flex; flex-direction: column; justify-content: space-between; text-align: end; }
@@ -321,7 +321,7 @@
       .chapter { width: calc(100% - 2rem); padding-top: 1rem; }
       /* the pages run edge to edge on phones */
       .reader { width: auto; justify-self: stretch; margin-inline: -1rem; }
-      .about p { font-size: 1rem; }
+      .about p { font-size: 1.0625rem; }
     }
   </style>
 </head>
