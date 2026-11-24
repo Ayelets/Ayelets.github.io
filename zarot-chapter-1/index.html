@@ -269,7 +269,9 @@
       }
       .chapter-grid { align-items: stretch; }
       .reader { width: max(340px, min(600px, calc((100svh - 13rem) * 1440 / 1964))); align-self: start; }
-      .about { align-self: start; }
+      /* Same edges as the header: the book text lines up with the name, the facts with the cart */
+      .chapter { width: calc(100% - 2 * var(--edge)); }
+      .about { align-self: start; max-width: 27rem; }
       .about p { font-size: 1rem; line-height: 1.6; }
       /* Facts flush with the left edge, mirroring the book text on the right edge;
          press at the bottom, level with the buy bar */
