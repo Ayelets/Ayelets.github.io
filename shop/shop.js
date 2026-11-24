@@ -4,9 +4,9 @@
   var CHECKOUT_API = (window.SHOP_CHECKOUT_API || '').replace(/\/+$/, '');
 
   var PRODUCTS = {
-    book:     { name: 'הספר ״באגים בהייטק״ — מכירה מוקדמת', price: 88, was: 98, img: '/images/shop/book.webp',
+    book:     { name: 'הספר ״באגים בהייטק״',                 price: 98, img: '/images/shop/book.webp',
                 desc: 'ספר קומיקס סאטירי על החיים בהייטק הישראלי. 168 עמודים מאוירים ידנית בכריכה קשה. זוכה מענק מפעל הפיס לשנת 2026.' },
-    tote:     { name: 'תיק טוקן',                           price: 75, img: '/images/shop/tote.webp',
+    tote:     { name: 'תיק טוקן',                           price: 80, img: '/images/shop/tote.webp',
                 desc: 'תיק בד עם איור של טוקן מתוך עולם ״באגים בהייטק״.' },
     stickers: { name: 'דף מדבקות ״באגים בהייטק״',           price: 25, img: '/images/shop/stickers.webp',
                 desc: 'דף מדבקות עם דמויות ואיורים מתוך הקומיקס ״באגים בהייטק״.' },
@@ -15,6 +15,25 @@
     // Hidden 1 ש״ח item for testing payments: open /?test — remove after testing
     test:     { name: 'בדיקת תשלום',                         price: 1,  img: '/images/shop/card.webp' }
   };
+  // Black Friday sale, site-wide: 20% off every product until the end of November 2026 (Israel time).
+  // After that date the full prices come back by themselves. Keep in sync with checkout-worker/worker.js.
+  var SALE = { pct: 20, end: Date.parse('2026-12-01T00:00:00+02:00') };
+  var saleOn = Date.now() < SALE.end;
+  function onSale(id) { return saleOn && id !== 'test'; }
+  function priceOf(id) {
+    var full = PRODUCTS[id].price;
+    return onSale(id) ? Math.round(full * (100 - SALE.pct) / 100) /* rounded to whole shekels */ : full;
+  }
+  // Struck-through original price next to the sale price, plus a "בלאק פריידי 20%" tag
+  function priceHTML(id) {
+    if (!onSale(id)) return '<span>' + shekel(PRODUCTS[id].price) + '</span>';
+    return '<s><span class="visually-hidden">מחיר מקורי: </span>' + shekel(PRODUCTS[id].price) + '</s> ' +
+      '<span class="sale-price"><span class="visually-hidden">מחיר במבצע: </span>' + shekel(priceOf(id)) + '</span> ' +
+      '<span class="sale-tag">בלאק פריידי ' + SALE.pct + '%</span>';
+  }
+  document.querySelectorAll('.price[data-price]').forEach(function (el) { el.innerHTML = priceHTML(el.dataset.price); });
+  document.querySelectorAll('.sale-banner').forEach(function (el) { el.hidden = !saleOn; });
+
   var KEY = 'shop-cart';
   var cart = load();
 
@@ -28,6 +47,7 @@
   var shipFields = dialog.querySelector('.ship-fields');
   var pickupNote = dialog.querySelector('.pickup-note');
   var cartSum = 0;
+  var savingsEls = dialog.querySelectorAll('.cart-savings');
   var foot = dialog.querySelector('.cart-foot');
   var checkoutBtn = foot.querySelector('.checkout-btn');
   var form = dialog.querySelector('.checkout-form');
@@ -45,20 +65,20 @@
     } catch (e) { return {}; }
   }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(cart)); } catch (e) {} }
-  function shekel(n) { return n + ' ש״ח'; }
+  function shekel(n) { return (n % 1 ? n.toFixed(2) : n) + ' ש״ח'; }
 
   function render() {
     var ids = Object.keys(cart);
-    var items = 0, sum = 0;
+    var items = 0, sum = 0, full = 0;
     list.innerHTML = '';
     ids.forEach(function (id) {
       var p = PRODUCTS[id], q = cart[id];
-      items += q; sum += q * p.price;
+      items += q; sum += q * priceOf(id); full += q * p.price;
       var li = document.createElement('li');
       li.className = 'cart-item';
       li.innerHTML =
         '<img src="' + p.img + '" alt="">' +
-        '<div><div class="name"></div><div class="sub">' + shekel(p.price) + '</div>' +
+        '<div><div class="name"></div><div class="sub">' + priceHTML(id) + '</div>' +
         '<div class="qty"><button type="button" data-inc="' + id + '" aria-label="עוד אחד">+</button>' +
         '<span>' + q + '</span>' +
         '<button type="button" data-dec="' + id + '" aria-label="אחד פחות">−</button></div></div>' +
@@ -67,8 +87,16 @@
       list.appendChild(li);
     });
     empty.hidden = ids.length > 0;
+    sum = Math.round(sum * 100) / 100;
     totals.forEach(function (t) { t.textContent = shekel(sum); });
     cartSum = sum;
+    // Sale: show what the cart would have cost and how much is saved
+    var saved = Math.round((full - sum) * 100) / 100;
+    savingsEls.forEach(function (el) {
+      el.hidden = !(saved > 0);
+      el.innerHTML = 'מחיר מקורי: <s>' + shekel(full) + '</s><br>' +
+        '<strong>הנחת בלאק פריידי ' + SALE.pct + '%:</strong> חוסכים ' + shekel(saved);
+    });
     updateShipping();
     checkoutBtn.disabled = !CHECKOUT_API || items === 0;
     if (items === 0) showStep('cart');
@@ -135,7 +163,7 @@
     qvId = id; qvQty = 1; qvCount.textContent = 1;
     qv.querySelector('.qv-name').textContent = p.name;
     qv.querySelector('.qv-desc').textContent = p.desc || '';
-    qv.querySelector('.qv-price').innerHTML = (p.was ? '<s>' + shekel(p.was) + '</s> ' : '') + '<span>' + shekel(p.price) + '</span>';
+    qv.querySelector('.qv-price').innerHTML = priceHTML(id);
     var img = qv.querySelector('.qv-img img');
     img.src = p.img; img.alt = p.name;
     qv.showModal();
@@ -161,7 +189,7 @@
     shipFields.hidden = !delivery;
     pickupNote.hidden = delivery;
     shipPrice.textContent = fee ? shekel(fee) : 'חינם';
-    grandTotal.textContent = shekel(cartSum + fee);
+    grandTotal.textContent = shekel(Math.round((cartSum + fee) * 100) / 100);
   }
   form.addEventListener('change', function (e) { if (e.target.name === 'shipping') updateShipping(); });
 
@@ -207,7 +235,12 @@
     })
       .then(function (r) { return r.json().catch(function () { return {}; }); })
       .then(function (res) {
-        if (res && res.redirectUrl) { window.location.href = res.redirectUrl; return; }
+        if (res && res.redirectUrl) {
+          // The thanks page sends this back with the payment, so the orders sheet can mark this order paid.
+          try { localStorage.setItem('shop-order', res.orderId || ''); } catch (e3) {}
+          window.location.href = res.redirectUrl;
+          return;
+        }
         throw new Error(res && res.error);
       })
       .catch(function (err) {
@@ -230,7 +263,7 @@
       add(t.dataset.add);
       if (t.hasAttribute('data-open')) openCart();
       else {
-        score(t, PRODUCTS[t.dataset.add].price);
+        score(t, priceOf(t.dataset.add));
         showToast('נוסף לעגלה: ' + PRODUCTS[t.dataset.add].name);
       }
     } else if (t.dataset.inc) { cart[t.dataset.inc]++; save(); render(); }

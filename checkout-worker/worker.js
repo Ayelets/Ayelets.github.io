@@ -7,12 +7,15 @@
 // Secrets to set in Cloudflare (Settings → Variables and Secrets):
 //   SUMIT_COMPANY_ID  — the company number from SUMIT
 //   SUMIT_API_KEY     — the private API key from SUMIT (type: Secret)
+// Optional, to keep every order in a Google Sheet (see orders-sheet/README.md):
+//   ORDERS_SHEET_URL   — the Web app address of the sheet's Apps Script
+//   ORDERS_SHEET_TOKEN — the secret code that setup() printed (type: Secret)
 //
 // Routes:
 //   POST /checkout  { items: [{ id, qty }], shipping: 'delivery' | 'pickup',
 //                     customer: { name, phone, email, city, address } }  (city/address only for delivery)
 //                   → { redirectUrl }
-//   GET  /verify?id=<OG-PaymentID>
+//   GET  /verify?id=<OG-PaymentID>&order=<orderId from /checkout>
 //                   → { valid, amount, id }
 
 const SITE = 'https://ayeletsapirshtein.com';
@@ -20,13 +23,17 @@ const ALLOWED_ORIGINS = [SITE, 'https://www.ayeletsapirshtein.com', 'https://aye
 
 // Prices are taken from here only — never from the browser. Keep in sync with shop/shop.js.
 const PRODUCTS = {
-  book:     { name: 'הספר "באגים בהייטק" — מכירה מוקדמת', price: 88 },
-  tote:     { name: 'תיק טוקן',                           price: 75 },
+  book:     { name: 'הספר "באגים בהייטק"',                 price: 98 },
+  tote:     { name: 'תיק טוקן',                           price: 80 },
   stickers: { name: 'דף מדבקות "באגים בהייטק"',           price: 25 },
   card:     { name: 'כרטיס ברכה לפטופ מנצנץ',             price: 25 },
   // Hidden 1 ש״ח item for testing payments (/shop/?test) — remove after testing
   test:     { name: 'בדיקת תשלום',                         price: 1 },
 };
+
+// Black Friday sale, site-wide: 20% off every product until the end of November 2026 (Israel time).
+// After that date the full prices come back by themselves. Keep in sync with shop/shop.js.
+const SALE = { pct: 20, end: Date.parse('2026-12-01T00:00:00+02:00') };
 
 // Home delivery fee in shekels. Self pickup is free.
 const SHIPPING_PRICE = 35;
@@ -34,7 +41,7 @@ const SHIPPING_PRICE = 35;
 const SUMIT_API = 'https://api.sumit.co.il';
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const origin = request.headers.get('Origin') || '';
     const cors = {
       'Access-Control-Allow-Origin': ALLOWED_ORIGINS.includes(origin) ? origin : SITE,
@@ -51,10 +58,10 @@ export default {
     try {
       if (url.pathname === '/checkout' && request.method === 'POST') {
         if (origin && !ALLOWED_ORIGINS.includes(origin)) return reply({ error: 'forbidden' }, 403);
-        return reply(await checkout(await request.json(), env));
+        return reply(await checkout(await request.json(), env, ctx));
       }
       if (url.pathname === '/verify' && request.method === 'GET') {
-        return reply(await verify(url.searchParams.get('id'), env));
+        return reply(await verify(url.searchParams.get('id'), url.searchParams.get('order'), env, ctx));
       }
       return reply({ error: 'not found' }, 404);
     } catch (err) {
@@ -67,7 +74,7 @@ export default {
 
 class UserError extends Error {}
 
-async function checkout(body, env) {
+async function checkout(body, env, ctx) {
   const c = body && body.customer || {};
   const customer = {
     name: clean(c.name), phone: clean(c.phone), email: clean(c.email),
@@ -80,16 +87,24 @@ async function checkout(body, env) {
 
   const lines = Array.isArray(body.items) ? body.items : [];
   const items = [];
+  const summary = [];
+  let total = 0;
   for (const line of lines) {
     const p = PRODUCTS[line && line.id];
     const qty = Math.floor(Number(line && line.qty));
     if (!p) continue;
     if (!(qty >= 1 && qty <= 20)) throw new UserError('כמות לא תקינה בעגלה.');
-    items.push({ Item: { Name: p.name, ExternalIdentifier: line.id }, Quantity: qty, UnitPrice: p.price, Currency: 'ILS' });
+    const sale = Date.now() < SALE.end && line.id !== 'test';
+    const price = sale ? Math.round(p.price * (100 - SALE.pct) / 100) /* whole shekels */ : p.price;
+    const name = sale ? p.name + ' (בלאק פריידי ' + SALE.pct + '% הנחה, מחיר מקורי ' + p.price + ' ש״ח)' : p.name;
+    items.push({ Item: { Name: name, ExternalIdentifier: line.id }, Quantity: qty, UnitPrice: price, Currency: 'ILS' });
+    summary.push(name + ' × ' + qty);
+    total += price * qty;
   }
   if (!items.length) throw new UserError('העגלה ריקה.');
   if (delivery && SHIPPING_PRICE > 0) {
     items.push({ Item: { Name: 'משלוח', ExternalIdentifier: 'shipping' }, Quantity: 1, UnitPrice: SHIPPING_PRICE, Currency: 'ILS' });
+    total += SHIPPING_PRICE;
   }
 
   const orderId = 'AS-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).slice(2, 6).toUpperCase();
@@ -111,15 +126,48 @@ async function checkout(body, env) {
   }, env);
 
   if (!data || !data.RedirectURL) throw new Error('SUMIT did not return RedirectURL');
+
+  // A row "ממתין לתשלום" in the orders sheet; /verify marks it paid.
+  saveToSheet(env, ctx, {
+    action: 'new',
+    orderId,
+    name: customer.name,
+    phone: customer.phone,
+    email: customer.email,
+    shipping: delivery ? 'משלוח' : 'איסוף עצמי',
+    city: delivery ? customer.city : '',
+    address: delivery ? customer.address : '',
+    items: summary.join('\n'),
+    total,
+  });
   return { redirectUrl: data.RedirectURL, orderId };
 }
 
-async function verify(id, env) {
+async function verify(id, orderId, env, ctx) {
   const paymentId = Number(id);
   if (!paymentId) throw new UserError('missing payment id');
   const data = await sumit('/billing/payments/get/', { PaymentID: paymentId }, env);
   const p = data && data.Payment;
-  return { valid: Boolean(p && p.ValidPayment), amount: p ? p.Amount : null, id: p ? p.ID : paymentId };
+  const valid = Boolean(p && p.ValidPayment);
+  if (valid) {
+    saveToSheet(env, ctx, { action: 'paid', orderId: clean(orderId), paymentId: String(p.ID || paymentId), amount: p.Amount });
+  }
+  return { valid, amount: p ? p.Amount : null, id: p ? p.ID : paymentId };
+}
+
+// Sends the order to the Google Sheet in the background, so the buyer never waits for it
+// and a problem with the sheet never blocks a payment.
+function saveToSheet(env, ctx, data) {
+  if (!env.ORDERS_SHEET_URL || !env.ORDERS_SHEET_TOKEN) return;
+  const job = fetch(env.ORDERS_SHEET_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token: env.ORDERS_SHEET_TOKEN, ...data }),
+  })
+    .then((res) => res.text())
+    .then((text) => { if (!text.includes('"ok":true')) console.error('orders sheet: ' + text.slice(0, 300)); })
+    .catch((err) => console.error('orders sheet: ' + err));
+  if (ctx && ctx.waitUntil) ctx.waitUntil(job);
 }
 
 async function sumit(path, body, env) {
