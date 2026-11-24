@@ -457,7 +457,7 @@ p { margin: 0; }
   border: 0;
   border-radius: 999px;
   background: var(--text);
-  color: #fff;
+  color: #f4b6d5;              /* the page's baby pink */
   font: inherit;
   font-size: 1.15rem;
   font-weight: 500;
