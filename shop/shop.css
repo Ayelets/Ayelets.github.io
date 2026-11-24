@@ -75,7 +75,7 @@
 .add-btn {
   margin-top: auto;
   padding: .55rem 1.4rem;
-  border: 1.5px solid var(--text);
+  border: 2px solid var(--pink);
   border-radius: 999px;
   background: transparent;
   color: var(--text);
@@ -84,7 +84,8 @@
   cursor: pointer;
   transition: background-color .2s, color .2s;
 }
-.add-btn:hover { background: var(--text); color: var(--bg); }
+.add-btn:hover,
+.add-btn:active { background: var(--pink); color: #fff; }
 
 /* Cart drawer */
 .cart {
