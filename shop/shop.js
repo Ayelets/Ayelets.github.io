@@ -74,6 +74,20 @@
     if (items === 0) showStep('cart');
     count.textContent = items;
     count.hidden = items === 0;
+    // A collected product's button says so: "בעגלה ✓" (clicking still adds another)
+    document.querySelectorAll('.products .add-btn').forEach(function (b) {
+      if (!b._label) {
+        b._label = document.createElement('span');
+        b._label.textContent = b.textContent;
+        b.textContent = '';
+        b.appendChild(b._label);
+      }
+      var inCart = !!cart[b.dataset.add];
+      b.classList.toggle('in-cart', inCart);
+      b._label.textContent = inCart ? 'בעגלה ✓' : 'הוספה לעגלה';
+      if (inCart) b.setAttribute('aria-label', 'בעגלה. לחיצה מוסיפה עוד אחד');
+      else b.removeAttribute('aria-label');
+    });
   }
 
   function add(id, n) {
