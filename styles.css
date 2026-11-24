@@ -421,16 +421,17 @@ p { margin: 0; }
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: clamp(2rem, 5vw, 4rem);
-  align-items: start;
+  align-items: stretch;        /* text and form share one height */
 }
-.org-text { font-size: clamp(1.15rem, 1.9vw, 1.45rem); line-height: 1.6; }
-.org-text p + p { margin-top: .9rem; }
+.org-text { font-size: clamp(1.2rem, 2.1vw, 1.6rem); line-height: 1.5; }
+.org-text p { margin: 0; }
+.org-text p + p { margin-top: .7rem; }
 .org-text strong { font-weight: 600; }
-.org-form { display: grid; gap: .5rem; }
+.org-form { display: flex; flex-direction: column; gap: .5rem; }
 .org-form input,
 .org-form textarea {
   width: 100%;
-  padding: 1.1rem 1.25rem;
+  padding: .9rem 1.25rem;
   border: 0;
   border-radius: 16px;
   background: #fff;
@@ -443,7 +444,7 @@ p { margin: 0; }
 .org-form input:placeholder-shown { direction: rtl; }
 .org-form input::placeholder,
 .org-form textarea::placeholder { color: var(--text-soft); opacity: 1; }
-.org-form textarea { resize: vertical; min-height: 9rem; }
+.org-form textarea { flex: 1 1 auto; height: 6rem; min-height: 6rem; resize: vertical; }
 .org-form input:focus-visible,
 .org-form textarea:focus-visible { outline: 2px solid var(--pink); outline-offset: 0; }
 .org-submit {
@@ -452,7 +453,7 @@ p { margin: 0; }
   justify-content: center;
   gap: .5em;
   margin-top: .5rem;
-  padding: 1rem 1.25rem;
+  padding: .85rem 1.25rem;
   border: 0;
   border-radius: 999px;
   background: var(--text);
