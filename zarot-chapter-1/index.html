@@ -148,7 +148,7 @@
     .nowrap { white-space: nowrap; }
 
     /* Book facts */
-    .facts ul { list-style: none; margin: 0; padding: 0; color: var(--lilac); font-size: 1.15rem; line-height: 1.75; }
+    .facts ul { list-style: none; margin: 0; padding: 0; color: var(--lilac); font-size: 1.0625rem; font-weight: 500; line-height: 1.9; }
 
     /* Press */
     .press { margin-top: 2.5rem; }
@@ -278,10 +278,12 @@
       .about { align-self: start; width: min(100%, clamp(17rem, 22vw, 26rem)); max-width: none; }
       /* Short screens make the pages small: a little more width keeps the text above the bar */
       @media (max-height: 760px) { .about { width: min(100%, clamp(18rem, 26vw, 26rem)); } }
-      .about p { font-size: 1rem; line-height: 1.6; }
+      .about p { font-size: 1.0625rem; line-height: 1.65; }
       /* Facts flush with the left edge, mirroring the book text on the right edge;
          press at the bottom, level with the buy bar */
       .facts { display: flex; flex-direction: column; justify-content: space-between; text-align: end; }
+      /* The facts sit at the middle of the comic page; press stays at the bottom */
+      .facts ul { margin-block: auto; }
     }
 
     /* Phones: the buy bar stays on screen, like a shop's checkout bar */
