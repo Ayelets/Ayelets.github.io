@@ -294,8 +294,6 @@ p { margin: 0; }
 @media (min-width: 601px) {
   .container { width: min(1600px, 100% - 2 * var(--edge)); }
 }
-.to-top { text-decoration: none; }
-.to-top:hover { color: var(--hl); }
 /* Phones: the organizations tab leaves the header and waits at the end of the page */
 .footer-org { display: none; }
 
