@@ -31,7 +31,7 @@
   <meta property="og:site_name" content="איילת ספירשטיין">
   <meta property="og:url" content="https://ayeletsapirshtein.com/zarot-chapter-1/">
   <meta property="og:title" content="באגים בהייטק – פרק ראשון">
-  <meta property="og:description" content="קומיקס מאת איילת ספירשטיין. קראו את הפרק הראשון ועזרו לספר לצאת לאור.">
+  <meta property="og:description" content="קומיקס מאת איילת ספירשטיין. קראו את הפרק הראשון חינם.">
   <meta property="og:image" content="https://ayeletsapirshtein.com/zarot-chapter-1/og.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -105,7 +105,7 @@
     /* Chapter page — sits on top of /styles.css (dark indigo pages) */
     :root {
       --page-ratio: 1440 / 1964;
-      --rose: #e4a2c8;        /* pixel title and the buy link */
+      --rose: #e4a2c8;        /* buy bar and accents */
       --lilac: #c9a6dc;       /* book facts */
       /* Last slide, styled after the cover's error dialog */
       --sky: #78b4e6;
@@ -117,36 +117,6 @@
       width: min(1600px, 100% - 4rem);
       padding-block: clamp(1.25rem, 3vw, 2rem) clamp(2.5rem, 6vw, 4rem);
     }
-
-    /* Title row: pixel title on the start side, buy link on the end side */
-    .chapter-top {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem 2rem;
-      margin-bottom: clamp(1.25rem, 2.5vw, 1.75rem);
-    }
-    .chapter-title { color: var(--rose); line-height: 0; }
-    .chapter-title svg { display: block; width: clamp(13rem, 34vw, 29rem); height: auto; }
-    .buy-link {
-      display: inline-flex;
-      align-items: center;
-      gap: .45em;
-      color: var(--rose);
-      font-size: clamp(1.35rem, 3.4vw, 3.1rem);
-      font-weight: 300;
-      line-height: 1.15;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-    .buy-link u { text-decoration-thickness: .06em; text-underline-offset: .18em; }
-    .buy-link svg {
-      width: 1.05em; height: 1.05em; flex: none;
-      fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linejoin: round;
-      transition: fill .25s, transform .25s var(--ease);
-    }
-    .buy-link:hover svg, .buy-link:focus-visible svg { fill: currentColor; transform: scale(1.08); }
 
     /* Layout: phones stack everything; tablets put the text beside the pages;
        desktops put the book text on one side and the facts on the other */
@@ -217,6 +187,25 @@
     .hint { margin-top: .5rem; text-align: center; font-size: .85rem; color: var(--text-soft); }
     @media (hover: hover) { .hint { display: none; } }
 
+    /* "אני רוצה לקנות": pinned to the bottom of the screen on phones, under the pages elsewhere */
+    .buy-bar {
+      display: flex; align-items: center; justify-content: center; gap: .45em;
+      margin-top: 1rem; padding: .5rem 1rem;
+      background: var(--rose); color: var(--bg);
+      font-size: clamp(1.35rem, 2vw, 1.7rem); font-weight: 400; line-height: 1.35;
+      text-decoration: none; white-space: nowrap;
+      transition: background-color .2s, color .2s;
+    }
+    .buy-bar svg {
+      width: 1.1em; height: 1.1em; flex: none;
+      fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round;
+      transition: fill .25s, transform .25s var(--ease);
+    }
+    @media (hover: hover) { .buy-bar:hover { background: var(--pink); color: var(--chip-bg); } }
+    .buy-bar:active { background: var(--pink); color: var(--chip-bg); }
+    .buy-bar:hover svg, .buy-bar:focus-visible svg { fill: currentColor; transform: scale(1.08); }
+    .buy-bar:focus-visible { outline-offset: 3px; border-radius: 0; }
+
     /* Last slide: call to action, styled after the cover's error dialog */
     .cta-slide {
       display: grid; place-items: center; padding: 8%;
@@ -241,7 +230,6 @@
       border: 2px solid #5a7bd0; background: #fde4f3; box-shadow: inset 0 -2px 0 #c7a6d6;
       font-weight: 700; font-size: 17px;
     }
-    .dialog-url { display: block; margin-top: 14px; color: #0645ad; text-decoration: underline; font-size: 14px; direction: ltr; }
 
     /* Sharing */
     .share { margin-top: 2rem; }
@@ -267,7 +255,7 @@
         column-gap: clamp(2rem, 4vw, 3rem);
         align-items: start;
       }
-      .reader { width: max(320px, min(600px, 52vw, calc((100svh - 12rem) * 1440 / 1964))); }
+      .reader { width: max(320px, min(600px, 52vw, calc((100svh - 14rem) * 1440 / 1964))); }
     }
 
     /* Desktop: book text, pages, facts — the pages in the middle of the screen */
@@ -278,21 +266,25 @@
         grid-template-rows: auto;
         column-gap: clamp(2.5rem, 4vw, 4.5rem);
       }
-      .reader { width: max(340px, min(600px, calc((100svh - 12.5rem) * 1440 / 1964))); }
+      .reader { width: max(340px, min(600px, calc((100svh - 13rem) * 1440 / 1964))); }
       .about, .facts { padding-top: clamp(2rem, 9vh, 6.5rem); }
       .about { justify-self: start; }
       .facts { justify-self: end; }
-      /* dots sit on the bottom of the page, as on the cover */
-      .dots { position: absolute; inset-inline: 0; bottom: 14px; padding: 0; pointer-events: none; }
-      .dots span { background: rgba(0, 0, 0, .22); }
-      .dots span.on { background: var(--pink); }
+    }
+
+    /* Phones: the buy bar stays on screen, like a shop's checkout bar */
+    @media (max-width: 759px) {
+      body { padding-bottom: calc(4rem + env(safe-area-inset-bottom)); }
+      .buy-bar {
+        position: fixed; inset-inline: 0; bottom: 0; z-index: 90; margin: 0;
+        padding: .6rem 1rem calc(.6rem + env(safe-area-inset-bottom));
+        font-size: min(1.75rem, 7.5vw);
+        box-shadow: 0 -10px 24px -14px rgba(8, 4, 30, .7);
+      }
     }
 
     @media (max-width: 600px) {
-      .chapter { width: calc(100% - 2rem); }
-      .chapter-top { gap: .75rem 1rem; }
-      .chapter-title svg { width: min(62vw, 15rem); }
-      .buy-link { font-size: min(1.35rem, 6vw); }
+      .chapter { width: calc(100% - 2rem); padding-top: 1rem; }
       /* the pages run edge to edge on phones */
       .reader { width: auto; justify-self: stretch; margin-inline: -1rem; }
       .about p { font-size: 1rem; }
@@ -319,16 +311,7 @@
   </header>
 
   <main class="chapter container">
-    <div class="chapter-top">
-      <h1 class="chapter-title">
-        <svg viewBox="0 0 641 75" aria-hidden="true" focusable="false"><path fill="currentColor" d="M0 0h45v15h-45zM45 15h15v15h-15zM0 30h15v15h-15zM45 30h15v15h-15zM0 45h15v15h-15zM30 45h15v15h-15zM0 60h15v15h-15zM70 0h15v15h-15zM100 0h15v15h-15zM70 15h15v15h-15zM115 15h15v15h-15zM70 30h15v15h-15zM115 30h15v15h-15zM85 45h30v15h-30zM140 0h15v15h-15zM140 15h15v15h-15zM166 0h15v15h-15zM166 15h15v15h-15zM193 0h45v15h-45zM238 15h15v15h-15zM193 30h15v15h-15zM238 30h15v15h-15zM193 45h15v15h-15zM238 45h15v15h-15zM262 0h30v15h-30zM292 15h15v15h-15zM292 30h15v15h-15zM262 45h60v15h-60zM357 0h45v15h-45zM357 15h15v15h-15zM402 15h15v15h-15zM357 30h15v15h-15zM402 30h15v15h-15zM357 45h60v15h-60zM427 0h15v15h-15zM427 15h15v15h-15zM456 0h30v15h-30zM471 15h15v15h-15zM471 30h15v15h-15zM446 45h25v15h-25zM486 45h15v15h-15zM512 0h15v15h-15zM557 0h15v15h-15zM527 15h15v15h-15zM557 15h15v15h-15zM512 30h15v15h-15zM542 30h15v15h-15zM512 45h15v15h-15zM557 45h15v15h-15zM581 0h30v15h-30zM611 15h15v15h-15zM611 30h15v15h-15zM581 45h60v15h-60z"/></svg>
-        <span class="visually-hidden">באגים בהייטק – פרק ראשון</span>
-      </h1>
-      <a class="buy-link" href="/#buy">
-        <span>אני רוצה <u>לקנות</u></span>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.3s-7.6-4.5-9.5-9.4C1 7.2 3.4 3.9 6.9 3.9c2.1 0 3.8 1.2 5.1 3 1.3-1.8 3-3 5.1-3 3.5 0 5.9 3.3 4.4 7-1.9 4.9-9.5 9.4-9.5 9.4Z"/></svg>
-      </a>
-    </div>
+    <h1 class="visually-hidden">באגים בהייטק – פרק ראשון</h1>
 
     <div class="chapter-grid">
       <section class="about" aria-labelledby="about-title">
@@ -363,13 +346,12 @@
             <figure class="slide"><img data-src="pages/19-1440.webp" data-srcset="pages/19-720.webp 720w, pages/19-1200.webp 1200w, pages/19-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 18" loading="lazy" decoding="async"></figure>
             <figure class="slide"><img data-src="pages/20-1440.webp" data-srcset="pages/20-720.webp 720w, pages/20-1200.webp 1200w, pages/20-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 19" loading="lazy" decoding="async"></figure>
             <div class="slide cta-slide">
-              <a class="dialog" href="https://headstart.co.il/project/91364?amb=bd03d3cc-d62f-11f1-8981-4201ac1c90e4" target="_blank" rel="noopener">
+              <a class="dialog" href="/#buy">
                 <div class="dialog-bar"><span>באגים בהייטק</span><span class="dialog-x" aria-hidden="true">X</span></div>
                 <div class="dialog-body">
-                  <h2>אהבתם ואתם רוצים לעזור לספר הזה לצאת לאור?</h2>
-                  <p>כנסו לעמוד ההדסטארט, שם תוכלו לרכוש עותק של הספר ותשורות מגניבות נוספות</p>
-                  <span class="dialog-ok">לעמוד ההדסטארט</span>
-                  <span class="dialog-url">headstart.co.il/project/91364</span>
+                  <h2>אהבתם? זה רק הפרק הראשון</h2>
+                  <p>הספר המלא, 168 עמודים מאוירים ידנית בכריכה קשה, במכירה מוקדמת</p>
+                  <span class="dialog-ok">אני רוצה לקנות</span>
                 </div>
               </a>
             </div>
@@ -384,6 +366,10 @@
         </section>
         <div class="dots" id="dots" aria-hidden="true"></div>
         <p class="hint">החליקו כדי לקרוא, אפשר לצבוט כדי להגדיל.</p>
+        <a class="buy-bar" href="/#buy">
+          אני רוצה לקנות
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.3s-7.6-4.5-9.5-9.4C1 7.2 3.4 3.9 6.9 3.9c2.1 0 3.8 1.2 5.1 3 1.3-1.8 3-3 5.1-3 3.5 0 5.9 3.3 4.4 7-1.9 4.9-9.5 9.4-9.5 9.4Z"/></svg>
+        </a>
       </div>
 
       <aside class="facts" aria-label="על הספר">
@@ -504,14 +490,8 @@
       });
       render(0);
 
-      // Headstart ambassador links: the hrefs carry the chapter page's own link; a visit from a
-      // paid ad (utm_medium=paid, set on every ad's URL) swaps in the "chapter page, from an ad" one.
-      const fromAd = new URLSearchParams(location.search).get('utm_medium') === 'paid';
-      // Every link to the Headstart page or to buying the book counts as a lead, so ads can optimize for it.
-      document.querySelectorAll('a[href*="headstart.co.il"]').forEach(a => {
-        if (fromAd) a.href = a.href.replace('amb=bd03d3cc-d62f-11f1-8981-4201ac1c90e4', 'amb=dc1f2b62-d62f-11f1-8981-4201ac1c90e4');
-        a.addEventListener('click', () => fbq('track', 'Lead', { content_name: 'headstart' }));
-      });
+      // Every link to buying the book (it goes in the cart on the shop page) counts as a lead,
+      // so ads can optimize for it.
       document.querySelectorAll('a[href="/#buy"]').forEach(a => {
         a.addEventListener('click', () => fbq('track', 'Lead', { content_name: 'shop' }));
       });
