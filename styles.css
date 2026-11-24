@@ -53,6 +53,15 @@
 .page-light .site-header { background: rgba(218, 216, 255, .82); }
 .page-light .site-header.scrolled { box-shadow: 0 8px 24px -18px rgba(38, 28, 99, .45); }
 
+/* Pink page (organizations): baby-pink surface, same indigo text */
+.page-pink {
+  --bg: #f4b6d5;
+  --bg-raised: #eea6c9;
+  --text-soft: #5a3f86;
+  --line: rgba(38, 28, 99, .18);
+}
+.page-pink .site-header { background: rgba(244, 182, 213, .86); }
+
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 5rem; -webkit-text-size-adjust: 100%; }
@@ -407,15 +416,7 @@ p { margin: 0; }
 .js .work.in { opacity: 1; transform: none; }
 
 /* ---------- Organizations: bulk orders ---------- */
-.org { padding-block: clamp(2rem, 5vw, 3.5rem) clamp(3rem, 7vw, 5rem); }
-.org h1 {
-  font-family: var(--font-body);
-  font-weight: 600;
-  letter-spacing: 0;
-  font-size: clamp(2.2rem, 5.5vw, 4rem);
-  color: var(--text);
-  margin-bottom: clamp(2rem, 5vw, 3.5rem);
-}
+.org { padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(3rem, 7vw, 5rem); }
 .org-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -454,8 +455,8 @@ p { margin: 0; }
   padding: 1rem 1.25rem;
   border: 0;
   border-radius: 999px;
-  background: var(--rose);
-  color: var(--text);
+  background: var(--text);
+  color: #fff;
   font: inherit;
   font-size: 1.15rem;
   font-weight: 500;
