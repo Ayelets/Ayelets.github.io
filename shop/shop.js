@@ -86,6 +86,24 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 2200);
   }
+  // Like collecting a coin in a game: the button's label pops away and
+  // "+price" rises out of it, then the label comes back.
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function score(btn, price) {
+    if (calm.matches) return;
+    var old = btn.querySelector('.score');
+    if (old) old.remove();
+    var s = document.createElement('span');
+    s.className = 'score';
+    s.dir = 'ltr';
+    s.setAttribute('aria-hidden', 'true');
+    s.textContent = '+' + price;
+    btn.classList.add('scored');
+    btn.appendChild(s);
+    clearTimeout(btn._scoreTimer);
+    btn._scoreTimer = setTimeout(function () { btn.classList.remove('scored'); }, 650);
+    s.addEventListener('animationend', function () { s.remove(); });
+  }
   function openCart() { if (qv.open) qv.close(); if (!dialog.open) dialog.showModal(); }
 
   // Product quick view: click a product's picture or name to see it bigger with details.
@@ -191,7 +209,10 @@
     else if (t.dataset.add) {
       add(t.dataset.add);
       if (t.hasAttribute('data-open')) openCart();
-      else showToast('נוסף לעגלה: ' + PRODUCTS[t.dataset.add].name);
+      else {
+        score(t, PRODUCTS[t.dataset.add].price);
+        showToast('נוסף לעגלה: ' + PRODUCTS[t.dataset.add].name);
+      }
     } else if (t.dataset.inc) { cart[t.dataset.inc]++; save(); render(); }
     else if (t.dataset.dec) {
       if (--cart[t.dataset.dec] <= 0) delete cart[t.dataset.dec];

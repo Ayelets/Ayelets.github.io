@@ -235,3 +235,27 @@
   .quickview[open] { grid-template-columns: 1fr; }
   .qv-img { order: -1; margin-top: 1.5rem; }
 }
+
+/* "Won something" moment on הוספה לעגלה: the label pops away, the price rises
+   out of the button as a +score and fades, then the label comes back */
+.add-btn { position: relative; }
+.add-btn.scored { color: transparent; transition: none; }
+.add-btn.scored:hover, .add-btn.scored:active { color: transparent; }
+.score {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  color: var(--lime);
+  font-size: 1.35rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: score .9s var(--ease) both;
+}
+@keyframes score {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(.6); }
+  18%  { opacity: 1; transform: translate(-50%, -70%) scale(1.08); }
+  60%  { opacity: 1; transform: translate(-50%, -130%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -190%) scale(1); }
+}
