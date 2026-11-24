@@ -25,7 +25,7 @@
      magenta on the light ones, where lime would not show */
   --hl: var(--lime);
 
-  --font-display: 'Frank Ruhl Libre', 'David Libre', Georgia, serif;
+  --font-display: var(--font-body);
   --font-body: 'Heebo', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
 
   /* Desktop side margin of every page (header, content, footer): 20px up to
