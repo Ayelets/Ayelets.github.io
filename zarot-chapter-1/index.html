@@ -269,9 +269,12 @@
       }
       .chapter-grid { align-items: stretch; }
       .reader { width: max(340px, min(600px, calc((100svh - 13rem) * 1440 / 1964))); align-self: start; }
-      /* Same edges as the header: the book text lines up with the name, the facts with the cart */
+      /* Same edges as the header: the book text lines up with the name, the facts with the cart.
+         The text columns stay narrow at the edges, leaving open space around the pages. */
       .chapter { width: calc(100% - 2 * var(--edge)); }
-      .about { align-self: start; max-width: 27rem; }
+      .about { align-self: start; width: min(100%, clamp(17rem, 22vw, 26rem)); max-width: none; }
+      /* Short screens make the pages small: a little more width keeps the text above the bar */
+      @media (max-height: 760px) { .about { width: min(100%, clamp(18rem, 26vw, 26rem)); } }
       .about p { font-size: 1rem; line-height: 1.6; }
       /* Facts flush with the left edge, mirroring the book text on the right edge;
          press at the bottom, level with the buy bar */
@@ -297,7 +300,7 @@
     }
   </style>
 </head>
-<body>
+<body class="page-wide">
   <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=941375025467992&amp;ev=PageView&amp;noscript=1"></noscript>
 
   <header class="site-header">
