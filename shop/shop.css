@@ -43,6 +43,8 @@
 .featured-desc a { text-underline-offset: .2em; }
 .rule { width: 1.2rem; margin: 0 auto; border: 0; border-top: 1px solid currentColor; }
 .product .rule { width: 55%; border-top-width: 2px; }
+/* The featured book: a long line like the product cards, not a short dash */
+.featured .rule { width: min(60%, 22rem); border-top-width: 2px; }
 
 .price { display: flex; gap: 1.5rem; justify-content: center; font-size: 1.3rem; }
 .price s { opacity: .8; }
