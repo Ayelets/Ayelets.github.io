@@ -26,3 +26,4 @@ The personal site of Ayelet Sapirshtein, an algorithm developer and illustrator.
 ## Optional
 
 - [מדיניות פרטיות](https://ayeletsapirshtein.com/privacy/)
+- [הצהרת נגישות](https://ayeletsapirshtein.com/accessibility/)
