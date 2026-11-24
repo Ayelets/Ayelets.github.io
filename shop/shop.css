@@ -6,7 +6,7 @@
   --hover-bg: #261c63;    /* indigo */
   --hover-ink: #e9a0be;   /* light pink */
   --book-bg: #d4d5fc;     /* matches the book photo's backdrop */
-  --featured-bg: var(--lav);
+  --featured-bg: #e3f7a8; /* lime */
 }
 
 
