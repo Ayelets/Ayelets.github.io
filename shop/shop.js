@@ -194,4 +194,10 @@
     history.replaceState(null, '', location.pathname + location.search);
     openCart();
   }
+  // "אני רוצה לקנות" on the chapter page links to /#buy: the book goes in the cart and the cart opens
+  if (location.hash === '#buy') {
+    history.replaceState(null, '', location.pathname + location.search);
+    if (!cart.book) add('book');
+    openCart();
+  }
 })();

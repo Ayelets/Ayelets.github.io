@@ -18,7 +18,11 @@
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/assets/favicon.png" type="image/png" sizes="64x64">
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-  <meta name="theme-color" content="#78b4e6">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <meta name="theme-color" content="#261c63">
 
   <link rel="canonical" href="https://ayeletsapirshtein.com/zarot-chapter-1/">
 
@@ -27,7 +31,7 @@
   <meta property="og:site_name" content="איילת ספירשטיין">
   <meta property="og:url" content="https://ayeletsapirshtein.com/zarot-chapter-1/">
   <meta property="og:title" content="באגים בהייטק – פרק ראשון">
-  <meta property="og:description" content="קומיקס מאת איילת ספירשטיין. קראו את הפרק הראשון ועזרו לספר לצאת לאור.">
+  <meta property="og:description" content="קומיקס מאת איילת ספירשטיין. קראו את הפרק הראשון חינם.">
   <meta property="og:image" content="https://ayeletsapirshtein.com/zarot-chapter-1/og.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -98,52 +102,57 @@
 
   <link rel="preload" as="image" fetchpriority="high" href="pages/01-1440.webp" imagesrcset="pages/01-720.webp 720w, pages/01-1200.webp 1200w, pages/01-1440.webp 1440w" imagesizes="(min-width: 600px) 600px, 100vw">
   <style>
+    /* Chapter page — sits on top of /styles.css (dark indigo pages) */
     :root {
       --page-ratio: 1440 / 1964;
-      --ink: #262626;
-      --muted: #737373;
-      --line: #dbdbdb;
-      --link: #0645ad;
+      --rose: #e4a2c8;        /* buy bar and accents */
+      --lilac: #c9a6dc;       /* book facts */
+      /* Last slide, styled after the cover's error dialog */
       --sky: #78b4e6;
-      --pink: #f6b9de;
-      --title-blue: #1f3f8f;
-      --post-width: min(600px, 100vw, calc((100svh - 140px) * 1440 / 1964));
-    }
-    * { box-sizing: border-box; }
-    html { -webkit-text-size-adjust: 100%; }
-    body {
-      margin: 0;
-      background: #fafafa;
-      color: var(--ink);
-      font: 15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", "Rubik", "Heebo", Arial, sans-serif;
-    }
-    .post {
-      width: max(var(--post-width), min(100vw, 360px));
-      margin: 0 auto;
-      background: #fff;
-    }
-    @media (min-width: 640px) {
-      body { padding: 24px 0 48px; }
-      .post { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+      --dlg-pink: #f6b9de;
+      --dlg-blue: #1f3f8f;
     }
 
-    /* Header */
-    .post-head { display: flex; align-items: center; gap: 10px; padding: 10px 12px; }
-    .avatar {
-      width: 36px; height: 36px; border-radius: 50%; padding: 2px; flex: none;
-      background: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+    .chapter {
+      width: min(1600px, 100% - 4rem);
+      padding-block: clamp(1.25rem, 3vw, 2rem) clamp(2.5rem, 6vw, 4rem);
     }
-    .avatar img { width: 100%; height: 100%; border-radius: 50%; border: 2px solid #fff; display: block; object-fit: cover; }
-    .post-head h1 { margin: 0; font-size: 14px; font-weight: 600; line-height: 1.2; }
-    .post-head p { margin: 0; font-size: 12px; color: var(--muted); }
-    .head-cta {
-      margin-inline-start: auto; padding: 6px 14px; border-radius: 8px;
-      background: #0095f6; color: #fff; font-size: 14px; font-weight: 600; text-decoration: none;
+
+    /* Layout: phones stack everything; tablets put the text beside the pages;
+       desktops put the book text on one side and the facts on the other */
+    .chapter-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: "reader" "about" "facts";
+      gap: 2rem;
     }
+    .about { grid-area: about; max-width: 34rem; }
+    .reader { grid-area: reader; position: relative; width: min(600px, 100%); justify-self: center; }
+    .facts { grid-area: facts; }
+
+    /* About the book */
+    .about h2 {
+      display: inline-block;
+      margin-bottom: 1.4rem;
+      font-family: var(--font-body);
+      font-size: 1.0625rem;
+      font-weight: 500;
+      letter-spacing: 0;
+      text-decoration: underline;
+      text-decoration-thickness: 1.5px;
+      text-underline-offset: .35em;
+    }
+    .about p { font-size: 1.0625rem; line-height: 1.65; }
+    .about p + p { margin-top: 1.4em; }
+
+    .nowrap { white-space: nowrap; }
+
+    /* Book facts */
+    .facts ul { list-style: none; margin: 0; padding: 0; color: var(--lilac); font-size: 1.15rem; line-height: 1.75; }
 
     /* Carousel */
-    .carousel { position: relative; background: #fff; }
-    .carousel:focus-visible { outline: 2px solid #0095f6; outline-offset: -2px; }
+    .carousel { position: relative; background: var(--bg-raised); }
+    .carousel:focus-visible { outline: 2px solid var(--rose); outline-offset: 3px; border-radius: 0; }
     .track {
       display: flex; overflow-x: auto; overscroll-behavior-x: contain;
       scroll-snap-type: x mandatory; scrollbar-width: none;
@@ -156,19 +165,46 @@
     .slide img { display: block; width: 100%; height: 100%; object-fit: contain; }
     .counter {
       position: absolute; top: 12px; left: 12px; padding: 3px 9px; border-radius: 12px;
-      background: rgba(18, 18, 18, .7); color: #fff; font-size: 12px; direction: ltr;
+      background: rgba(18, 18, 18, .7); color: #fff; font-size: 12px; line-height: 1.45; direction: ltr;
       pointer-events: none;
     }
-    .nav {
+    .arrow {
       position: absolute; top: 50%; translate: 0 -50%;
       width: 34px; height: 34px; border: 0; border-radius: 50%; padding: 0;
       background: rgba(255, 255, 255, .85); box-shadow: 0 1px 4px rgba(0, 0, 0, .25);
-      color: var(--ink); cursor: pointer; display: none;
+      color: var(--chip-ink); cursor: pointer; display: none;
+      transition: background-color .2s, color .2s;
     }
-    .nav svg { width: 18px; height: 18px; display: block; margin: auto; }
-    .nav-prev { right: 10px; }
-    .nav-next { left: 10px; }
-    @media (hover: hover) { .nav:not([hidden]) { display: block; } }
+    .arrow:hover { background: var(--pink); color: #fff; }
+    .arrow svg { width: 18px; height: 18px; display: block; margin: auto; }
+    .arrow-prev { right: 10px; }
+    .arrow-next { left: 10px; }
+    @media (hover: hover) { .arrow:not([hidden]) { display: block; } }
+
+    .dots { display: flex; justify-content: center; gap: 4px; padding: 12px 0 0; }
+    .dots span { width: 6px; height: 6px; border-radius: 50%; background: rgba(246, 240, 230, .28); transition: background .2s, transform .2s; }
+    .dots span.on { background: var(--rose); transform: scale(1.15); }
+    .hint { margin-top: .5rem; text-align: center; font-size: .85rem; color: var(--text-soft); }
+    @media (hover: hover) { .hint { display: none; } }
+
+    /* "אני רוצה לקנות": pinned to the bottom of the screen on phones, under the pages elsewhere */
+    .buy-bar {
+      display: flex; align-items: center; justify-content: center; gap: .45em;
+      margin-top: 1rem; padding: .5rem 1rem;
+      background: var(--rose); color: var(--bg);
+      font-size: clamp(1.35rem, 2vw, 1.7rem); font-weight: 400; line-height: 1.35;
+      text-decoration: none; white-space: nowrap;
+      transition: background-color .2s, color .2s;
+    }
+    .buy-bar svg {
+      width: 1.1em; height: 1.1em; flex: none;
+      fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round;
+      transition: fill .25s, transform .25s var(--ease);
+    }
+    @media (hover: hover) { .buy-bar:hover { background: var(--pink); color: var(--chip-bg); } }
+    .buy-bar:active { background: var(--pink); color: var(--chip-bg); }
+    .buy-bar:hover svg, .buy-bar:focus-visible svg { fill: currentColor; transform: scale(1.08); }
+    .buy-bar:focus-visible { outline-offset: 3px; border-radius: 0; }
 
     /* Last slide: call to action, styled after the cover's error dialog */
     .cta-slide {
@@ -176,199 +212,226 @@
       background: linear-gradient(#a9d3f5, var(--sky));
     }
     .dialog {
-      width: 100%; max-width: 420px; display: block; text-decoration: none; color: var(--ink);
-      background: var(--pink); border: 3px solid var(--title-blue); border-radius: 6px;
+      width: 100%; max-width: 420px; display: block; text-decoration: none; color: #262626;
+      background: var(--dlg-pink); border: 3px solid var(--dlg-blue); border-radius: 6px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, .2);
+      font-size: 15px; line-height: 1.45;
     }
     .dialog-bar {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 4px 10px; background: var(--title-blue); color: #fff; font-weight: 600;
+      padding: 4px 10px; background: var(--dlg-blue); color: #fff; font-weight: 600;
     }
-    .dialog-x { width: 20px; height: 20px; border: 1px solid #fff; border-radius: 2px; display: grid; place-items: center; font-size: 13px; line-height: 1; background: #c9c9e8; color: var(--title-blue); }
+    .dialog-x { width: 20px; height: 20px; border: 1px solid #fff; border-radius: 2px; display: grid; place-items: center; font-size: 13px; line-height: 1; background: #c9c9e8; color: var(--dlg-blue); }
     .dialog-body { padding: 20px 20px 22px; text-align: center; }
-    .dialog-body h2 { margin: 0 0 8px; font-size: clamp(20px, 5.4vw, 26px); line-height: 1.25; }
+    .dialog-body h2 { margin: 0 0 8px; font-family: var(--font-body); font-weight: 700; font-size: clamp(20px, 5.4vw, 26px); line-height: 1.25; letter-spacing: 0; }
     .dialog-body p { margin: 0 0 18px; font-size: clamp(15px, 4vw, 17px); }
+    /* A real dialog button in the dialog's own pink: dark border, magenta glow,
+       the dotted line Windows draws on the default button */
     .dialog-ok {
-      display: inline-block; padding: 8px 22px; border-radius: 4px;
-      border: 2px solid #5a7bd0; background: #fde4f3; box-shadow: inset 0 -2px 0 #c7a6d6;
-      font-weight: 700; font-size: 17px;
+      display: inline-block; min-width: 150px; padding: 6px 24px;
+      border: 1px solid var(--dlg-blue); border-radius: 3px;
+      background: linear-gradient(#fff3fa, #f9cde8 55%, #eeaad3);
+      box-shadow: inset 0 0 0 2px #e5579a, inset 0 0 0 3px #f3a0c6, inset 0 -5px 0 #e39cc6;
+      outline: 1px dotted #262626; outline-offset: -7px;
+      font-weight: 500; font-size: 17px;
+      transition: background .2s;
     }
-    .dialog-url { display: block; margin-top: 14px; color: var(--link); text-decoration: underline; font-size: 14px; direction: ltr; }
+    .dialog:hover .dialog-ok { background: linear-gradient(#fde4f3, #f5bde0 55%, #e79cc9); }
 
-    .dots { display: flex; justify-content: center; gap: 4px; padding: 10px 0 2px; }
-    .dots span { width: 6px; height: 6px; border-radius: 50%; background: #c7c7c7; transition: background .2s, transform .2s; }
-    .dots span.on { background: #0095f6; transform: scale(1.15); }
-
-    /* Caption, link and sharing */
-    .body { padding: 6px 14px 18px; }
-    .caption { margin: 6px 0 12px; }
-    .caption b { font-weight: 600; }
-    .hint { color: var(--muted); font-size: 13px; }
-    a.link { color: var(--link); text-decoration: underline; text-underline-offset: 2px; word-break: break-all; }
-    a.link:visited { color: #0b0080; }
-
-    .share { border-top: 1px solid #efefef; padding-top: 14px; }
-    .share h2 { margin: 0 0 10px; font-size: 14px; font-weight: 600; }
-    .share-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    /* Sharing */
+    .share { margin-top: 2rem; }
+    .share h2 { margin-bottom: .75rem; font-family: var(--font-body); font-size: .95rem; font-weight: 500; letter-spacing: 0; color: var(--text-soft); }
+    .share-row { display: flex; flex-wrap: wrap; gap: .5rem; }
     .share-btn {
-      display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px;
-      border: 0; border-radius: 999px; color: #fff; font: inherit; font-size: 14px; font-weight: 600;
-      text-decoration: none; cursor: pointer;
+      display: grid; place-items: center; width: 2.5rem; height: 2.5rem; padding: 0;
+      border: 1.5px solid rgba(246, 240, 230, .35); border-radius: 50%; background: transparent; color: var(--text);
+      font: inherit; text-decoration: none; cursor: pointer;
+      transition: background-color .2s, color .2s, border-color .2s;
     }
-    .share-btn svg { width: 18px; height: 18px; fill: currentColor; flex: none; }
-    .whatsapp { background: #25d366; }
-    .facebook { background: #1877f2; }
-    .telegram { background: #229ed9; }
-    .x { background: #000; }
-    .copy, .native { background: #efefef; color: var(--ink); }
-    .native[hidden] { display: none; }
+    .share-btn:hover { background: var(--rose); border-color: var(--rose); color: var(--bg); }
+    .share-btn svg { width: 1.1rem; height: 1.1rem; fill: currentColor; }
+    .share-btn[hidden] { display: none; }
+    .share-status { min-height: 1.5em; margin-top: .4rem; font-size: .85rem; color: var(--rose); }
 
-    .comment-avatar, .hint-desktop { display: none; }
-
-    /* Desktop: Instagram's post view, with the page on one side and the caption panel on the other */
-    @media (min-width: 960px) {
-      :root {
-        --panel-width: 400px;
-        --media-h: min(calc(100svh - 64px), 920px, calc((100vw - var(--panel-width) - 64px) * 1964 / 1440));
-        --media-w: calc(var(--media-h) * 1440 / 1964);
-      }
-      body { min-height: 100svh; padding: 32px 0; display: grid; place-items: center; background: #fff; }
-      .post {
-        box-sizing: content-box;
-        width: calc(var(--media-w) + var(--panel-width));
-        height: var(--media-h);
-        display: grid;
-        grid-template-columns: var(--media-w) var(--panel-width);
+    /* Tablet: pages on the start side, text beside them */
+    @media (min-width: 760px) {
+      .chapter-grid {
+        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-areas: "reader about" "reader facts";
         grid-template-rows: auto 1fr;
-        grid-template-areas: "media head" "media body";
-        border-radius: 4px;
+        column-gap: clamp(2rem, 4vw, 3rem);
+        align-items: start;
       }
-      .carousel { grid-area: media; min-height: 0; }
-      .post-head { grid-area: head; padding: 14px 16px; border-inline-start: 1px solid #efefef; border-bottom: 1px solid #efefef; }
-      .head-cta { padding: 7px 16px; }
+      .reader { width: max(320px, min(600px, 52vw, calc((100svh - 14rem) * 1440 / 1964))); }
+    }
 
-      .dots { grid-area: media; align-self: end; z-index: 1; padding: 0 0 14px; pointer-events: none; }
-      .dots span { background: rgba(0, 0, 0, .22); }
-
-      .body {
-        grid-area: body; min-height: 0; overflow-y: auto; padding: 0;
-        display: flex; flex-direction: column; border-inline-start: 1px solid #efefef;
+    /* Desktop: book text, pages, facts — the pages in the middle of the screen */
+    @media (min-width: 1180px) {
+      .chapter-grid {
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+        grid-template-areas: "about reader facts";
+        grid-template-rows: auto;
+        column-gap: clamp(2.5rem, 4vw, 4.5rem);
       }
-      .comment { display: flex; gap: 12px; padding: 16px 16px 4px; }
-      .comment-avatar { display: block; width: 32px; height: 32px; border-radius: 50%; flex: none; object-fit: cover; }
-      .caption:first-child { margin-top: 4px; }
-      .hint-touch { display: none; }
-      .hint-desktop { display: inline; }
-      .share { margin-top: auto; padding: 14px 16px 16px; }
+      .reader { width: max(340px, min(600px, calc((100svh - 13rem) * 1440 / 1964))); }
+      .about, .facts { padding-top: clamp(2rem, 9vh, 6.5rem); }
+      .about { justify-self: start; }
+      .facts { justify-self: end; }
+    }
+
+    /* Phones: the buy bar stays on screen, like a shop's checkout bar */
+    @media (max-width: 759px) {
+      body { padding-bottom: calc(4rem + env(safe-area-inset-bottom)); }
+      .buy-bar {
+        position: fixed; inset-inline: 0; bottom: 0; z-index: 90; margin: 0;
+        padding: .6rem 1rem calc(.6rem + env(safe-area-inset-bottom));
+        font-size: min(1.75rem, 7.5vw);
+        box-shadow: 0 -10px 24px -14px rgba(8, 4, 30, .7);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .chapter { width: calc(100% - 2rem); padding-top: 1rem; }
+      /* the pages run edge to edge on phones */
+      .reader { width: auto; justify-self: stretch; margin-inline: -1rem; }
+      .about p { font-size: 1rem; }
     }
   </style>
 </head>
 <body>
   <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=941375025467992&amp;ev=PageView&amp;noscript=1"></noscript>
-  <main class="post">
-    <header class="post-head">
-      <span class="avatar"><img src="avatar.jpg" alt="" width="160" height="160"></span>
-      <div>
-        <h1>איילת ספירשטיין</h1>
-        <p>באגים בהייטק · פרק ראשון</p>
-      </div>
-      <a class="head-cta" href="https://headstart.co.il/project/91364?amb=bd03d3cc-d62f-11f1-8981-4201ac1c90e4" target="_blank" rel="noopener">לתמיכה</a>
-    </header>
 
-    <section class="carousel" tabindex="0" aria-roledescription="carousel" aria-label="באגים בהייטק – פרק ראשון">
-      <div class="track" id="track">
-        <figure class="slide"><img src="pages/01-1440.webp" srcset="pages/01-720.webp 720w, pages/01-1200.webp 1200w, pages/01-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" fetchpriority="high" alt="כריכה: באגים בהייטק, פרק ראשון, מאת איילת ספירשטיין"></figure>
-        <figure class="slide"><img data-src="pages/02-1440.webp" data-srcset="pages/02-720.webp 720w, pages/02-1200.webp 1200w, pages/02-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 1"></figure>
-        <figure class="slide"><img data-src="pages/03-1440.webp" data-srcset="pages/03-720.webp 720w, pages/03-1200.webp 1200w, pages/03-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 2" decoding="async"></figure>
-        <figure class="slide"><img data-src="pages/04-1440.webp" data-srcset="pages/04-720.webp 720w, pages/04-1200.webp 1200w, pages/04-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 3" loading="lazy" decoding="async"></figure>
-        <figure class="slide"><img data-src="pages/05-1440.webp" data-srcset="pages/05-720.webp 720w, pages/05-1200.webp 1200w, pages/05-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 4" loading="lazy" decoding="async"></figure>
-        <figure class="slide"><img data-src="pages/06-1440.webp" data-srcset="pages/06-720.webp 720w, pages/06-1200.webp 1200w, pages/06-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 5" loading="lazy" decoding="async"></figure>
-        <figure class="slide"><img data-src="pages/07-1440.webp" data-srcset="pages/07-720.webp 720w, pages/07-1200.webp 1200w, pages/07-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 6" loading="lazy" decoding="async"></figure>
-        <figure class="slide"><img data-src="pages/08-1440.webp" data-srcset="pages/08-720.webp 720w, pages/08-1200.webp 1200w, pages/08-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 7" loading="lazy" decoding="async"></figure>
-        <figure class="slide"><img data-src="pages/09-1440.webp" data-srcset="pages/09-720.webp 720w, pages/09-1200.webp 1200w, pages/09-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 8" loading="lazy" decoding="async"></figure>
-        <figure class="slide"><img data-src="pages/10-1440.webp" data-srcset="pages/10-720.webp 720w, pages/10-1200.webp 1200w, pages/10-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 9" loading="lazy" decoding="async"></figure>
-        <figure class="slide"><img data-src="pages/11-1440.webp" data-srcset="pages/11-720.webp 720w, pages/11-1200.webp 1200w, pages/11-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 10" loading="lazy" decoding="async"></figure>
-        <figure class="slide"><img data-src="pages/12-1440.webp" data-srcset="pages/12-720.webp 720w, pages/12-1200.webp 1200w, pages/12-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 11" loading="lazy" decoding="async"></figure>
-        <figure class="slide"><img data-src="pages/13-1440.webp" data-srcset="pages/13-720.webp 720w, pages/13-1200.webp 1200w, pages/13-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 12" loading="lazy" decoding="async"></figure>
-        <figure class="slide"><img data-src="pages/14-1440.webp" data-srcset="pages/14-720.webp 720w, pages/14-1200.webp 1200w, pages/14-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 13" loading="lazy" decoding="async"></figure>
-        <figure class="slide"><img data-src="pages/15-1440.webp" data-srcset="pages/15-720.webp 720w, pages/15-1200.webp 1200w, pages/15-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 14" loading="lazy" decoding="async"></figure>
-        <figure class="slide"><img data-src="pages/16-1440.webp" data-srcset="pages/16-720.webp 720w, pages/16-1200.webp 1200w, pages/16-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 15" loading="lazy" decoding="async"></figure>
-        <figure class="slide"><img data-src="pages/17-1440.webp" data-srcset="pages/17-720.webp 720w, pages/17-1200.webp 1200w, pages/17-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 16" loading="lazy" decoding="async"></figure>
-        <figure class="slide"><img data-src="pages/18-1440.webp" data-srcset="pages/18-720.webp 720w, pages/18-1200.webp 1200w, pages/18-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 17" loading="lazy" decoding="async"></figure>
-        <figure class="slide"><img data-src="pages/19-1440.webp" data-srcset="pages/19-720.webp 720w, pages/19-1200.webp 1200w, pages/19-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 18" loading="lazy" decoding="async"></figure>
-        <figure class="slide"><img data-src="pages/20-1440.webp" data-srcset="pages/20-720.webp 720w, pages/20-1200.webp 1200w, pages/20-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 19" loading="lazy" decoding="async"></figure>
-        <div class="slide cta-slide">
-          <a class="dialog" href="https://headstart.co.il/project/91364?amb=bd03d3cc-d62f-11f1-8981-4201ac1c90e4" target="_blank" rel="noopener">
-            <div class="dialog-bar"><span>באגים בהייטק</span><span class="dialog-x" aria-hidden="true">X</span></div>
-            <div class="dialog-body">
-              <h2>אהבתם ואתם רוצים לעזור לספר הזה לצאת לאור?</h2>
-              <p>כנסו לעמוד ההדסטארט, שם תוכלו לרכוש עותק של הספר ותשורות מגניבות נוספות</p>
-              <span class="dialog-ok">לעמוד ההדסטארט</span>
-              <span class="dialog-url">headstart.co.il/project/91364</span>
-            </div>
-          </a>
-        </div>
-      </div>
-      <span class="counter" id="counter" aria-live="polite">1/21</span>
-      <button class="nav nav-prev" id="prev" type="button" aria-label="העמוד הקודם" hidden>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
-      </button>
-      <button class="nav nav-next" id="next" type="button" aria-label="העמוד הבא">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>
-      </button>
-    </section>
-    <div class="dots" id="dots" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">איילת ספירשטיין</a>
+      <nav class="nav" aria-label="ניווט ראשי">
+        <a href="/">חנות</a>
+        <a href="/zarot-chapter-1/" class="nav-chapter" aria-current="page"><span class="nav-long">לקריאת </span>פרק ראשון</a>
+        <a href="/portfolio/#works">תיק עבודות</a>
+        <a href="/organizations/">רכישה לארגונים<span class="nav-long"> וחברות</span></a>
+        <a class="cart-btn" href="/#cart" aria-label="עגלת קניות">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.4 11.2a1 1 0 0 0 1 .8h9.2a1 1 0 0 0 1-.8L21 8H6.2"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></svg>
+          <span class="cart-count" hidden>0</span>
+        </a>
+      </nav>
+    </div>
+  </header>
 
-    <div class="body">
-      <div class="comment">
-        <img class="comment-avatar" src="avatar.jpg" alt="" width="160" height="160">
-        <div>
-          <p class="caption">
-            <b>איילת ספירשטיין</b> הפרק הראשון של ״באגים בהייטק״, קומיקס על החיים בהייטק הישראלי. אחרי שלוש שנים בצבא, אשל מתחיל את החיים האמיתיים.
-            <span class="hint hint-touch">החליקו כדי לקרוא, אפשר לצבוט כדי להגדיל.</span>
-            <span class="hint hint-desktop">דפדפו עם החיצים שעל העמוד או עם מקשי החיצים במקלדת.</span>
-          </p>
-          <p class="caption">
-            רוצים שהספר יצא לאור? תמכו בקמפיין בהדסטארט:<br>
-            <a class="link" href="https://headstart.co.il/project/91364?amb=bd03d3cc-d62f-11f1-8981-4201ac1c90e4" target="_blank" rel="noopener">https://headstart.co.il/project/91364</a>
-          </p>
-        </div>
-      </div>
+  <main class="chapter container">
+    <h1 class="visually-hidden">באגים בהייטק – פרק ראשון</h1>
 
-      <section class="share" aria-labelledby="share-title">
-        <h2 id="share-title">שתפו עם חברים</h2>
-        <div class="share-row">
-          <a class="share-btn whatsapp" data-share="whatsapp" href="#" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
-            וואטסאפ
-          </a>
-          <a class="share-btn facebook" data-share="facebook" href="#" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-            פייסבוק
-          </a>
-          <a class="share-btn telegram" data-share="telegram" href="#" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-            טלגרם
-          </a>
-          <a class="share-btn x" data-share="x" href="#" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
-            X
-          </a>
-          <button class="share-btn copy" id="copy" type="button">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1Zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h11v14Z"/></svg>
-            <span>העתקת קישור</span>
-          </button>
-          <button class="share-btn native" id="native" type="button" hidden>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 16a3 3 0 0 0-2.4 1.2l-6.7-3.4a3 3 0 0 0 0-1.6l6.7-3.4A3 3 0 1 0 15 7c0 .3 0 .5.1.8L8.4 11.2a3 3 0 1 0 0 3.6l6.7 3.4A3 3 0 1 0 18 16Z"/></svg>
-            עוד…
-          </button>
-        </div>
+    <div class="chapter-grid">
+      <section class="about" aria-labelledby="about-title">
+        <h2 id="about-title">הספר</h2>
+        <p>אשל רווח, משוחרר טרי מהצבא, יודע דבר אחד בוודאות: הוא הולך להיות עשיר. הוא מוכן לעשות הכול, אבל הכול, כדי להצליח — חוץ מלעבוד קשה.</p>
+        <p>אחרי קורס תכנות אונליין שמבטיח להפוך כל אחד למתכנת ב״שלוש דקות ביום״, אשל מרגיש מוכן להייטק. חמוש בביטחון עצמי מופרז, קורות חיים מנופחים ויותר מזל משכל, הוא מתקבל כמתכנת בסטארטאפ הכי חם בתל אביב. שם הוא מעמיד פנים שהוא יודע מה הוא עושה ומקווה שאף אחד לא ישים לב.</p>
+        <p>באגים בהייטק הוא רומן גרפי מצחיק ורלוונטי להפליא התופס את הרגעים האבסורדיים בחיי היומיום בהייטק. כתבה ואיירה איילת ספירשטיין, אלגוריתמאית ומאיירת.<br>
+        זהו ספרה הראשון. בעין חדה וברגישות סאטירית, היצירה מזקקת את <span class="nowrap">ה-DNA</span> של ההייטק הישראלי לחוויה ויזואלית מבריקה. הספר מעניק לעובדים את היכולת לצחוק בסיפוק על הבאגים האנושיים שבכולנו.</p>
       </section>
+
+      <div class="reader">
+        <section class="carousel" tabindex="0" aria-roledescription="carousel" aria-label="באגים בהייטק – פרק ראשון">
+          <div class="track" id="track">
+            <figure class="slide"><img src="pages/01-1440.webp" srcset="pages/01-720.webp 720w, pages/01-1200.webp 1200w, pages/01-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" fetchpriority="high" alt="כריכה: באגים בהייטק, פרק ראשון, מאת איילת ספירשטיין"></figure>
+            <figure class="slide"><img data-src="pages/02-1440.webp" data-srcset="pages/02-720.webp 720w, pages/02-1200.webp 1200w, pages/02-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 1"></figure>
+            <figure class="slide"><img data-src="pages/03-1440.webp" data-srcset="pages/03-720.webp 720w, pages/03-1200.webp 1200w, pages/03-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 2" decoding="async"></figure>
+            <figure class="slide"><img data-src="pages/04-1440.webp" data-srcset="pages/04-720.webp 720w, pages/04-1200.webp 1200w, pages/04-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 3" loading="lazy" decoding="async"></figure>
+            <figure class="slide"><img data-src="pages/05-1440.webp" data-srcset="pages/05-720.webp 720w, pages/05-1200.webp 1200w, pages/05-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 4" loading="lazy" decoding="async"></figure>
+            <figure class="slide"><img data-src="pages/06-1440.webp" data-srcset="pages/06-720.webp 720w, pages/06-1200.webp 1200w, pages/06-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 5" loading="lazy" decoding="async"></figure>
+            <figure class="slide"><img data-src="pages/07-1440.webp" data-srcset="pages/07-720.webp 720w, pages/07-1200.webp 1200w, pages/07-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 6" loading="lazy" decoding="async"></figure>
+            <figure class="slide"><img data-src="pages/08-1440.webp" data-srcset="pages/08-720.webp 720w, pages/08-1200.webp 1200w, pages/08-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 7" loading="lazy" decoding="async"></figure>
+            <figure class="slide"><img data-src="pages/09-1440.webp" data-srcset="pages/09-720.webp 720w, pages/09-1200.webp 1200w, pages/09-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 8" loading="lazy" decoding="async"></figure>
+            <figure class="slide"><img data-src="pages/10-1440.webp" data-srcset="pages/10-720.webp 720w, pages/10-1200.webp 1200w, pages/10-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 9" loading="lazy" decoding="async"></figure>
+            <figure class="slide"><img data-src="pages/11-1440.webp" data-srcset="pages/11-720.webp 720w, pages/11-1200.webp 1200w, pages/11-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 10" loading="lazy" decoding="async"></figure>
+            <figure class="slide"><img data-src="pages/12-1440.webp" data-srcset="pages/12-720.webp 720w, pages/12-1200.webp 1200w, pages/12-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 11" loading="lazy" decoding="async"></figure>
+            <figure class="slide"><img data-src="pages/13-1440.webp" data-srcset="pages/13-720.webp 720w, pages/13-1200.webp 1200w, pages/13-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 12" loading="lazy" decoding="async"></figure>
+            <figure class="slide"><img data-src="pages/14-1440.webp" data-srcset="pages/14-720.webp 720w, pages/14-1200.webp 1200w, pages/14-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 13" loading="lazy" decoding="async"></figure>
+            <figure class="slide"><img data-src="pages/15-1440.webp" data-srcset="pages/15-720.webp 720w, pages/15-1200.webp 1200w, pages/15-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 14" loading="lazy" decoding="async"></figure>
+            <figure class="slide"><img data-src="pages/16-1440.webp" data-srcset="pages/16-720.webp 720w, pages/16-1200.webp 1200w, pages/16-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 15" loading="lazy" decoding="async"></figure>
+            <figure class="slide"><img data-src="pages/17-1440.webp" data-srcset="pages/17-720.webp 720w, pages/17-1200.webp 1200w, pages/17-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 16" loading="lazy" decoding="async"></figure>
+            <figure class="slide"><img data-src="pages/18-1440.webp" data-srcset="pages/18-720.webp 720w, pages/18-1200.webp 1200w, pages/18-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 17" loading="lazy" decoding="async"></figure>
+            <figure class="slide"><img data-src="pages/19-1440.webp" data-srcset="pages/19-720.webp 720w, pages/19-1200.webp 1200w, pages/19-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 18" loading="lazy" decoding="async"></figure>
+            <figure class="slide"><img data-src="pages/20-1440.webp" data-srcset="pages/20-720.webp 720w, pages/20-1200.webp 1200w, pages/20-1440.webp 1440w" sizes="(min-width: 600px) 600px, 100vw" width="1440" height="1964" alt="באגים בהייטק, פרק ראשון – עמוד 19" loading="lazy" decoding="async"></figure>
+            <div class="slide cta-slide">
+              <a class="dialog" href="/#buy">
+                <div class="dialog-bar"><span>באגים בהייטק</span><span class="dialog-x" aria-hidden="true">X</span></div>
+                <div class="dialog-body">
+                  <h2>אהבתם? זה רק הפרק הראשון</h2>
+                  <p>הספר המלא, 168 עמודים מאוירים ידנית בכריכה קשה, במכירה מוקדמת</p>
+                  <span class="dialog-ok">אני רוצה לקנות</span>
+                </div>
+              </a>
+            </div>
+          </div>
+          <span class="counter" id="counter" aria-live="polite">1/21</span>
+          <button class="arrow arrow-prev" id="prev" type="button" aria-label="העמוד הקודם" hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+          </button>
+          <button class="arrow arrow-next" id="next" type="button" aria-label="העמוד הבא">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>
+          </button>
+        </section>
+        <div class="dots" id="dots" aria-hidden="true"></div>
+        <p class="hint">החליקו כדי לקרוא, אפשר לצבוט כדי להגדיל.</p>
+        <a class="buy-bar" href="/#buy">
+          אני רוצה לקנות
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.3s-7.6-4.5-9.5-9.4C1 7.2 3.4 3.9 6.9 3.9c2.1 0 3.8 1.2 5.1 3 1.3-1.8 3-3 5.1-3 3.5 0 5.9 3.3 4.4 7-1.9 4.9-9.5 9.4-9.5 9.4Z"/></svg>
+        </a>
+      </div>
+
+      <aside class="facts" aria-label="על הספר">
+        <ul>
+          <li>168 עמ׳ קומיקס</li>
+          <li>מאוייר ידנית</li>
+          <li>זוכה מענק הפיס</li>
+          <li>כריכה קשה</li>
+        </ul>
+
+        <section class="share" aria-labelledby="share-title">
+          <h2 id="share-title">שתפו עם חברים</h2>
+          <div class="share-row">
+            <a class="share-btn whatsapp" data-share="whatsapp" href="#" target="_blank" rel="noopener" title="וואטסאפ">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+              <span class="visually-hidden">וואטסאפ</span>
+            </a>
+            <a class="share-btn facebook" data-share="facebook" href="#" target="_blank" rel="noopener" title="פייסבוק">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              <span class="visually-hidden">פייסבוק</span>
+            </a>
+            <a class="share-btn telegram" data-share="telegram" href="#" target="_blank" rel="noopener" title="טלגרם">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+              <span class="visually-hidden">טלגרם</span>
+            </a>
+            <a class="share-btn x" data-share="x" href="#" target="_blank" rel="noopener" title="X">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+              <span class="visually-hidden">X</span>
+            </a>
+            <button class="share-btn copy" id="copy" type="button" title="העתקת קישור">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1Zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h11v14Z"/></svg>
+              <span class="visually-hidden">העתקת קישור</span>
+            </button>
+            <button class="share-btn native" id="native" type="button" hidden title="עוד אפשרויות שיתוף">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 16a3 3 0 0 0-2.4 1.2l-6.7-3.4a3 3 0 0 0 0-1.6l6.7-3.4A3 3 0 1 0 15 7c0 .3 0 .5.1.8L8.4 11.2a3 3 0 1 0 0 3.6l6.7 3.4A3 3 0 1 0 18 16Z"/></svg>
+              <span class="visually-hidden">עוד אפשרויות שיתוף</span>
+            </button>
+          </div>
+          <p class="share-status" id="share-status" role="status"></p>
+        </section>
+      </aside>
     </div>
   </main>
 
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© <span id="year">2026</span> איילת ספירשטיין. כל הזכויות שמורות.</span>
+      <a href="/privacy/">מדיניות פרטיות</a>
+    </div>
+  </footer>
+
   <script>
     (() => {
+      document.getElementById('year').textContent = new Date().getFullYear();
+
       const track = document.getElementById('track');
       const slides = [...track.children];
       const counter = document.getElementById('counter');
@@ -434,13 +497,10 @@
       });
       render(0);
 
-      // Headstart ambassador links: the hrefs carry the chapter page's own link; a visit from a
-      // paid ad (utm_medium=paid, set on every ad's URL) swaps in the "chapter page, from an ad" one.
-      const fromAd = new URLSearchParams(location.search).get('utm_medium') === 'paid';
-      // Every link to the Headstart page counts as a lead, so ads can optimize for it.
-      document.querySelectorAll('a[href*="headstart.co.il"]').forEach(a => {
-        if (fromAd) a.href = a.href.replace('amb=bd03d3cc-d62f-11f1-8981-4201ac1c90e4', 'amb=dc1f2b62-d62f-11f1-8981-4201ac1c90e4');
-        a.addEventListener('click', () => fbq('track', 'Lead', { content_name: 'headstart' }));
+      // Every link to buying the book (it goes in the cart on the shop page) counts as a lead,
+      // so ads can optimize for it.
+      document.querySelectorAll('a[href="/#buy"]').forEach(a => {
+        a.addEventListener('click', () => fbq('track', 'Lead', { content_name: 'shop' }));
       });
 
       // Sharing
@@ -458,14 +518,14 @@
 
       const copy = document.getElementById('copy');
       copy.addEventListener('click', async () => {
-        const label = copy.querySelector('span');
+        const status = document.getElementById('share-status');
         try {
           await navigator.clipboard.writeText(url);
-          label.textContent = 'הקישור הועתק!';
+          status.textContent = 'הקישור הועתק!';
         } catch {
           prompt('העתיקו את הקישור:', url);
         }
-        setTimeout(() => { label.textContent = 'העתקת קישור'; }, 2000);
+        setTimeout(() => { status.textContent = ''; }, 2000);
       });
 
       const native = document.getElementById('native');
@@ -475,5 +535,6 @@
       }
     })();
   </script>
+  <script src="/shop/cart-badge.js"></script>
 </body>
 </html>
