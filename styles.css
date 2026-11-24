@@ -21,8 +21,8 @@
   --chip-bg: #dad8ff;
   --chip-ink: #261c63;
   /* See-through pill behind a nav tab under the mouse, and while pressed */
-  --nav-hover: rgba(246, 240, 230, .14);
-  --nav-press: rgba(246, 240, 230, .22);
+  --nav-hover: rgba(246, 240, 230, .08);
+  --nav-press: rgba(246, 240, 230, .16);
 
   --font-display: 'Frank Ruhl Libre', 'David Libre', Georgia, serif;
   --font-body: 'Heebo', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
