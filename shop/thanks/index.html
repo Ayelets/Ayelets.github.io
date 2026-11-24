@@ -31,11 +31,10 @@
     .thanks .btn { border-color: var(--lav-ink); color: var(--lav-ink); }
     .thanks .btn-primary { background: var(--lav-ink); color: #fff; }
 
-    /* Paid: a one-time burst of pixel hearts floats up the screen, like winning a life */
-    .hearts { position: fixed; inset: 0; z-index: 200; overflow: hidden; pointer-events: none; }
-    .hearts span { position: absolute; bottom: 0; }
-    .hearts svg { display: block; width: 100%; height: 100%; shape-rendering: crispEdges; }
-    .heart-still { width: 39px; height: 33px; }
+    /* Paid: a few magenta pixel sparkles twinkle around the card, like a game's win screen */
+    .sparkles { position: absolute; top: 0; left: 0; width: 0; height: 0; pointer-events: none; }
+    .sparkle { position: absolute; translate: -50% -50%; }
+    .sparkle svg { position: absolute; left: 50%; top: 50%; translate: -50% -50%; display: block; shape-rendering: crispEdges; }
   </style>
 </head>
 <body>
@@ -77,67 +76,67 @@
       var text = document.getElementById('text');
       var meta = document.getElementById('meta');
 
-      // Pixel heart drawn on a 13×11 grid: M body, D shade, W shine
-      var HEART = [
-        '..MMM...MMM..',
-        '.MWWMM.MMMMM.',
-        'MWWMMMMMMMMMD',
-        'MWMMMMMMMMMMD',
-        'MMMMMMMMMMMMD',
-        '.MMMMMMMMMMD.',
-        '..MMMMMMMMD..',
-        '...MMMMMMD...',
-        '....MMMMD....',
-        '.....MMD.....',
-        '......D......'
-      ];
-      var HEART_COLORS = [
-        { M: '#da2e70', D: '#a51a55', W: '#ffd3e6' },   // magenta
-        { M: '#f39cc6', D: '#d670a3', W: '#ffffff' }    // baby pink
-      ];
-      function heartSvg(c) {
+      // Pixel sparkle in two frames, small and big, swapped to twinkle like on a game's win screen
+      var SPARK = {
+        small: ['.M.', 'MWM', '.M.'],
+        big:   ['...M...', '...M...', '..MWM..', 'MMWWWMM', '..MWM..', '...M...', '...M...']
+      };
+      var SPARK_COLORS = { M: '#da2e70', W: '#ffffff' };
+      function sprite(rows, px) {
         var r = '';
-        HEART.forEach(function (row, y) {
+        rows.forEach(function (row, y) {
           for (var x = 0; x < row.length; x++) {
-            if (row[x] !== '.') r += '<rect x="' + x + '" y="' + y + '" width="1" height="1" fill="' + c[row[x]] + '"/>';
+            if (row[x] !== '.') r += '<rect x="' + x + '" y="' + y + '" width="1" height="1" fill="' + SPARK_COLORS[row[x]] + '"/>';
           }
         });
-        return '<svg viewBox="0 0 13 11" aria-hidden="true">' + r + '</svg>';
+        var n = rows.length;
+        return '<svg viewBox="0 0 ' + n + ' ' + n + '" width="' + n * px + '" height="' + n * px + '">' + r + '</svg>';
+      }
+      // Spots around the card, on the dark page and never over the text
+      function spots(rect) {
+        var vw = document.documentElement.clientWidth, out = [];
+        var gap = function () { return 22 + Math.random() * 26; };
+        var side = rect.left > 70;   // room beside the card (not on phones)
+        out.push([rect.left + rect.width * (.12 + Math.random() * .2), rect.top - gap()]);
+        out.push([rect.right - rect.width * (.1 + Math.random() * .2), rect.top - gap() * .8]);
+        out.push([rect.right - rect.width * (.2 + Math.random() * .25), rect.bottom + gap()]);
+        if (side) {
+          out.push([rect.left - gap(), rect.top + rect.height * (.25 + Math.random() * .2)]);
+          out.push([rect.right + gap(), rect.top + rect.height * (.55 + Math.random() * .25)]);
+          out.push([rect.left - gap() * 1.4, rect.bottom - rect.height * .1]);
+        } else {
+          out.push([rect.left + rect.width * (.15 + Math.random() * .2), rect.bottom + gap() * 1.3]);
+        }
+        return out.map(function (p) { return [Math.min(Math.max(p[0], 14), vw - 14), p[1] + window.scrollY]; });
       }
       function celebrate() {
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          var still = document.createElement('span');
-          still.className = 'heart-still';
-          still.innerHTML = heartSvg(HEART_COLORS[0]);
-          title.parentNode.insertBefore(still, title);
-          return;
-        }
+        var card = document.querySelector('.thanks-card');
+        var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         var box = document.createElement('div');
-        box.className = 'hearts';
+        box.className = 'sparkles';
         box.setAttribute('aria-hidden', 'true');
-        var n = window.innerWidth < 600 ? 9 : 12, last = 0;
-        for (var i = 0; i < n; i++) {
-          var k = [2, 3, 3, 4][Math.floor(Math.random() * 4)];   // size in whole pixels, so the edges stay sharp
-          var h = document.createElement('span');
-          h.style.width = 13 * k + 'px';
-          h.style.height = 11 * k + 'px';
-          // spread across the width: one heart per slice, at a random spot in it
-          h.style.left = ((i + .15 + Math.random() * .7) / n * 100) + '%';
-          h.innerHTML = heartSvg(HEART_COLORS[i % 2]);
-          box.appendChild(h);
-          var rise = window.innerHeight * (.55 + Math.random() * .4);
-          var sway = (Math.random() < .5 ? -1 : 1) * (10 + Math.random() * 14);
-          var time = 2200 + Math.random() * 1000, delay = Math.random() * 700;
-          last = Math.max(last, time + delay);
-          h.animate([
-            { transform: 'translate(-50%, 100%)', opacity: 1 },
-            { transform: 'translate(calc(-50% + ' + sway + 'px), ' + (-rise * .35) + 'px)', opacity: 1, offset: .3 },
-            { transform: 'translate(calc(-50% - ' + sway + 'px), ' + (-rise * .7) + 'px)', opacity: 1, offset: .65 },
-            { transform: 'translate(-50%, ' + (-rise) + 'px)', opacity: 0 }
-          ], { duration: time, delay: delay, easing: 'ease-out', fill: 'both' });
-        }
+        spots(card.getBoundingClientRect()).forEach(function (p, i) {
+          var px = i % 3 === 1 ? 3 : 4;
+          var el = document.createElement('span');
+          el.className = 'sparkle';
+          el.style.left = p[0] + 'px';
+          el.style.top = p[1] + 'px';
+          el.innerHTML = sprite(SPARK.small, px) + sprite(SPARK.big, px);
+          var small = el.children[0], big = el.children[1];
+          box.appendChild(el);
+          if (calm) { small.style.display = 'none'; return; }   // a still sparkle, no twinkling
+          // small, big, small, gone — twice, starting at a different moment for each sparkle
+          var frames = ['s', 'b', 's', '', '', 's', 'b', 's', ''], step = 0;
+          small.style.display = big.style.display = 'none';
+          setTimeout(function tick() {
+            var f = frames[step++];
+            small.style.display = f === 's' ? '' : 'none';
+            big.style.display = f === 'b' ? '' : 'none';
+            if (step < frames.length) setTimeout(tick, 110);
+            else el.remove();
+          }, 150 + Math.random() * 900);
+        });
         document.body.appendChild(box);
-        setTimeout(function () { box.remove(); }, last + 100);
       }
 
       function paid(amount, paymentId) {
@@ -146,8 +145,8 @@
         if (badge) badge.hidden = true;
         title.textContent = 'תודה! התשלום התקבל';
         text.textContent = 'החשבונית נשלחה לאימייל שלך. אצור איתך קשר לגבי המשלוח.';
-        celebrate();
         if (amount != null) { meta.textContent = 'סכום: ' + amount + ' ש״ח · מספר תשלום: ' + paymentId; meta.hidden = false; }
+        celebrate();   // after the text is in, so the card has its final size
       }
       function unknown() {
         title.textContent = 'לא הצלחנו לאמת את התשלום';
