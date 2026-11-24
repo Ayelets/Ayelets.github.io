@@ -81,8 +81,9 @@
         "offers": {
           "@type": "Offer",
           "url": "https://ayeletsapirshtein.com/",
-          "price": "88",
+          "price": "78.40",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-11-30",
           "priceSpecification": {
             "@type": "UnitPriceSpecification",
             "priceType": "https://schema.org/StrikethroughPrice",
@@ -103,8 +104,15 @@
         "offers": {
           "@type": "Offer",
           "url": "https://ayeletsapirshtein.com/",
-          "price": "75",
+          "price": "60",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-11-30",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "priceType": "https://schema.org/StrikethroughPrice",
+            "price": "75",
+            "priceCurrency": "ILS"
+          },
           "availability": "https://schema.org/InStock",
           "seller": { "@id": "https://ayeletsapirshtein.com/#ayelet" },
           "shippingDetails": { "@id": "https://ayeletsapirshtein.com/#shipping" }
@@ -119,8 +127,15 @@
         "offers": {
           "@type": "Offer",
           "url": "https://ayeletsapirshtein.com/",
-          "price": "25",
+          "price": "20",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-11-30",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "priceType": "https://schema.org/StrikethroughPrice",
+            "price": "25",
+            "priceCurrency": "ILS"
+          },
           "availability": "https://schema.org/InStock",
           "seller": { "@id": "https://ayeletsapirshtein.com/#ayelet" },
           "shippingDetails": { "@id": "https://ayeletsapirshtein.com/#shipping" }
@@ -135,8 +150,15 @@
         "offers": {
           "@type": "Offer",
           "url": "https://ayeletsapirshtein.com/",
-          "price": "25",
+          "price": "20",
           "priceCurrency": "ILS",
+          "priceValidUntil": "2026-11-30",
+          "priceSpecification": {
+            "@type": "UnitPriceSpecification",
+            "priceType": "https://schema.org/StrikethroughPrice",
+            "price": "25",
+            "priceCurrency": "ILS"
+          },
           "availability": "https://schema.org/InStock",
           "seller": { "@id": "https://ayeletsapirshtein.com/#ayelet" },
           "shippingDetails": { "@id": "https://ayeletsapirshtein.com/#shipping" }
@@ -170,6 +192,7 @@
   </header>
 
   <main id="top" class="shop container">
+    <p class="sale-banner"><strong>מבצע: 20% הנחה על כל האתר עד סוף החודש!</strong> המחיר המקורי מופיע לידו בקו מחוק, לשם השוואה.</p>
     <section class="featured">
       <div class="featured-img"><img src="/images/shop/book.webp" width="1024" height="1024" fetchpriority="high" alt="כריכת הספר ״באגים בהייטק״"></div>
       <div class="featured-body">
@@ -179,7 +202,7 @@
           <p>ספר קומיקס סאטירי על החיים בהייטק הישראלי. 168 עמודים מאוירים ידנית בכריכה קשה. זוכה מענק מפעל הפיס לשנת 2026.</p>
           <p>רוצים להציץ לפני שקונים? <a href="/zarot-chapter-1/">הפרק הראשון זמין לקריאה חינם</a>.</p>
         </div>
-        <p class="price"><s>98 ש״ח</s> <span>88 ש״ח</span></p>
+        <p class="price" data-price="book"><s><span class="visually-hidden">מחיר מקורי: </span>98 ש״ח</s> <span class="sale-price"><span class="visually-hidden">מחיר במבצע: </span>78.40 ש״ח</span> <span class="sale-tag">20% הנחה</span></p>
         <button class="buy-btn" type="button" data-add="book" data-open>אני רוצה לקנות</button>
       </div>
     </section>
@@ -192,7 +215,7 @@
         </button>
         <h3><button class="product-title" type="button" data-view="book">הספר ״באגים בהייטק״<br>מכירה מוקדמת</button></h3>
         <hr class="rule">
-        <p class="price"><span>88 ש״ח</span></p>
+        <p class="price" data-price="book"><s><span class="visually-hidden">מחיר מקורי: </span>98 ש״ח</s> <span class="sale-price"><span class="visually-hidden">מחיר במבצע: </span>78.40 ש״ח</span> <span class="sale-tag">20% הנחה</span></p>
         <button class="add-btn" type="button" data-add="book">הוספה לעגלה</button>
       </li>
       <li class="product">
@@ -201,7 +224,7 @@
         </button>
         <h3><button class="product-title" type="button" data-view="tote">תיק טוקן</button></h3>
         <hr class="rule">
-        <p class="price"><span>75 ש״ח</span></p>
+        <p class="price" data-price="tote"><s><span class="visually-hidden">מחיר מקורי: </span>75 ש״ח</s> <span class="sale-price"><span class="visually-hidden">מחיר במבצע: </span>60 ש״ח</span> <span class="sale-tag">20% הנחה</span></p>
         <button class="add-btn" type="button" data-add="tote">הוספה לעגלה</button>
       </li>
       <li class="product">
@@ -210,7 +233,7 @@
         </button>
         <h3><button class="product-title" type="button" data-view="stickers">דף מדבקות<br>״באגים בהייטק״</button></h3>
         <hr class="rule">
-        <p class="price"><span>25 ש״ח</span></p>
+        <p class="price" data-price="stickers"><s><span class="visually-hidden">מחיר מקורי: </span>25 ש״ח</s> <span class="sale-price"><span class="visually-hidden">מחיר במבצע: </span>20 ש״ח</span> <span class="sale-tag">20% הנחה</span></p>
         <button class="add-btn" type="button" data-add="stickers">הוספה לעגלה</button>
       </li>
       <li class="product">
@@ -219,7 +242,7 @@
         </button>
         <h3><button class="product-title" type="button" data-view="card">כרטיס ברכה<br>לפטופ מנצנץ</button></h3>
         <hr class="rule">
-        <p class="price"><span>25 ש״ח</span></p>
+        <p class="price" data-price="card"><s><span class="visually-hidden">מחיר מקורי: </span>25 ש״ח</s> <span class="sale-price"><span class="visually-hidden">מחיר במבצע: </span>20 ש״ח</span> <span class="sale-tag">20% הנחה</span></p>
         <button class="add-btn" type="button" data-add="card">הוספה לעגלה</button>
       </li>
     </ul>
@@ -241,6 +264,7 @@
     <p class="cart-empty">העגלה ריקה.</p>
     <ul class="cart-items"></ul>
     <div class="cart-foot">
+      <p class="cart-savings" hidden></p>
       <p class="cart-total">סה״כ: <strong>0 ש״ח</strong></p>
       <button class="checkout-btn" type="button" disabled>לתשלום</button>
       <p class="cart-note" hidden>התשלום באתר ייפתח בקרוב.</p>
@@ -261,6 +285,7 @@
       </div>
       <p class="pickup-note" hidden>ניצור איתך קשר לתיאום האיסוף.</p>
       <p class="form-error" role="alert" hidden></p>
+      <p class="cart-savings" hidden></p>
       <p class="ship-line">משלוח: <span class="ship-price">35 ש״ח</span></p>
       <p class="cart-total">לתשלום: <strong class="grand-total">0 ש״ח</strong></p>
       <button class="checkout-btn pay-btn" type="submit">מעבר לתשלום מאובטח</button>

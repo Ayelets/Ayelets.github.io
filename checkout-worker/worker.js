@@ -20,13 +20,17 @@ const ALLOWED_ORIGINS = [SITE, 'https://www.ayeletsapirshtein.com', 'https://aye
 
 // Prices are taken from here only — never from the browser. Keep in sync with shop/shop.js.
 const PRODUCTS = {
-  book:     { name: 'הספר "באגים בהייטק" — מכירה מוקדמת', price: 88 },
+  book:     { name: 'הספר "באגים בהייטק" — מכירה מוקדמת', price: 98 },
   tote:     { name: 'תיק טוקן',                           price: 75 },
   stickers: { name: 'דף מדבקות "באגים בהייטק"',           price: 25 },
   card:     { name: 'כרטיס ברכה לפטופ מנצנץ',             price: 25 },
   // Hidden 1 ש״ח item for testing payments (/shop/?test) — remove after testing
   test:     { name: 'בדיקת תשלום',                         price: 1 },
 };
+
+// Site-wide sale: 20% off every product until the end of November 2026 (Israel time).
+// After that date the full prices come back by themselves. Keep in sync with shop/shop.js.
+const SALE = { pct: 20, end: Date.parse('2026-12-01T00:00:00+02:00') };
 
 // Home delivery fee in shekels. Self pickup is free.
 const SHIPPING_PRICE = 35;
@@ -85,7 +89,10 @@ async function checkout(body, env) {
     const qty = Math.floor(Number(line && line.qty));
     if (!p) continue;
     if (!(qty >= 1 && qty <= 20)) throw new UserError('כמות לא תקינה בעגלה.');
-    items.push({ Item: { Name: p.name, ExternalIdentifier: line.id }, Quantity: qty, UnitPrice: p.price, Currency: 'ILS' });
+    const sale = Date.now() < SALE.end && line.id !== 'test';
+    const price = sale ? Math.round(p.price * (100 - SALE.pct)) / 100 : p.price;
+    const name = sale ? p.name + ' (' + SALE.pct + '% הנחה, מחיר מקורי ' + p.price + ' ש״ח)' : p.name;
+    items.push({ Item: { Name: name, ExternalIdentifier: line.id }, Quantity: qty, UnitPrice: price, Currency: 'ILS' });
   }
   if (!items.length) throw new UserError('העגלה ריקה.');
   if (delivery && SHIPPING_PRICE > 0) {
