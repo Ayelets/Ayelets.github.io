@@ -10,6 +10,7 @@
   --sun: #eeb243;         /* mustard */
   --leaf: #2f6b5f;        /* deep teal-green */
   --pink: #da2e70;        /* magenta */
+  --rose: #e4a2c8;        /* baby pink */
 
   /* Page surface and the text that sits on it */
   --bg: #261c63;          /* deep indigo */
@@ -51,6 +52,15 @@
 }
 .page-light .site-header { background: rgba(218, 216, 255, .82); }
 .page-light .site-header.scrolled { box-shadow: 0 8px 24px -18px rgba(38, 28, 99, .45); }
+
+/* Pink page (organizations): baby-pink surface, same indigo text */
+.page-pink {
+  --bg: #f4b6d5;
+  --bg-raised: #eea6c9;
+  --text-soft: #5a3f86;
+  --line: rgba(38, 28, 99, .18);
+}
+.page-pink .site-header { background: rgba(244, 182, 213, .86); }
 
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
@@ -406,26 +416,22 @@ p { margin: 0; }
 .js .work.in { opacity: 1; transform: none; }
 
 /* ---------- Organizations: bulk orders ---------- */
-.org { padding-block: clamp(2rem, 5vw, 3.5rem) clamp(3rem, 7vw, 5rem); }
-.org h1 {
-  font-size: clamp(2.2rem, 5.5vw, 4rem);
-  color: var(--text);
-  margin-bottom: clamp(2rem, 5vw, 3.5rem);
-}
+.org { padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(3rem, 7vw, 5rem); }
 .org-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: clamp(2rem, 5vw, 4rem);
-  align-items: start;
+  align-items: stretch;        /* text and form share one height */
 }
-.org-text { font-size: clamp(1.15rem, 1.9vw, 1.45rem); line-height: 1.6; }
-.org-text p + p { margin-top: .9rem; }
+.org-text { font-size: clamp(1.2rem, 2.1vw, 1.6rem); line-height: 1.5; }
+.org-text p { margin: 0; }
+.org-text p + p { margin-top: .7rem; }
 .org-text strong { font-weight: 600; }
-.org-form { display: grid; gap: .5rem; }
+.org-form { display: flex; flex-direction: column; gap: .5rem; }
 .org-form input,
 .org-form textarea {
   width: 100%;
-  padding: 1.1rem 1.25rem;
+  padding: .9rem 1.25rem;
   border: 0;
   border-radius: 0;
   background: #fff;
@@ -438,26 +444,31 @@ p { margin: 0; }
 .org-form input:placeholder-shown { direction: rtl; }
 .org-form input::placeholder,
 .org-form textarea::placeholder { color: var(--text-soft); opacity: 1; }
-.org-form textarea { resize: vertical; min-height: 9rem; }
+.org-form textarea { flex: 1 1 auto; height: 6rem; min-height: 6rem; resize: vertical; }
 .org-form input:focus-visible,
-.org-form textarea:focus-visible { outline: 2px solid var(--text); outline-offset: 0; }
+.org-form textarea:focus-visible { outline: 2px solid var(--pink); outline-offset: 0; }
 .org-submit {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 1.1rem 1.25rem;
+  justify-content: space-between;   /* label on the right, in line with the field text; arrow at the far end */
+  gap: .5em;
+  margin-top: .5rem;
+  padding: .85rem 1.25rem .85rem 1.6rem;
   border: 0;
+  border-radius: 999px;
   background: var(--text);
-  color: var(--bg);
+  color: #f4b6d5;              /* the page's baby pink */
   font: inherit;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color .25s;
+  transition: background-color .2s, color .2s;
 }
-.org-submit:hover { background: var(--accent); color: var(--paper); }
+.org-submit:focus-visible { outline: 2px solid var(--pink); outline-offset: 3px; }
+@media (hover: hover) { .org-submit:hover { background: var(--pink); color: #fff; } }
+.org-submit:active { background: var(--pink); color: #fff; }
 .org-submit svg { width: 1.4rem; height: 1.4rem; fill: currentColor; }
-.org-error { color: var(--accent-deep); font-weight: 500; }
+.org-error { color: #b3125a; font-weight: 500; }
 .org-sent { margin-top: .5rem; color: var(--text-soft); }
 .org-sent a { color: var(--text); }
 .org-error[hidden], .org-sent[hidden] { display: none; }
