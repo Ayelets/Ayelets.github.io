@@ -281,5 +281,5 @@
 
 /* Phones: the pre-sale text a step smaller than on desktop */
 @media (max-width: 600px) {
-  .featured-desc { font-size: 1.3rem; }
+  .featured-desc { font-size: 1.125rem; }
 }
