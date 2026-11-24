@@ -30,6 +30,12 @@
     .thanks .actions { justify-content: center; margin-top: .5rem; }
     .thanks .btn { border-color: var(--lav-ink); color: var(--lav-ink); }
     .thanks .btn-primary { background: var(--lav-ink); color: #fff; }
+
+    /* Paid: a one-time burst of pixel hearts floats up the screen, like winning a life */
+    .hearts { position: fixed; inset: 0; z-index: 200; overflow: hidden; pointer-events: none; }
+    .hearts span { position: absolute; bottom: 0; }
+    .hearts svg { display: block; width: 100%; height: 100%; shape-rendering: crispEdges; }
+    .heart-still { width: 39px; height: 33px; }
   </style>
 </head>
 <body>
@@ -71,12 +77,76 @@
       var text = document.getElementById('text');
       var meta = document.getElementById('meta');
 
+      // Pixel heart drawn on a 13×11 grid: M body, D shade, W shine
+      var HEART = [
+        '..MMM...MMM..',
+        '.MWWMM.MMMMM.',
+        'MWWMMMMMMMMMD',
+        'MWMMMMMMMMMMD',
+        'MMMMMMMMMMMMD',
+        '.MMMMMMMMMMD.',
+        '..MMMMMMMMD..',
+        '...MMMMMMD...',
+        '....MMMMD....',
+        '.....MMD.....',
+        '......D......'
+      ];
+      var HEART_COLORS = [
+        { M: '#da2e70', D: '#a51a55', W: '#ffd3e6' },   // magenta
+        { M: '#f39cc6', D: '#d670a3', W: '#ffffff' }    // baby pink
+      ];
+      function heartSvg(c) {
+        var r = '';
+        HEART.forEach(function (row, y) {
+          for (var x = 0; x < row.length; x++) {
+            if (row[x] !== '.') r += '<rect x="' + x + '" y="' + y + '" width="1" height="1" fill="' + c[row[x]] + '"/>';
+          }
+        });
+        return '<svg viewBox="0 0 13 11" aria-hidden="true">' + r + '</svg>';
+      }
+      function celebrate() {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          var still = document.createElement('span');
+          still.className = 'heart-still';
+          still.innerHTML = heartSvg(HEART_COLORS[0]);
+          title.parentNode.insertBefore(still, title);
+          return;
+        }
+        var box = document.createElement('div');
+        box.className = 'hearts';
+        box.setAttribute('aria-hidden', 'true');
+        var n = window.innerWidth < 600 ? 9 : 12, last = 0;
+        for (var i = 0; i < n; i++) {
+          var k = [2, 3, 3, 4][Math.floor(Math.random() * 4)];   // size in whole pixels, so the edges stay sharp
+          var h = document.createElement('span');
+          h.style.width = 13 * k + 'px';
+          h.style.height = 11 * k + 'px';
+          // spread across the width: one heart per slice, at a random spot in it
+          h.style.left = ((i + .15 + Math.random() * .7) / n * 100) + '%';
+          h.innerHTML = heartSvg(HEART_COLORS[i % 2]);
+          box.appendChild(h);
+          var rise = window.innerHeight * (.55 + Math.random() * .4);
+          var sway = (Math.random() < .5 ? -1 : 1) * (10 + Math.random() * 14);
+          var time = 2200 + Math.random() * 1000, delay = Math.random() * 700;
+          last = Math.max(last, time + delay);
+          h.animate([
+            { transform: 'translate(-50%, 100%)', opacity: 1 },
+            { transform: 'translate(calc(-50% + ' + sway + 'px), ' + (-rise * .35) + 'px)', opacity: 1, offset: .3 },
+            { transform: 'translate(calc(-50% - ' + sway + 'px), ' + (-rise * .7) + 'px)', opacity: 1, offset: .65 },
+            { transform: 'translate(-50%, ' + (-rise) + 'px)', opacity: 0 }
+          ], { duration: time, delay: delay, easing: 'ease-out', fill: 'both' });
+        }
+        document.body.appendChild(box);
+        setTimeout(function () { box.remove(); }, last + 100);
+      }
+
       function paid(amount, paymentId) {
         try { localStorage.removeItem('shop-cart'); } catch (e) {}
         var badge = document.querySelector('.cart-count');
         if (badge) badge.hidden = true;
         title.textContent = 'תודה! התשלום התקבל';
         text.textContent = 'החשבונית נשלחה לאימייל שלך. אצור איתך קשר לגבי המשלוח.';
+        celebrate();
         if (amount != null) { meta.textContent = 'סכום: ' + amount + ' ש״ח · מספר תשלום: ' + paymentId; meta.hidden = false; }
       }
       function unknown() {
