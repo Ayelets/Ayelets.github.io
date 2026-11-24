@@ -67,9 +67,10 @@ if (gallery && works.length) {
       let sum = 0;
       for (let k = i; k < j; k++) sum += ratios[k];
       const h = (width - gap * (j - i - 1)) / sum;
-      // רוחב מעוגל כלפי מטה; שארית הפיקסלים מתחלקת בעזרת flex-grow
+      // רוחב מעוגל כלפי מטה, פחות פיקסל ביטחון: עיגול של הדפדפן (זום, מסכי רטינה)
+      // לא יכול לדחוף ציור לשורה חדשה. שארית הפיקסלים מתחלקת בעזרת flex-grow
       for (let k = i; k < j; k++) {
-        works[k].style.flex = `${ratios[k]} 1 ${Math.floor(ratios[k] * h * 10) / 10}px`;
+        works[k].style.flex = `${ratios[k]} 1 ${Math.max(0, Math.floor(ratios[k] * h * 10) / 10 - 1)}px`;
       }
     }
   };
