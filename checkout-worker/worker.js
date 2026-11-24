@@ -118,7 +118,7 @@ async function checkout(body, env, ctx) {
     },
     Items: items,
     ExternalIdentifier: orderId,
-    DocumentDescription: delivery ? 'משלוח לכתובת: ' + customer.address + ', ' + customer.city : 'איסוף עצמי',
+    DocumentDescription: delivery ? 'משלוח לכתובת: ' + customer.address + ', ' + customer.city : 'איסוף עצמי מתל אביב',
     RedirectURL: SITE + '/shop/thanks/',
     CancelRedirectURL: SITE + '/shop/',
     SendUpdateByEmailAddress: customer.email,
