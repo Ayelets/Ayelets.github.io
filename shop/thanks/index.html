@@ -110,8 +110,6 @@
         return out.map(function (p) { return [Math.min(Math.max(p[0], 14), vw - 14), p[1] + window.scrollY]; });
       }
       function celebrate() {
-        var card = document.querySelector('.thanks-card');
-        var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         var box = document.createElement('div');
         box.className = 'sparkles';
         box.setAttribute('aria-hidden', 'true');
@@ -139,21 +137,44 @@
         document.body.appendChild(box);
       }
 
+      // Swap "בודקים את התשלום…" for the answer smoothly: the card eases to its new
+      // height and the new text fades in, instead of everything jumping at once.
+      var card = document.querySelector('.thanks-card');
+      var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function reveal(write, then) {
+        var actions = card.querySelector('.actions');
+        var from = card.offsetHeight, btnFrom = actions.offsetTop;
+        write();
+        if (calm || !card.animate) { if (then) then(); return; }
+        var to = card.offsetHeight, btnShift = btnFrom - actions.offsetTop;
+        var glide = { duration: 380, easing: 'cubic-bezier(.2, .7, .2, 1)' };
+        card.style.overflow = 'hidden';
+        var grow = card.animate([{ height: from + 'px' }, { height: to + 'px' }], glide);
+        // the buttons ride down with the card's bottom edge instead of jumping
+        actions.animate([{ transform: 'translateY(' + btnShift + 'px)' }, { transform: 'none' }], glide);
+        [title, text, meta].forEach(function (el) {
+          el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, delay: 80, easing: 'ease-out', fill: 'backwards' });
+        });
+        grow.onfinish = function () { card.style.overflow = ''; if (then) then(); };
+      }
+
       function paid(amount, paymentId) {
         try { localStorage.removeItem('shop-cart'); } catch (e) {}
         var badge = document.querySelector('.cart-count');
         if (badge) badge.hidden = true;
-        title.textContent = 'תודה! התשלום התקבל';
-        text.textContent = 'החשבונית נשלחה לאימייל שלך. אצור איתך קשר לגבי המשלוח.';
-        if (amount != null) { meta.textContent = 'סכום: ' + amount + ' ש״ח · מספר תשלום: ' + paymentId; meta.hidden = false; }
-        celebrate();   // after the text is in, so the card has its final size
+        reveal(function () {
+          title.textContent = 'תודה! התשלום התקבל';
+          text.textContent = 'החשבונית נשלחה לאימייל שלך. אצור איתך קשר לגבי המשלוח.';
+          if (amount != null) { meta.textContent = 'סכום: ' + amount + ' ש״ח · מספר תשלום: ' + paymentId; meta.hidden = false; }
+        }, celebrate);   // sparkles once the card has its final size
       }
-      function unknown() {
+      function showUnknown() {
         title.textContent = 'לא הצלחנו לאמת את התשלום';
         text.textContent = 'אם חויבת, אין מה לדאוג: החשבונית תגיע לאימייל. אפשר גם לפנות אליי ונבדוק את ההזמנה.';
       }
+      function unknown() { reveal(showUnknown); }
 
-      if (!id || !CHECKOUT_API) return unknown();
+      if (!id || !CHECKOUT_API) return showUnknown();   // known before the page shows: nothing to animate
       fetch(CHECKOUT_API + '/verify?id=' + encodeURIComponent(id))
         .then(function (r) { return r.json(); })
         .then(function (res) { if (res && res.valid) paid(res.amount, res.id); else unknown(); })
