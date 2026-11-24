@@ -157,7 +157,7 @@ p { margin: 0; }
   font-family: var(--font-body);
   /* Same size and weight as the tabs */
   font-weight: 500;
-  font-size: .98rem;
+  font-size: 1.1rem;
   text-decoration: none;
   white-space: nowrap;
 }
@@ -169,7 +169,7 @@ p { margin: 0; }
   border-radius: 999px;
   text-decoration: none;
   font-weight: 500;
-  font-size: .98rem;
+  font-size: 1.1rem;
   white-space: nowrap;
   transition: background-color .2s, color .2s;
 }
@@ -190,8 +190,8 @@ p { margin: 0; }
   display: grid;
   place-items: center;
   flex: none;             /* never squeezed by the nav row: it stays a circle */
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   aspect-ratio: 1;
   padding: 0;
   border: 0;
@@ -455,8 +455,8 @@ p { margin: 0; }
   .org-grid { grid-template-columns: 1fr; }
   /* One row: the tabs drop their long words */
   .nav-long { display: none; }
-  .brand { font-size: min(.98rem, 2.35vw); }
-  .nav a:not(.cart-btn) { font-size: min(.98rem, 2.35vw); padding-inline: min(1rem, 1.6vw); }
+  .brand { font-size: min(1.1rem, 2.35vw); }
+  .nav a:not(.cart-btn) { font-size: min(1.1rem, 2.35vw); padding-inline: min(1rem, 1.6vw); }
 }
 @media (max-width: 600px) {
   body { font-size: 1.0625rem; }
