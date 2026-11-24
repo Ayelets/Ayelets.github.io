@@ -30,7 +30,8 @@
     .thanks-wrap.is-paid { background: #fcb0ea; }
     .thanks-card { padding: clamp(2rem, 6vw, 3rem) 1.5rem; display: grid; gap: 1rem; justify-items: center; }
     .thanks-art { background: #fff; }
-    .thanks-art img { display: block; width: 100%; height: auto; }
+    /* Trim the empty confetti above her head so the picture balances the text above it */
+    .thanks-art img { display: block; width: 100%; height: auto; aspect-ratio: 988 / 810; object-fit: cover; object-position: bottom; }
     .thanks-art[hidden], .thanks .actions[hidden] { display: none; }
     @media (prefers-reduced-motion: reduce) { .thanks-wrap { transition: none; } }
     .thanks h1 { font-size: clamp(1.6rem, 4.5vw, 2rem); }
