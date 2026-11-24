@@ -5,7 +5,7 @@
   --magenta: var(--pink); /* #da2e70 */
   --hover-bg: #261c63;    /* indigo */
   --hover-ink: #e9a0be;   /* light pink */
-  --book-bg: #d4d5fc;     /* matches the book photo's backdrop */
+  --book-bg: #d2d5fc;     /* matches the book photo's backdrop */
   --featured-bg: #e3f7a8; /* lime */
 }
 
@@ -19,8 +19,8 @@
   background: var(--featured-bg);
   color: var(--lav-ink);
 }
-.featured-img { order: 2; background: var(--book-bg); display: grid; place-items: center; }
-.featured-img img { width: 100%; height: 100%; max-height: 420px; object-fit: contain; }
+.featured-img { order: 2; background: var(--book-bg); position: relative; min-height: 420px; }
+.featured-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 .featured-body {
   display: flex;
   flex-direction: column;
@@ -192,7 +192,8 @@
 @media (max-width: 800px) {
   .featured { grid-template-columns: 1fr; }
   .featured-img { order: 0; }
-  .featured-img img { max-width: 360px; max-height: none; }
+  .featured-img { min-height: 0; display: grid; place-items: center; }
+  .featured-img img { position: static; height: auto; max-width: 420px; }
   .products { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 2rem; }
 }
 @media (max-width: 600px) {
