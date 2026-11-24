@@ -135,24 +135,24 @@
       display: block;
       margin-bottom: 1.4rem;
       font-family: var(--font-body);
-      font-size: 1.0625rem;
+      font-size: 1.1875rem;
       font-weight: 500;
       letter-spacing: 0;
       text-decoration: underline;
       text-decoration-thickness: 1.5px;
       text-underline-offset: .35em;
     }
-    .about p { font-size: 1.0625rem; line-height: 1.65; }
+    .about p { font-size: 1.1875rem; line-height: 1.65; }
     .about p + p { margin-top: 1.4em; }
 
     .nowrap { white-space: nowrap; }
 
     /* Book facts */
-    .facts ul { list-style: none; margin: 0; padding: 0; color: var(--lilac); font-size: 1.0625rem; font-weight: 500; line-height: 1.9; }
+    .facts ul { list-style: none; margin: 0; padding: 0; color: var(--lilac); font-size: 1.1875rem; font-weight: 500; line-height: 1.9; }
 
     /* Press */
     .press { margin-top: 2.5rem; }
-    .press ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; font-size: 1.0625rem; line-height: 1.5; }
+    .press ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; font-size: 1.1875rem; line-height: 1.5; }
     .press a { text-decoration-thickness: 1px; text-underline-offset: .3em; transition: color .2s; }
     .press a:hover { color: var(--lime); }
 
@@ -298,7 +298,7 @@
       .about { align-self: start; width: min(100%, clamp(17rem, 22vw, 26rem)); max-width: none; }
       /* Short screens make the pages small: a little more width keeps the text above the bar */
       @media (max-height: 760px) { .about { width: min(100%, clamp(18rem, 26vw, 26rem)); } }
-      .about p { font-size: 1.0625rem; line-height: 1.65; }
+      .about p { font-size: 1.1875rem; line-height: 1.65; }
       /* Facts flush with the left edge, mirroring the book text on the right edge;
          press at the bottom, level with the buy bar */
       .facts { display: flex; flex-direction: column; justify-content: space-between; text-align: end; }
@@ -321,7 +321,7 @@
       .chapter { width: calc(100% - 2rem); padding-top: 1rem; }
       /* the pages run edge to edge on phones */
       .reader { width: auto; justify-self: stretch; margin-inline: -1rem; }
-      .about p { font-size: 1rem; }
+      .about p { font-size: 1.0625rem; }
     }
   </style>
 </head>
