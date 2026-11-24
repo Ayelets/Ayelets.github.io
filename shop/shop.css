@@ -87,10 +87,10 @@
 .add-btn:hover,
 .add-btn:active { background: var(--pink); color: #fff; }
 /* Collected: once the product is in the cart its button comes back with a chartreuse
-   outline, as "בעגלה ✓". It still adds another one; under the mouse it lights up as before */
+   outline, as "בעגלה ✓". It still adds another one; under the mouse it fills chartreuse */
 .add-btn.in-cart { border-color: var(--lime); color: var(--text-soft); }
 .add-btn.in-cart:hover,
-.add-btn.in-cart:active { border-color: var(--pink); }
+.add-btn.in-cart:active { border-color: var(--lime); background: var(--lime); color: #261c63; }
 
 /* Cart drawer */
 .cart {
