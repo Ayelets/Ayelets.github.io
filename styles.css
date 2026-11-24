@@ -20,6 +20,9 @@
   /* Current-tab pill and cart button */
   --chip-bg: #dad8ff;
   --chip-ink: #261c63;
+  /* See-through pill behind a nav tab under the mouse, and while pressed */
+  --nav-hover: rgba(246, 240, 230, .08);
+  --nav-press: rgba(246, 240, 230, .16);
 
   --font-display: 'Frank Ruhl Libre', 'David Libre', Georgia, serif;
   --font-body: 'Heebo', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
@@ -43,6 +46,8 @@
   --line: rgba(38, 28, 99, .16);
   --chip-bg: #261c63;
   --chip-ink: #dad8ff;
+  --nav-hover: rgba(38, 28, 99, .1);
+  --nav-press: rgba(38, 28, 99, .17);
 }
 .page-light .site-header { background: rgba(218, 216, 255, .82); }
 .page-light .site-header.scrolled { box-shadow: 0 8px 24px -18px rgba(38, 28, 99, .45); }
@@ -153,33 +158,28 @@ p { margin: 0; }
   text-decoration: none;
   white-space: nowrap;
 }
-.nav { display: flex; align-items: center; gap: clamp(.9rem, 2.5vw, 2rem); }
-.nav a {
-  position: relative;
+/* Every tab is a pill of the same size, like browser tabs or the Mac menu bar:
+   the current page's pill is filled, and the one under the mouse lights up. */
+.nav { display: flex; align-items: center; gap: .25rem; }
+.nav a:not(.cart-btn) {
+  padding: .45rem clamp(.7rem, 1.4vw, 1rem);
+  border-radius: 999px;
   text-decoration: none;
   font-weight: 500;
   font-size: .98rem;
   white-space: nowrap;
+  transition: background-color .2s, color .2s;
 }
-.nav a:not([aria-current])::after {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  bottom: -4px;
-  height: 2px;
-  background: var(--pink);
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform .3s var(--ease);
+@media (hover: hover) {
+  .nav a:not(.cart-btn):not([aria-current]):hover { background: var(--nav-hover); }
 }
-.nav a:not([aria-current]):hover::after { transform: scaleX(1); }
-/* The current page's tab is a filled pill */
-.nav a[aria-current="page"] {
-  padding: .45rem 1.1rem;
-  border-radius: 999px;
+.nav a:not(.cart-btn):not([aria-current]):focus-visible { background: var(--nav-hover); }
+.nav a:not(.cart-btn):not([aria-current]):active { background: var(--nav-press); transition-duration: 0s; }
+.nav a:not(.cart-btn)[aria-current="page"] {
   background: var(--chip-bg);
   color: var(--chip-ink);
 }
+.nav .cart-btn { margin-inline-start: clamp(.25rem, 1vw, .75rem); }
 
 /* Cart button in header */
 .cart-btn {
@@ -550,8 +550,8 @@ p { margin: 0; }
   .org-grid { grid-template-columns: 1fr; }
   html { scroll-padding-top: 7rem; }
   .header-inner { height: auto; flex-wrap: wrap; row-gap: .35rem; padding-block: .7rem .6rem; }
-  .nav { width: 100%; justify-content: space-between; gap: min(.9rem, 2.5vw); }
-  .nav a { font-size: min(.98rem, 2.45vw); }
+  .nav { width: 100%; justify-content: space-between; gap: .25rem; }
+  .nav a:not(.cart-btn) { font-size: min(.98rem, 2.45vw); padding-inline: min(1rem, 1.6vw); }
 }
 @media (max-width: 600px) {
   body { font-size: 1rem; }
@@ -559,9 +559,9 @@ p { margin: 0; }
   .brand { font-size: 1.2rem; }
   /* Nav text, gaps and cart follow the screen width, so the row fits
      even when the phone's text size is set larger than default */
-  .nav { gap: min(.9rem, 1.6vw); }
-  .nav a { font-size: min(.9rem, 3.5vw); }
-  .nav a[aria-current="page"] { padding: .35rem .8rem; }
+  .nav { gap: 0; }
+  .nav a:not(.cart-btn) { font-size: min(.9rem, 3.5vw); padding: .35rem 2vw; }
+  .nav .cart-btn { margin-inline-start: 0; }
   .cart-btn { width: min(2.5rem, 10vw); height: auto; }
   .nav-long { display: none; }
   /* one work per row on phones */
@@ -578,7 +578,7 @@ p { margin: 0; }
 }
 @media (max-width: 380px) {
   .brand { font-size: 1.05rem; }
-  .nav a[aria-current="page"] { padding: .3rem .6rem; }
+  .nav a:not(.cart-btn) { padding-block: .3rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
