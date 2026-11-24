@@ -45,7 +45,6 @@
   var grandTotal = dialog.querySelector('.grand-total');
   var shipPrice = dialog.querySelector('.ship-price');
   var shipFields = dialog.querySelector('.ship-fields');
-  var pickupNote = dialog.querySelector('.pickup-note');
   var cartSum = 0;
   var savingsEls = dialog.querySelectorAll('.cart-savings');
   var foot = dialog.querySelector('.cart-foot');
@@ -187,7 +186,6 @@
     var delivery = shippingMethod() === 'delivery';
     var fee = delivery ? SHIPPING_PRICE : 0;
     shipFields.hidden = !delivery;
-    pickupNote.hidden = delivery;
     shipPrice.textContent = fee ? shekel(fee) : 'חינם';
     grandTotal.textContent = shekel(Math.round((cartSum + fee) * 100) / 100);
   }
