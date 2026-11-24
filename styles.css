@@ -26,7 +26,7 @@
   --hl: var(--lime);
 
   --font-display: var(--font-body);
-  --font-body: 'Heebo', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  --font-body: 'Rubik', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
 
   /* Desktop side margin of every page (header, content, footer): 20px up to
      1220px wide, growing to 3rem; the page stops widening at 1600px. */
