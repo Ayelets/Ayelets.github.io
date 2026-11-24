@@ -24,12 +24,11 @@
     var full = PRODUCTS[id].price;
     return onSale(id) ? Math.round(full * (100 - SALE.pct) / 100) /* rounded to whole shekels */ : full;
   }
-  // Struck-through original price next to the sale price, plus a "בלאק פריידי 20%" tag
+  // Struck-through original price next to the sale price
   function priceHTML(id) {
     if (!onSale(id)) return '<span>' + shekel(PRODUCTS[id].price) + '</span>';
     return '<s><span class="visually-hidden">מחיר מקורי: </span>' + shekel(PRODUCTS[id].price) + '</s> ' +
-      '<span class="sale-price"><span class="visually-hidden">מחיר במבצע: </span>' + shekel(priceOf(id)) + '</span> ' +
-      '<span class="sale-tag">בלאק פריידי ' + SALE.pct + '%</span>';
+      '<span class="sale-price"><span class="visually-hidden">מחיר במבצע: </span>' + shekel(priceOf(id)) + '</span>';
   }
   document.querySelectorAll('.price[data-price]').forEach(function (el) { el.innerHTML = priceHTML(el.dataset.price); });
   document.querySelectorAll('.sale-banner').forEach(function (el) { el.hidden = !saleOn; });
