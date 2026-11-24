@@ -285,24 +285,25 @@
   .featured .price { font-size: 1.3rem; }
 }
 
-/* Site-wide sale: banner above the shop, and every price shows the original
-   (struck through) beside the sale price with a "20% הנחה" tag */
+/* Black Friday sale, site-wide: black banner above the shop, and every price shows
+   the original (struck through) beside the sale price with a "בלאק פריידי 20%" tag */
 .sale-banner {
   margin-bottom: clamp(1rem, 3vw, 1.5rem);
   padding: .75rem 1rem;
-  background: var(--magenta);
+  background: #000;
   color: #fff;
   text-align: center;
   font-size: clamp(1rem, 1.8vw, 1.2rem);
   line-height: 1.5;
 }
 .sale-banner[hidden] { display: none; }
+.sale-banner .bf { color: var(--lime); }
 .price { flex-wrap: wrap; align-items: center; column-gap: .9rem; row-gap: .3rem; }
 .price .sale-price { font-weight: 600; }
 .sale-tag {
   padding: .1em .6em;
   border-radius: 999px;
-  background: var(--magenta);
+  background: #000;
   color: #fff;
   font-size: .65em;
   white-space: nowrap;

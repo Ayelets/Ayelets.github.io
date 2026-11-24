@@ -28,7 +28,7 @@ const PRODUCTS = {
   test:     { name: 'בדיקת תשלום',                         price: 1 },
 };
 
-// Site-wide sale: 20% off every product until the end of November 2026 (Israel time).
+// Black Friday sale, site-wide: 20% off every product until the end of November 2026 (Israel time).
 // After that date the full prices come back by themselves. Keep in sync with shop/shop.js.
 const SALE = { pct: 20, end: Date.parse('2026-12-01T00:00:00+02:00') };
 
@@ -91,7 +91,7 @@ async function checkout(body, env) {
     if (!(qty >= 1 && qty <= 20)) throw new UserError('כמות לא תקינה בעגלה.');
     const sale = Date.now() < SALE.end && line.id !== 'test';
     const price = sale ? Math.round(p.price * (100 - SALE.pct) / 100) /* whole shekels */ : p.price;
-    const name = sale ? p.name + ' (' + SALE.pct + '% הנחה, מחיר מקורי ' + p.price + ' ש״ח)' : p.name;
+    const name = sale ? p.name + ' (בלאק פריידי ' + SALE.pct + '% הנחה, מחיר מקורי ' + p.price + ' ש״ח)' : p.name;
     items.push({ Item: { Name: name, ExternalIdentifier: line.id }, Quantity: qty, UnitPrice: price, Currency: 'ILS' });
   }
   if (!items.length) throw new UserError('העגלה ריקה.');

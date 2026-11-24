@@ -15,7 +15,7 @@
     // Hidden 1 ש״ח item for testing payments: open /?test — remove after testing
     test:     { name: 'בדיקת תשלום',                         price: 1,  img: '/images/shop/card.webp' }
   };
-  // Site-wide sale: 20% off every product until the end of November 2026 (Israel time).
+  // Black Friday sale, site-wide: 20% off every product until the end of November 2026 (Israel time).
   // After that date the full prices come back by themselves. Keep in sync with checkout-worker/worker.js.
   var SALE = { pct: 20, end: Date.parse('2026-12-01T00:00:00+02:00') };
   var saleOn = Date.now() < SALE.end;
@@ -24,12 +24,12 @@
     var full = PRODUCTS[id].price;
     return onSale(id) ? Math.round(full * (100 - SALE.pct) / 100) /* rounded to whole shekels */ : full;
   }
-  // Struck-through original price next to the sale price, plus a "20% הנחה" tag
+  // Struck-through original price next to the sale price, plus a "בלאק פריידי 20%" tag
   function priceHTML(id) {
     if (!onSale(id)) return '<span>' + shekel(PRODUCTS[id].price) + '</span>';
     return '<s><span class="visually-hidden">מחיר מקורי: </span>' + shekel(PRODUCTS[id].price) + '</s> ' +
       '<span class="sale-price"><span class="visually-hidden">מחיר במבצע: </span>' + shekel(priceOf(id)) + '</span> ' +
-      '<span class="sale-tag">' + SALE.pct + '% הנחה</span>';
+      '<span class="sale-tag">בלאק פריידי ' + SALE.pct + '%</span>';
   }
   document.querySelectorAll('.price[data-price]').forEach(function (el) { el.innerHTML = priceHTML(el.dataset.price); });
   document.querySelectorAll('.sale-banner').forEach(function (el) { el.hidden = !saleOn; });
@@ -95,7 +95,7 @@
     savingsEls.forEach(function (el) {
       el.hidden = !(saved > 0);
       el.innerHTML = 'מחיר מקורי: <s>' + shekel(full) + '</s><br>' +
-        '<strong>' + SALE.pct + '% הנחה עד סוף החודש:</strong> חוסכים ' + shekel(saved);
+        '<strong>הנחת בלאק פריידי ' + SALE.pct + '%:</strong> חוסכים ' + shekel(saved);
     });
     updateShipping();
     checkoutBtn.disabled = !CHECKOUT_API || items === 0;
