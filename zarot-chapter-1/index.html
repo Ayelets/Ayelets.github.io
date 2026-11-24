@@ -142,7 +142,7 @@
       text-decoration-thickness: 1.5px;
       text-underline-offset: .35em;
     }
-    .about p { font-size: 1.1875rem; line-height: 1.65; }
+    .about p { font-size: 1.375rem; line-height: 1.6; }
     .about p + p { margin-top: 1.4em; }
 
     .nowrap { white-space: nowrap; }
@@ -295,10 +295,10 @@
       .reader { width: max(340px, min(760px, calc((100svh - 8.5rem) * 1440 / 1964))); align-self: start; }
       /* The book text lines up with the name, the facts with the cart.
          The text columns stay narrow at the edges, leaving open space around the pages. */
-      .about { align-self: start; width: min(100%, clamp(17rem, 22vw, 26rem)); max-width: none; }
+      .about { align-self: start; width: min(100%, clamp(19rem, 27vw, 32rem)); max-width: none; }
       /* Short screens make the pages small: a little more width keeps the text above the bar */
-      @media (max-height: 760px) { .about { width: min(100%, clamp(18rem, 26vw, 26rem)); } }
-      .about p { font-size: 1.1875rem; line-height: 1.65; }
+      @media (max-height: 760px) { .about { width: min(100%, clamp(20rem, 30vw, 32rem)); } }
+      .about p { font-size: 1.3rem; line-height: 1.6; }
       /* Facts flush with the left edge, mirroring the book text on the right edge;
          press at the bottom, level with the buy bar */
       .facts { display: flex; flex-direction: column; justify-content: space-between; text-align: end; }
