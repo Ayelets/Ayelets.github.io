@@ -194,7 +194,7 @@
             card.classList.add('is-paid');
             art.hidden = false;
             title.textContent = 'תודה! התשלום התקבל';
-            text.textContent = 'החשבונית נשלחה לאימייל שלך. אצור איתך קשר לגבי המשלוח.';
+            text.textContent = 'החשבונית נשלחה לאימייל שלך.';
             if (amount != null) { meta.textContent = 'סכום: ' + amount + ' ש״ח · מספר תשלום: ' + paymentId; meta.hidden = false; }
           }, celebrate);   // sparkles once the card has its final size
         });
