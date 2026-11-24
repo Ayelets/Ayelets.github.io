@@ -150,8 +150,9 @@ p { margin: 0; }
 .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: 4.25rem; }
 .brand {
   font-family: var(--font-body);
-  font-weight: var(--heading-weight);
-  font-size: 1.125rem;
+  /* Same size and weight as the tabs */
+  font-weight: 500;
+  font-size: .98rem;
   text-decoration: none;
   white-space: nowrap;
 }
@@ -449,7 +450,7 @@ p { margin: 0; }
   .org-grid { grid-template-columns: 1fr; }
   /* One row: the tabs drop their long words */
   .nav-long { display: none; }
-  .brand { font-size: min(1.125rem, 3vw); }
+  .brand { font-size: min(.98rem, 2.35vw); }
   .nav a:not(.cart-btn) { font-size: min(.98rem, 2.35vw); padding-inline: min(1rem, 1.6vw); }
 }
 @media (max-width: 600px) {
@@ -459,7 +460,7 @@ p { margin: 0; }
      to the end of the page (.footer-org). Text, gaps and cart follow the screen
      width, so the row fits even when the phone's text size is set larger. */
   .header-inner { height: 3.5rem; gap: 1.5vw; }
-  .brand { font-size: min(1.1rem, 4vw); }
+  .brand { font-size: min(.9rem, 3.4vw); }
   .nav { gap: 0; }
   .nav-org { display: none; }
   .nav a:not(.cart-btn) { font-size: min(.9rem, 3.4vw); padding: .35rem 1.6vw; }
