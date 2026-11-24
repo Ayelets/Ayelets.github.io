@@ -105,7 +105,7 @@
     /* Chapter page — sits on top of /styles.css (dark indigo pages) */
     :root {
       --page-ratio: 1440 / 1964;
-      --rose: #e4a2c8;        /* buy bar and accents */
+      --rose: #e4a2c8;        /* accents */
       --lilac: #c9a6dc;       /* book facts */
       /* Last slide, styled after the cover's error dialog */
       --sky: #78b4e6;
@@ -153,7 +153,7 @@
     .press { margin-top: 2.5rem; }
     .press ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; font-size: 1.0625rem; line-height: 1.5; }
     .press a { text-decoration-thickness: 1px; text-underline-offset: .3em; transition: color .2s; }
-    .press a:hover { color: var(--rose); }
+    .press a:hover { color: var(--lime); }
 
     /* The first line of each text column starts exactly at the top of the pages,
        and the press line ends exactly at the bottom of the buy bar */
@@ -161,7 +161,7 @@
 
     /* Carousel */
     .carousel { position: relative; background: var(--bg-raised); }
-    .carousel:focus-visible { outline: 2px solid var(--rose); outline-offset: 3px; border-radius: 0; }
+    .carousel:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; border-radius: 0; }
     .track {
       display: flex; overflow-x: auto; overscroll-behavior-x: contain;
       scroll-snap-type: x mandatory; scrollbar-width: none;
@@ -192,15 +192,17 @@
 
     .dots { display: flex; justify-content: center; gap: 4px; padding: 12px 0 0; }
     .dots span { width: 6px; height: 6px; border-radius: 50%; background: rgba(246, 240, 230, .28); transition: background .2s, transform .2s; }
-    .dots span.on { background: var(--rose); transform: scale(1.15); }
+    .dots span.on { background: var(--lime); transform: scale(1.15); }
     .hint { margin-top: .5rem; text-align: center; font-size: .85rem; color: var(--text-soft); }
     @media (hover: hover) { .hint { display: none; } }
 
-    /* "אני רוצה לקנות": pinned to the bottom of the screen on phones, under the pages elsewhere */
+    /* "אני רוצה לקנות": the site's magenta pill (same as the shop), lime under the mouse.
+       Floats at the bottom of the screen on phones, under the pages elsewhere */
     .buy-bar {
       display: flex; align-items: center; justify-content: center; gap: .45em;
-      margin-top: 1rem; padding: .5rem 1rem;
-      background: var(--rose); color: var(--bg);
+      margin-top: 1rem; padding: .55rem 1.5rem;
+      border-radius: 999px;
+      background: var(--pink); color: #fff;
       font-size: clamp(1.35rem, 2vw, 1.7rem); font-weight: 400; line-height: 1.35;
       text-decoration: none; white-space: nowrap;
       transition: background-color .2s, color .2s;
@@ -210,10 +212,10 @@
       fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round;
       transition: fill .25s, transform .25s var(--ease);
     }
-    @media (hover: hover) { .buy-bar:hover { background: var(--pink); color: var(--chip-bg); } }
-    .buy-bar:active { background: var(--pink); color: var(--chip-bg); }
+    @media (hover: hover) { .buy-bar:hover { background: var(--lime); color: var(--bg); } }
+    .buy-bar:active { background: var(--lime); color: var(--bg); }
     .buy-bar:hover svg, .buy-bar:focus-visible svg { fill: currentColor; transform: scale(1.08); }
-    .buy-bar:focus-visible { outline-offset: 3px; border-radius: 0; }
+    .buy-bar:focus-visible { outline-offset: 3px; border-radius: 999px; }
 
     /* Last slide: call to action, styled after the cover's error dialog */
     .cta-slide {
@@ -282,12 +284,12 @@
 
     /* Phones: the buy bar stays on screen, like a shop's checkout bar */
     @media (max-width: 759px) {
-      body { padding-bottom: calc(4rem + env(safe-area-inset-bottom)); }
+      body { padding-bottom: calc(5.5rem + env(safe-area-inset-bottom)); }
       .buy-bar {
-        position: fixed; inset-inline: 0; bottom: 0; z-index: 90; margin: 0;
-        padding: .6rem 1rem calc(.6rem + env(safe-area-inset-bottom));
-        font-size: min(1.75rem, 7.5vw);
-        box-shadow: 0 -10px 24px -14px rgba(8, 4, 30, .7);
+        position: fixed; inset-inline: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 90; margin: 0;
+        padding: .55rem 1rem;
+        font-size: min(1.6rem, 7vw);
+        box-shadow: 0 8px 24px -6px rgba(8, 4, 30, .75);
       }
     }
 
