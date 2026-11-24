@@ -287,7 +287,7 @@
 }
 
 /* Black Friday sale, site-wide: black banner above the shop, and every price shows
-   the original (struck through) beside the sale price with a "בלאק פריידי 20%" tag */
+   the original (struck through) beside the sale price */
 .sale-banner {
   margin-bottom: clamp(1rem, 3vw, 1.5rem);
   padding: .75rem 1rem;
@@ -301,16 +301,7 @@
 .sale-banner .bf { color: var(--lime); }
 .price { flex-wrap: wrap; align-items: center; column-gap: .9rem; row-gap: .3rem; }
 .price .sale-price { font-weight: 600; }
-.sale-tag {
-  padding: .1em .6em;
-  border-radius: 999px;
-  background: #000;
-  color: #fff;
-  font-size: .65em;
-  white-space: nowrap;
-}
 .cart-item .sub { display: flex; flex-wrap: wrap; align-items: center; gap: .2rem .6rem; }
-.cart-item .sub .sale-tag { font-size: .75em; }
-.cart-savings { font-size: 1rem; line-height: 1.5; }
+.cart-item .sub .cart-savings { font-size: 1rem; line-height: 1.5; }
 .cart-savings strong { color: var(--magenta); }
 .cart-savings[hidden] { display: none; }
