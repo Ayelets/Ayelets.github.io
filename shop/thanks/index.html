@@ -22,19 +22,17 @@
   <link rel="stylesheet" href="../../styles.css">
   <link rel="stylesheet" href="../shop.css">
   <style>
-    .thanks { max-width: 60rem; padding-block: clamp(2rem, 7vw, 5rem); text-align: center; }
-    /* Same build as the shop's featured book: the illustration on white beside the lavender text */
-    .thanks-wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); background: var(--lav); }
-    .thanks-art { order: 2; background: #fff; display: grid; place-items: center; }
-    .thanks-art img { width: 100%; height: auto; }
-    .thanks-wrap.no-art { grid-template-columns: minmax(0, 1fr); max-width: 36rem; margin-inline: auto; }
-    .no-art .thanks-art { display: none; }
-    .thanks-card { color: var(--lav-ink); padding: clamp(2rem, 6vw, 3rem) 1.5rem; display: grid; gap: 1rem; justify-items: center; align-content: center; }
-    @media (max-width: 700px) {
-      .thanks-wrap { grid-template-columns: minmax(0, 1fr); }
-      .thanks-art { order: 0; }
-      .thanks-art img { max-width: 340px; }
-    }
+    .thanks { max-width: 32rem; padding-block: clamp(2rem, 7vw, 5rem); text-align: center; }
+    /* One card: the message on top, and once the payment is confirmed, the happy illustration
+       under it. Lavender while checking (like the cart the buyer came from), the pink of the
+       character's shirt once it is paid. */
+    .thanks-wrap { background: var(--lav); color: var(--lav-ink); transition: background-color .5s ease-out; }
+    .thanks-wrap.is-paid { background: #fcb0ea; }
+    .thanks-card { padding: clamp(2rem, 6vw, 3rem) 1.5rem; display: grid; gap: 1rem; justify-items: center; }
+    .thanks-art { background: #fff; }
+    .thanks-art img { display: block; width: 100%; height: auto; }
+    .thanks-art[hidden], .thanks .actions[hidden] { display: none; }
+    @media (prefers-reduced-motion: reduce) { .thanks-wrap { transition: none; } }
     .thanks h1 { font-size: clamp(1.6rem, 4.5vw, 2rem); }
     .thanks h1 + p { margin-top: -.4rem; font-size: 1.125rem; line-height: 1.6; }
     .thanks .meta { font-size: .95rem; opacity: .8; }
@@ -67,16 +65,17 @@
 
   <main class="container thanks">
     <div class="thanks-wrap">
-    <div class="thanks-art"><img src="/images/shop/thanks.webp" width="988" height="954" alt="איור: הדמות של איילת שמחה, עם ידיים באוויר וקונפטי צבעוני מסביב"></div>
-    <div class="thanks-card" aria-live="polite">
-      <h1 id="title">בודקים את התשלום…</h1>
-      <p id="text">רק רגע.</p>
-      <p id="meta" class="meta" hidden></p>
-      <div class="actions">
-        <a class="btn btn-primary" href="/">חזרה לחנות</a>
-        <a class="btn btn-ghost" href="mailto:ayelet126@gmail.com">יצירת קשר</a>
+      <div class="thanks-card" aria-live="polite">
+        <h1 id="title">בודקים את התשלום…</h1>
+        <p id="text">רק רגע.</p>
+        <p id="meta" class="meta" hidden></p>
+        <!-- Only when the payment could not be confirmed: after a successful one nothing more is asked of the buyer -->
+        <div class="actions" hidden>
+          <a class="btn btn-primary" href="/">חזרה לחנות</a>
+          <a class="btn btn-ghost" href="mailto:ayelet126@gmail.com">יצירת קשר</a>
+        </div>
       </div>
-    </div>
+      <div class="thanks-art" hidden><img src="/images/shop/thanks.webp" width="988" height="954" alt="איור: הדמות של איילת שמחה, עם ידיים באוויר וקונפטי צבעוני מסביב"></div>
     </div>
   </main>
 
@@ -152,22 +151,19 @@
       }
 
       // Swap "בודקים את התשלום…" for the answer smoothly: the card eases to its new
-      // height and the new text fades in, instead of everything jumping at once.
-      var card = document.querySelector('.thanks-wrap');   // the whole block: picture and text
+      // height (the picture opening up under the text) and the new content fades in.
+      var card = document.querySelector('.thanks-wrap');
+      var art = card.querySelector('.thanks-art');
       var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       function reveal(write, then) {
-        var actions = card.querySelector('.actions');
-        var from = card.offsetHeight, btnFrom = actions.offsetTop;
+        var from = card.offsetHeight;
         write();
         if (calm || !card.animate) { if (then) then(); return; }
-        var to = card.offsetHeight, btnShift = btnFrom - actions.offsetTop;
-        var glide = { duration: 380, easing: 'cubic-bezier(.2, .7, .2, 1)' };
+        var to = card.offsetHeight;
         card.style.overflow = 'hidden';
-        var grow = card.animate([{ height: from + 'px' }, { height: to + 'px' }], glide);
-        // the buttons ride down with the card's bottom edge instead of jumping
-        actions.animate([{ transform: 'translateY(' + btnShift + 'px)' }, { transform: 'none' }], glide);
-        [title, text, meta].forEach(function (el) {
-          el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, delay: 80, easing: 'ease-out', fill: 'backwards' });
+        var grow = card.animate([{ height: from + 'px' }, { height: to + 'px' }], { duration: 520, easing: 'cubic-bezier(.2, .7, .2, 1)' });
+        [title, text, meta, art].forEach(function (el, i) {
+          el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 400, delay: 80 + i * 60, easing: 'ease-out', fill: 'backwards' });
         });
         grow.onfinish = function () { card.style.overflow = ''; if (then) then(); };
       }
@@ -176,20 +172,26 @@
         try { localStorage.removeItem('shop-cart'); } catch (e) {}
         var badge = document.querySelector('.cart-count');
         if (badge) badge.hidden = true;
-        reveal(function () {
-          title.textContent = 'תודה! התשלום התקבל';
-          text.textContent = 'החשבונית נשלחה לאימייל שלך. אצור איתך קשר לגבי המשלוח.';
-          if (amount != null) { meta.textContent = 'סכום: ' + amount + ' ש״ח · מספר תשלום: ' + paymentId; meta.hidden = false; }
-        }, celebrate);   // sparkles once the card has its final size
+        var img = art.querySelector('img');
+        // wait for the picture to be ready, so the card opens to its real size in one go
+        var ready = img.decode ? img.decode().catch(function () {}) : Promise.resolve();
+        ready.then(function () {
+          reveal(function () {
+            card.classList.add('is-paid');
+            art.hidden = false;
+            title.textContent = 'תודה! התשלום התקבל';
+            text.textContent = 'החשבונית נשלחה לאימייל שלך. אצור איתך קשר לגבי המשלוח.';
+            if (amount != null) { meta.textContent = 'סכום: ' + amount + ' ש״ח · מספר תשלום: ' + paymentId; meta.hidden = false; }
+          }, celebrate);   // sparkles once the card has its final size
+        });
       }
-      function showUnknown() {
-        card.classList.add('no-art');   // the happy picture is not for a payment we could not confirm
+      function unknown() {
         title.textContent = 'לא הצלחנו לאמת את התשלום';
         text.textContent = 'אם חויבת, אין מה לדאוג: החשבונית תגיע לאימייל. אפשר גם לפנות אליי ונבדוק את ההזמנה.';
+        card.querySelector('.actions').hidden = false;
       }
-      var unknown = showUnknown;
 
-      if (!id || !CHECKOUT_API) return showUnknown();   // known before the page shows: nothing to animate
+      if (!id || !CHECKOUT_API) return unknown();
       fetch(CHECKOUT_API + '/verify?id=' + encodeURIComponent(id))
         .then(function (r) { return r.json(); })
         .then(function (res) { if (res && res.valid) paid(res.amount, res.id); else unknown(); })
