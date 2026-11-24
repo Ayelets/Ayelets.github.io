@@ -5,6 +5,8 @@
   --magenta: var(--pink); /* #da2e70 */
   --hover-bg: #261c63;    /* indigo */
   --hover-ink: #e9a0be;   /* light pink */
+  --book-bg: #d4d5fc;     /* matches the book photo's backdrop */
+  --featured-bg: var(--lav);
 }
 
 
@@ -14,10 +16,10 @@
 .featured {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-  background: var(--lav);
+  background: var(--featured-bg);
   color: var(--lav-ink);
 }
-.featured-img { order: 2; background: #fff; display: grid; place-items: center; }
+.featured-img { order: 2; background: var(--book-bg); display: grid; place-items: center; }
 .featured-img img { width: 100%; height: 100%; max-height: 420px; object-fit: contain; }
 .featured-body {
   display: flex;
