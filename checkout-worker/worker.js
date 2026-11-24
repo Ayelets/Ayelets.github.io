@@ -20,7 +20,7 @@ const ALLOWED_ORIGINS = [SITE, 'https://www.ayeletsapirshtein.com', 'https://aye
 
 // Prices are taken from here only — never from the browser. Keep in sync with shop/shop.js.
 const PRODUCTS = {
-  book:     { name: 'הספר "באגים בהייטק" — מכירה מוקדמת', price: 98 },
+  book:     { name: 'הספר "באגים בהייטק"',                 price: 98 },
   tote:     { name: 'תיק טוקן',                           price: 80 },
   stickers: { name: 'דף מדבקות "באגים בהייטק"',           price: 25 },
   card:     { name: 'כרטיס ברכה לפטופ מנצנץ',             price: 25 },

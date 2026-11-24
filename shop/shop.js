@@ -4,7 +4,7 @@
   var CHECKOUT_API = (window.SHOP_CHECKOUT_API || '').replace(/\/+$/, '');
 
   var PRODUCTS = {
-    book:     { name: 'הספר ״באגים בהייטק״ — מכירה מוקדמת', price: 98, img: '/images/shop/book.webp',
+    book:     { name: 'הספר ״באגים בהייטק״',                 price: 98, img: '/images/shop/book.webp',
                 desc: 'ספר קומיקס סאטירי על החיים בהייטק הישראלי. 168 עמודים מאוירים ידנית בכריכה קשה. זוכה מענק מפעל הפיס לשנת 2026.' },
     tote:     { name: 'תיק טוקן',                           price: 80, img: '/images/shop/tote.webp',
                 desc: 'תיק בד עם איור של טוקן מתוך עולם ״באגים בהייטק״.' },
