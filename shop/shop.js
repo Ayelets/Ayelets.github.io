@@ -6,7 +6,7 @@
   var PRODUCTS = {
     book:     { name: 'הספר ״באגים בהייטק״ — מכירה מוקדמת', price: 98, img: '/images/shop/book.webp',
                 desc: 'ספר קומיקס סאטירי על החיים בהייטק הישראלי. 168 עמודים מאוירים ידנית בכריכה קשה. זוכה מענק מפעל הפיס לשנת 2026.' },
-    tote:     { name: 'תיק טוקן',                           price: 75, img: '/images/shop/tote.webp',
+    tote:     { name: 'תיק טוקן',                           price: 80, img: '/images/shop/tote.webp',
                 desc: 'תיק בד עם איור של טוקן מתוך עולם ״באגים בהייטק״.' },
     stickers: { name: 'דף מדבקות ״באגים בהייטק״',           price: 25, img: '/images/shop/stickers.webp',
                 desc: 'דף מדבקות עם דמויות ואיורים מתוך הקומיקס ״באגים בהייטק״.' },
@@ -22,7 +22,7 @@
   function onSale(id) { return saleOn && id !== 'test'; }
   function priceOf(id) {
     var full = PRODUCTS[id].price;
-    return onSale(id) ? Math.round(full * (100 - SALE.pct)) / 100 : full;
+    return onSale(id) ? Math.round(full * (100 - SALE.pct) / 100) /* rounded to whole shekels */ : full;
   }
   // Struck-through original price next to the sale price, plus a "20% הנחה" tag
   function priceHTML(id) {

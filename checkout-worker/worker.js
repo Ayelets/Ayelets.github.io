@@ -21,7 +21,7 @@ const ALLOWED_ORIGINS = [SITE, 'https://www.ayeletsapirshtein.com', 'https://aye
 // Prices are taken from here only — never from the browser. Keep in sync with shop/shop.js.
 const PRODUCTS = {
   book:     { name: 'הספר "באגים בהייטק" — מכירה מוקדמת', price: 98 },
-  tote:     { name: 'תיק טוקן',                           price: 75 },
+  tote:     { name: 'תיק טוקן',                           price: 80 },
   stickers: { name: 'דף מדבקות "באגים בהייטק"',           price: 25 },
   card:     { name: 'כרטיס ברכה לפטופ מנצנץ',             price: 25 },
   // Hidden 1 ש״ח item for testing payments (/shop/?test) — remove after testing
@@ -90,7 +90,7 @@ async function checkout(body, env) {
     if (!p) continue;
     if (!(qty >= 1 && qty <= 20)) throw new UserError('כמות לא תקינה בעגלה.');
     const sale = Date.now() < SALE.end && line.id !== 'test';
-    const price = sale ? Math.round(p.price * (100 - SALE.pct)) / 100 : p.price;
+    const price = sale ? Math.round(p.price * (100 - SALE.pct) / 100) /* whole shekels */ : p.price;
     const name = sale ? p.name + ' (' + SALE.pct + '% הנחה, מחיר מקורי ' + p.price + ' ש״ח)' : p.name;
     items.push({ Item: { Name: name, ExternalIdentifier: line.id }, Quantity: qty, UnitPrice: price, Currency: 'ILS' });
   }
