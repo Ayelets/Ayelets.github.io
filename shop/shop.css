@@ -28,7 +28,7 @@
   padding: clamp(2rem, 5vw, 3.5rem) 1.5rem;
   text-align: center;
 }
-.featured h1 { font-family: var(--font-body); font-weight: 400; font-size: clamp(1.4rem, 2.6vw, 1.9rem); line-height: 1.3; }
+.featured h1 { font-family: var(--font-body); font-weight: var(--heading-weight); font-size: clamp(1.4rem, 2.6vw, 1.9rem); line-height: 1.3; }
 
 .featured-desc { max-width: 30rem; font-size: 1rem; line-height: 1.6; display: grid; gap: .5rem; }
 .featured-desc a { text-underline-offset: .2em; }
@@ -70,7 +70,7 @@
   object-fit: contain;
   background: var(--lav);
 }
-.product h3 { font-family: var(--font-body); font-weight: 400; font-size: 1.05rem; line-height: 1.35; min-height: 2.7em; }
+.product h3 { font-family: var(--font-body); font-weight: 500; font-size: 1.05rem; line-height: 1.35; min-height: 2.7em; }
 .product .price { font-size: 1rem; }
 .add-btn {
   margin-top: auto;
@@ -222,7 +222,7 @@
 .qv-img { background: var(--lav); aspect-ratio: 1; display: grid; place-items: center; }
 .qv-img img { width: 100%; height: 100%; object-fit: contain; }
 .qv-body { display: grid; gap: 1.1rem; padding-top: .5rem; }
-.qv-name { font-family: var(--font-body); font-weight: 400; font-size: clamp(1.4rem, 2.6vw, 1.9rem); line-height: 1.3; }
+.qv-name { font-family: var(--font-body); font-weight: var(--heading-weight); font-size: clamp(1.4rem, 2.6vw, 1.9rem); line-height: 1.3; }
 .qv-price { justify-content: flex-start; font-size: 1.15rem; }
 .qv-desc { line-height: 1.6; }
 .qv-qty-wrap { display: grid; gap: .4rem; justify-items: start; }
