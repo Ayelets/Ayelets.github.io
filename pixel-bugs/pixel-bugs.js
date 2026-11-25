@@ -20,7 +20,9 @@
 
   // רוחב מילה בתאים: אותיות ועוד תא רווח ביניהן
   const wordWidth = (w) => [...w].reduce((s, ch) => s + GLYPHS[ch][0].length, 0) + w.length - 1;
-  const GRID_W = Math.max(...ROWS.map((r) => wordWidth(r.word))) + PAD_X * 2;
+  const TEXT_W = Math.max(...ROWS.map((r) => wordWidth(r.word)));
+  const GRID_W = TEXT_W + PAD_X * 2; // הרוחב המינימלי בתאים. במסך רחב הרשת מתרחבת והמילים נשארות באמצע
+  const MAX_CELL = 24; // גודל תא מקסימלי בפיקסלים, כדי שהמשטח לא יגבה מדי במסך רחב
   const GRID_H = PAD_TOP + LETTER_H * 2 + ROW_GAP + PAD_BOTTOM;
 
   // ---------- החרק (מבט מלמעלה, הראש למעלה). שני פריימים להליכה ----------
@@ -58,14 +60,14 @@
   const ctx = canvas.getContext('2d');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  let cell = 20, W = 0, H = 0, dpr = 1;
+  let cell = 20, cols = GRID_W, W = 0, H = 0, dpr = 1;
   let blocks = [];
 
   // בונה את הבלוקים מהגופן. עברית: האות הראשונה בצד ימין, ושתי השורות מיושרות לימין
   function buildBlocks() {
     blocks = [];
     ROWS.forEach((row, ri) => {
-      let x = GRID_W - PAD_X; // קצה ימני
+      let x = Math.round((cols + TEXT_W) / 2); // קצה ימני של בלוק המילים, באמצע הרשת
       const top = PAD_TOP + ri * (LETTER_H + ROW_GAP);
       for (const ch of row.word) {
         const g = GLYPHS[ch];
@@ -88,7 +90,8 @@
     const rect = canvas.getBoundingClientRect();
     if (!rect.width) return;
     const oldCell = cell;
-    cell = rect.width / GRID_W;
+    cols = Math.max(GRID_W, Math.ceil(rect.width / MAX_CELL));
+    cell = rect.width / cols;
     W = rect.width;
     H = cell * GRID_H;
     dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -200,7 +203,7 @@
     ctx.strokeStyle = 'rgba(38, 28, 99, .07)';
     ctx.lineWidth = 1;
     ctx.beginPath();
-    for (let x = 0; x <= GRID_W; x++) { ctx.moveTo(Math.round(x * cell) + .5, 0); ctx.lineTo(Math.round(x * cell) + .5, H); }
+    for (let x = 0; x <= cols; x++) { ctx.moveTo(Math.round(x * cell) + .5, 0); ctx.lineTo(Math.round(x * cell) + .5, H); }
     for (let y = 0; y <= GRID_H; y++) { ctx.moveTo(0, Math.round(y * cell) + .5); ctx.lineTo(W, Math.round(y * cell) + .5); }
     ctx.stroke();
   }

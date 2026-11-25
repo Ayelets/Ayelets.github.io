@@ -307,10 +307,9 @@
 .cart-savings strong { color: var(--magenta); }
 .cart-savings[hidden] { display: none; }
 
-/* ״באגים בהייטק״ בפיקסלים מעל החנות: דף נייר עם מסגרת וצל, והחרק רץ בתוכו (pixel-bugs/pixel-bugs.js) */
-.pixel-hero { display: flex; justify-content: center; margin-bottom: clamp(1.5rem, 4vw, 2.5rem); }
+/* ״באגים בהייטק״ בפיקסלים בראש החנות, ברוחב העמוד כולו: דף נייר עם מסגרת וצל, והחרק רץ בתוכו (pixel-bugs/pixel-bugs.js) */
+.pixel-hero { margin-bottom: clamp(1.25rem, 3vw, 1.75rem); }
 .pixel-stage {
-  width: min(100%, 760px);
   background: var(--paper);
   border: 3px solid var(--ink);
   box-shadow: 8px 8px 0 #000;
