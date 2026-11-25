@@ -101,6 +101,8 @@ function show(index) {
   if (lbImg.complete) lbImg.classList.add('loaded');
   lbTitle.textContent = link.dataset.title;
   lbCount.textContent = `${current + 1} / ${links.length}`;
+  // אנליטיקה: איזו עבודה נצפתה בתצוגה הגדולה
+  try { if (window.gtag) gtag('event', 'view_artwork', { artwork: link.dataset.title }); } catch (e) {}
   // טעינה מוקדמת של השכנות
   [current + 1, current - 1].forEach((j) => {
     new Image().src = links[(j + links.length) % links.length].href;

@@ -9,6 +9,16 @@
     gtag('js', new Date());
     gtag('config', 'G-LHGCGQ23CV');
   </script>
+  <!-- Meta Pixel (941375025467992) -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '941375025467992');
+    fbq('track', 'PageView');
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>תודה על ההזמנה — איילת ספירשטיין</title>
@@ -182,7 +192,22 @@
       var order = '';
       try { order = localStorage.getItem('shop-order') || ''; } catch (e) {}
 
+      // Report the purchase to Google Analytics and the Meta Pixel, once per order
+      // (the saved items are removed right after, so a refresh doesn't count it twice).
+      function trackPurchase(amount, paymentId) {
+        var items = [];
+        try { items = JSON.parse(localStorage.getItem('shop-order-items')) || []; localStorage.removeItem('shop-order-items'); } catch (e) {}
+        if (!items.length || items.some(function (it) { return it.item_id === 'test'; })) return;
+        var value = Number(amount) || 0;
+        try {
+          if (window.gtag) gtag('event', 'purchase', { transaction_id: String(paymentId || order), currency: 'ILS', value: value, items: items });
+          if (window.fbq) fbq('track', 'Purchase', { currency: 'ILS', value: value, content_type: 'product',
+            content_ids: items.map(function (it) { return it.item_id; }) }, { eventID: String(paymentId || order) });
+        } catch (e) {}
+      }
+
       function paid(amount, paymentId) {
+        trackPurchase(amount, paymentId);
         try { localStorage.removeItem('shop-cart'); } catch (e) {}
         var badge = document.querySelector('.cart-count');
         if (badge) badge.hidden = true;
