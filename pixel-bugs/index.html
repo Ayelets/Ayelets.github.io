@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>באגים בהייטק — פיקסלים</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f6f0e6;
+      --ink: #1e1a16;
+      --indigo: #261c63;
+      --pink: #da2e70;
+      --lime: #d7f85f;
+      --rose: #e4a2c8;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      font-family: 'Heebo', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+      background: var(--indigo);
+      color: var(--paper);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 16px;
+    }
+    .stage {
+      position: relative;
+      width: min(1100px, 100%);
+      background: var(--paper);
+      border: 3px solid var(--ink);
+      box-shadow: 10px 10px 0 var(--ink);
+    }
+    canvas { display: block; width: 100%; touch-action: pan-y; cursor: crosshair; }
+    .hint {
+      display: inline-block;
+      margin: 0 14px 16px;
+      padding: .35rem .7rem;
+      background: var(--lime);
+      color: var(--ink);
+      border: 2px solid var(--ink);
+      box-shadow: 4px 4px 0 var(--ink);
+      font-size: .85rem;
+      font-weight: 600;
+      transform: rotate(-2deg);
+      pointer-events: none;
+    }
+    .touch { display: none; }
+    @media (hover: none) { .touch { display: inline; } .mouse { display: none; } }
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px; overflow: hidden;
+      clip: rect(0 0 0 0); white-space: nowrap;
+    }
+    @media (max-width: 600px) {
+      .hint { font-size: .8rem; margin: 0 10px 12px; }
+      .stage { box-shadow: 6px 6px 0 var(--ink); }
+    }
+  </style>
+</head>
+<body>
+  <main class="stage">
+    <h1 class="visually-hidden">באגים בהייטק</h1>
+    <canvas data-pixel-bugs role="img" aria-label="הכיתוב ״באגים בהייטק״ בפיקסלים, וחרק קטן שעובר בין האותיות ומפרק אותן"></canvas>
+    <p class="hint" aria-hidden="true"><span class="mouse">הזיזו את העכבר בין האותיות</span><span class="touch">העבירו אצבע בין האותיות</span></p>
+  </main>
+
+  <script src="/pixel-bugs/pixel-bugs.js"></script>
+</body>
+</html>

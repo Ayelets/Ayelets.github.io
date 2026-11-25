@@ -1,0 +1,290 @@
+// ״באגים בהייטק״ בפיקסלים: חרק קטן הולך בין האותיות ומפרק אותן, והבלוקים חוזרים למקום.
+// הקובץ מצייר על <canvas data-pixel-bugs> הראשון בעמוד. משמש את דף הבית ואת /pixel-bugs/.
+(() => {
+  // ---------- הגופן: כל אות היא רשת של 5 על 8 (השורה השמינית לזנב של ק) ----------
+  const GLYPHS = {
+    'ב': ['###..', '...#.', '...#.', '...#.', '...#.', '...#.', '#####'],
+    'א': ['#...#', '.#..#', '..#.#', '..##.', '.#.#.', '#...#', '#...#'],
+    'ג': ['###.', '..#.', '..#.', '..#.', '..##', '.#.#', '#..#'],
+    'י': ['###', '..#', '..#'],
+    'ם': ['####.', '#...#', '#...#', '#...#', '#...#', '#...#', '#####'],
+    'ה': ['#####', '....#', '....#', '#...#', '#...#', '#...#', '#...#'],
+    'ט': ['#.###', '#.#.#', '#...#', '#...#', '#...#', '#...#', '#####'],
+    'ק': ['#####', '....#', '....#', '#...#', '#...#', '#..#.', '#....', '#....'],
+  };
+  const ROWS = [
+    { word: 'באגים', face: '#da2e70', shade: '#261c63', hot: '#d7f85f', hotShade: '#261c63' },
+    { word: 'בהייטק', face: '#261c63', shade: '#da2e70', hot: '#e4a2c8', hotShade: '#da2e70' },
+  ];
+  const LETTER_H = 8, ROW_GAP = 2, PAD_X = 2, PAD_TOP = 2, PAD_BOTTOM = 2;
+
+  // רוחב מילה בתאים: אותיות ועוד תא רווח ביניהן
+  const wordWidth = (w) => [...w].reduce((s, ch) => s + GLYPHS[ch][0].length, 0) + w.length - 1;
+  const TEXT_W = Math.max(...ROWS.map((r) => wordWidth(r.word)));
+  const GRID_W = TEXT_W + PAD_X * 2; // הרוחב המינימלי בתאים. במסך רחב הרשת מתרחבת והמילים נשארות באמצע
+  const MAX_CELL = 24; // גודל תא מקסימלי בפיקסלים, כדי שהמשטח לא יגבה מדי במסך רחב
+  const GRID_H = PAD_TOP + LETTER_H * 2 + ROW_GAP + PAD_BOTTOM;
+
+  // ---------- החרק (מבט מלמעלה, הראש למעלה). שני פריימים להליכה ----------
+  const BUG = [
+    [
+      '..#...#..',
+      '...#.#...',
+      '...###...',
+      '#..###..#',
+      '.#######.',
+      '..##o##..',
+      '##.#o#.##',
+      '..##o##..',
+      '.#######.',
+      '#..###..#',
+      '....#....',
+    ],
+    [
+      '.#.....#.',
+      '...#.#...',
+      '#..###..#',
+      '.#.###.#.',
+      '..#####..',
+      '..##o##..',
+      '.##.o.##.',
+      '##.#o#.##',
+      '..#####..',
+      '.#.###.#.',
+      '#...#...#',
+    ],
+  ];
+
+  const canvas = document.querySelector('canvas[data-pixel-bugs]');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let cell = 20, cols = GRID_W, W = 0, H = 0, dpr = 1;
+  let blocks = [];
+
+  // בונה את הבלוקים מהגופן. עברית: האות הראשונה בצד ימין, ושתי השורות מיושרות לימין
+  function buildBlocks() {
+    blocks = [];
+    ROWS.forEach((row, ri) => {
+      let x = Math.round((cols + TEXT_W) / 2); // קצה ימני של בלוק המילים, באמצע הרשת
+      const top = PAD_TOP + ri * (LETTER_H + ROW_GAP);
+      for (const ch of row.word) {
+        const g = GLYPHS[ch];
+        const w = g[0].length;
+        x -= w;
+        g.forEach((line, gy) => {
+          [...line].forEach((c, gx) => {
+            if (c !== '#') return;
+            const hx = (x + gx + 0.5) * cell;
+            const hy = (top + gy + 0.5) * cell;
+            blocks.push({ hx, hy, x: hx, y: hy, vx: 0, vy: 0, heat: 0, row });
+          });
+        });
+        x -= 1;
+      }
+    });
+  }
+
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    if (!rect.width) return;
+    const oldCell = cell;
+    cols = Math.max(GRID_W, Math.ceil(rect.width / MAX_CELL));
+    cell = rect.width / cols;
+    W = rect.width;
+    H = cell * GRID_H;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.style.height = H + 'px';
+    canvas.width = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const k = cell / oldCell;
+    bug.x *= k; bug.y *= k; bug.vx *= k; bug.vy *= k;
+    buildBlocks();
+  }
+
+  // ---------- תנועת החרק ----------
+  const bug = { x: 0, y: 0, vx: 0, vy: 0, angle: Math.PI, step: 0, target: null, pause: 0 };
+  const pointer = { x: 0, y: 0, active: false, last: 0 };
+
+  function pickTarget() {
+    // יעד אקראי על אחת האותיות, לרוב בשורה השנייה כדי שהחרק יחצה בין השורות
+    const b = blocks[(Math.random() * blocks.length) | 0];
+    bug.target = { x: b.hx + (Math.random() - .5) * cell * 2, y: b.hy + (Math.random() - .5) * cell * 2 };
+  }
+
+  function updateBug(dt, now) {
+    const following = pointer.active && now - pointer.last < 2500;
+    let tx, ty, maxSpeed;
+    if (following) {
+      tx = pointer.x; ty = pointer.y; maxSpeed = cell * 0.55;
+    } else {
+      if (!bug.target) pickTarget();
+      tx = bug.target.x; ty = bug.target.y; maxSpeed = cell * 0.22;
+      if (Math.hypot(tx - bug.x, ty - bug.y) < cell * 1.2) {
+        if (bug.pause <= 0) bug.pause = 20 + Math.random() * 50;
+        bug.pause -= dt;
+        if (bug.pause <= 0) pickTarget();
+      }
+    }
+    let dx = tx - bug.x, dy = ty - bug.y;
+    const dist = Math.hypot(dx, dy);
+    // מאט כשמתקרבים ליעד, ומתנדנד קצת בדרך כמו חרק אמיתי
+    const speed = Math.min(maxSpeed, dist * 0.08);
+    const wobble = following ? 0 : Math.sin(now / 180) * 0.6;
+    const a = Math.atan2(dy, dx) + wobble;
+    const want = { x: Math.cos(a) * speed, y: Math.sin(a) * speed };
+    bug.vx += (want.x - bug.vx) * 0.12 * dt;
+    bug.vy += (want.y - bug.vy) * 0.12 * dt;
+    bug.x += bug.vx * dt;
+    bug.y += bug.vy * dt;
+    bug.x = Math.max(cell, Math.min(W - cell, bug.x));
+    bug.y = Math.max(cell, Math.min(H - cell, bug.y));
+    const v = Math.hypot(bug.vx, bug.vy);
+    if (v > cell * 0.02) {
+      // פונה לכיוון ההליכה בהדרגה
+      const want = Math.atan2(bug.vy, bug.vx) + Math.PI / 2;
+      let d = want - bug.angle;
+      d = Math.atan2(Math.sin(d), Math.cos(d));
+      bug.angle += d * Math.min(1, 0.2 * dt);
+      bug.step += v / cell * dt * 0.9;
+    }
+  }
+
+  // ---------- הפיזיקה של הבלוקים ----------
+  function updateBlocks(dt) {
+    const R = cell * 3.4;
+    const speed = Math.hypot(bug.vx, bug.vy) / cell; // תאים לפריים
+    for (const b of blocks) {
+      // קפיץ חזרה הביתה. בלוק חם (שהחרק נגע בו לאחרונה) חוזר לאט יותר, וכך נוצר שובל
+      const k = 0.05 - 0.042 * b.heat;
+      let ax = (b.hx - b.x) * k;
+      let ay = (b.hy - b.y) * k;
+      const dx = b.x - bug.x, dy = b.y - bug.y;
+      const d = Math.hypot(dx, dy) || 0.001;
+      if (d < R) {
+        const t = 1 - d / R;
+        const nx = dx / d, ny = dy / d;
+        // נגרר אחרי החרק בכיוון ההליכה
+        ax += bug.vx * 0.13 * t;
+        ay += bug.vy * 0.13 * t;
+        // מסתחרר סביבו
+        const swirl = cell * 0.05 * t * Math.min(1, speed * 3);
+        ax += -ny * swirl;
+        ay += nx * swirl;
+        // ונדחף החוצה כדי לא לעלות על החרק. בתנועה איטית זה מתיז את הבלוקים
+        const push = cell * (0.03 + 0.05 * Math.max(0, 0.25 - speed)) * t * t;
+        ax += nx * push;
+        ay += ny * push;
+        if (t > 0.25) b.heat = 1;
+      }
+      const damp = Math.pow(0.86, dt);
+      b.vx = (b.vx + ax * dt) * damp;
+      b.vy = (b.vy + ay * dt) * damp;
+      b.x += b.vx * dt;
+      b.y += b.vy * dt;
+      b.heat = Math.max(0, b.heat - 0.006 * dt);
+    }
+  }
+
+  // ---------- ציור ----------
+  function mix(a, b, t) {
+    const pa = parseInt(a.slice(1), 16), pb = parseInt(b.slice(1), 16);
+    const r = (pa >> 16) + (((pb >> 16) - (pa >> 16)) * t);
+    const g = ((pa >> 8) & 255) + ((((pb >> 8) & 255) - ((pa >> 8) & 255)) * t);
+    const bl = (pa & 255) + (((pb & 255) - (pa & 255)) * t);
+    return `rgb(${r | 0},${g | 0},${bl | 0})`;
+  }
+
+  function drawGrid() {
+    ctx.fillStyle = '#f6f0e6';
+    ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = 'rgba(38, 28, 99, .07)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let x = 0; x <= cols; x++) { ctx.moveTo(Math.round(x * cell) + .5, 0); ctx.lineTo(Math.round(x * cell) + .5, H); }
+    for (let y = 0; y <= GRID_H; y++) { ctx.moveTo(0, Math.round(y * cell) + .5); ctx.lineTo(W, Math.round(y * cell) + .5); }
+    ctx.stroke();
+  }
+
+  function drawBlocks() {
+    const s = cell * 0.9, off = Math.max(2, cell * 0.16), h = s / 2;
+    // הצבע נשאר חם רוב הזמן ומתחלף בחזרה במהירות, כדי לא לעבור דרך גוונים עכורים
+    const heatT = (h) => { const t = Math.max(0, Math.min(1, (h - 0.12) / 0.18)); return t * t * (3 - 2 * t); };
+    for (const b of blocks) {
+      const t = heatT(b.heat);
+      ctx.fillStyle = mix(b.row.shade, b.row.hotShade, t);
+      ctx.fillRect(b.x - h + off, b.y - h + off, s, s);
+    }
+    for (const b of blocks) {
+      const t = heatT(b.heat);
+      ctx.fillStyle = mix(b.row.face, b.row.hot, t);
+      ctx.fillRect(b.x - h, b.y - h, s, s);
+    }
+  }
+
+  function drawBug() {
+    const frame = BUG[(Math.floor(bug.step) & 1)];
+    const p = cell * 0.3;
+    const w = frame[0].length, hgt = frame.length;
+    ctx.save();
+    ctx.translate(bug.x, bug.y);
+    ctx.rotate(bug.angle);
+    for (let y = 0; y < hgt; y++) {
+      for (let x = 0; x < w; x++) {
+        const c = frame[y][x];
+        if (c === '.') continue;
+        ctx.fillStyle = c === 'o' ? '#da2e70' : '#1e1a16';
+        ctx.fillRect((x - w / 2) * p, (y - hgt / 2) * p, p + .5, p + .5);
+      }
+    }
+    ctx.restore();
+  }
+
+  // ---------- לולאה ----------
+  let lastTime = performance.now();
+  function frame(now) {
+    const dt = Math.max(0, Math.min(3, (now - lastTime) / (1000 / 60)));
+    lastTime = now;
+    if (!reduceMotion || pointer.active) {
+      updateBug(dt, now);
+      updateBlocks(dt);
+    }
+    drawGrid();
+    drawBlocks();
+    drawBug();
+    if (visible) requestAnimationFrame(frame);
+    else running = false;
+  }
+
+  // עוצר את האנימציה כשהציור לא על המסך, כדי לא לבזבז סוללה
+  let visible = true, running = false;
+  const start = () => {
+    if (running) return;
+    running = true;
+    lastTime = performance.now();
+    requestAnimationFrame(frame);
+  };
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible) start();
+    }).observe(canvas);
+  }
+
+  canvas.addEventListener('pointermove', (e) => {
+    const r = canvas.getBoundingClientRect();
+    pointer.x = e.clientX - r.left;
+    pointer.y = e.clientY - r.top;
+    pointer.active = true;
+    pointer.last = performance.now();
+  });
+  canvas.addEventListener('pointerleave', () => { pointer.active = false; bug.target = null; });
+
+  new ResizeObserver(resize).observe(canvas);
+  resize();
+  // החרק מתחיל בצד ימין, מעל המילה הראשונה
+  bug.x = W - cell * 2; bug.y = cell * 2;
+  start();
+})();
