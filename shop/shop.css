@@ -306,3 +306,34 @@
 .cart-item .sub .cart-savings { font-size: 1rem; line-height: 1.5; }
 .cart-savings strong { color: var(--magenta); }
 .cart-savings[hidden] { display: none; }
+
+/* ״באגים בהייטק״ בפיקסלים מעל החנות: דף נייר עם מסגרת וצל, והחרק רץ בתוכו (pixel-bugs/pixel-bugs.js) */
+.pixel-hero { display: flex; justify-content: center; margin-bottom: clamp(1.5rem, 4vw, 2.5rem); }
+.pixel-stage {
+  width: min(100%, 760px);
+  background: var(--paper);
+  border: 3px solid var(--ink);
+  box-shadow: 8px 8px 0 #000;
+}
+.pixel-stage canvas { display: block; width: 100%; touch-action: pan-y; cursor: crosshair; }
+.pixel-hint {
+  display: inline-block;
+  margin: 0 14px 14px;
+  padding: .3rem .7rem;
+  background: var(--lime);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  font-size: .85rem;
+  font-weight: 600;
+  transform: rotate(-2deg);
+}
+.pixel-hint .hint-touch { display: none; }
+@media (hover: none) {
+  .pixel-hint .hint-touch { display: inline; }
+  .pixel-hint .hint-mouse { display: none; }
+}
+@media (max-width: 600px) {
+  .pixel-stage { box-shadow: 5px 5px 0 #000; }
+  .pixel-hint { font-size: .78rem; margin: 0 10px 10px; }
+}
