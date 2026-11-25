@@ -16,7 +16,7 @@
       --indigo: #261c63;
       --pink: #da2e70;
       --lime: #d7f85f;
-      --sun: #ffc83d;
+      --rose: #e4a2c8;
     }
     * { box-sizing: border-box; }
     html, body { margin: 0; }
@@ -41,7 +41,7 @@
       display: inline-block;
       margin: 0 14px 16px;
       padding: .35rem .7rem;
-      background: var(--sun);
+      background: var(--lime);
       color: var(--ink);
       border: 2px solid var(--ink);
       box-shadow: 4px 4px 0 var(--ink);
@@ -83,8 +83,8 @@
       'ק': ['#####', '....#', '....#', '#...#', '#...#', '#..#.', '#....', '#....'],
     };
     const ROWS = [
-      { word: 'באגים', face: '#da2e70', shade: '#261c63', hot: '#d7f85f', hotShade: '#4b7a12' },
-      { word: 'בהייטק', face: '#261c63', shade: '#da2e70', hot: '#ffc83d', hotShade: '#b5551b' },
+      { word: 'באגים', face: '#da2e70', shade: '#261c63', hot: '#d7f85f', hotShade: '#261c63' },
+      { word: 'בהייטק', face: '#261c63', shade: '#da2e70', hot: '#e4a2c8', hotShade: '#da2e70' },
     ];
     const LETTER_H = 8, ROW_GAP = 3, PAD_X = 3, PAD_TOP = 3, PAD_BOTTOM = 4;
 
@@ -291,7 +291,7 @@
     }
 
     function drawBug() {
-      const frame = BUG[Math.floor(bug.step) % 2];
+      const frame = BUG[(Math.floor(bug.step) & 1)];
       const p = cell * 0.3;
       const w = frame[0].length, hgt = frame.length;
       ctx.save();
@@ -311,7 +311,7 @@
     // ---------- לולאה ----------
     let lastTime = performance.now();
     function frame(now) {
-      const dt = Math.min(3, (now - lastTime) / (1000 / 60));
+      const dt = Math.max(0, Math.min(3, (now - lastTime) / (1000 / 60)));
       lastTime = now;
       if (!reduceMotion || pointer.active) {
         updateBug(dt, now);
