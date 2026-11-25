@@ -453,6 +453,7 @@
       const dots = document.getElementById('dots');
       let current = 0;
       let finished = false;
+      const seen = new Set();   // pages already reported to Google Analytics
 
       // Pages after the cover are held in data-src so the cover loads alone:
       // then pages 2-3, then the rest (lazy). Swiping releases everything at once.
@@ -479,9 +480,15 @@
       function render(i) {
         if (i > 0) release(held);
         current = i;
+        // Each page counted once per visit, so the report shows on which page readers stop.
+        if (!seen.has(i)) {
+          seen.add(i);
+          window.gtag?.('event', 'chapter_page', { page_number: i + 1 });
+        }
         if (i === slides.length - 1 && !finished) {
           finished = true;
           fbq('trackCustom', 'ChapterFinished', { content_name: 'zarot-chapter-1' });
+          window.gtag?.('event', 'chapter_finished', { content_name: 'zarot-chapter-1' });
         }
         counter.textContent = `${i + 1}/${slides.length}`;
         prev.hidden = i === 0;
@@ -513,7 +520,10 @@
       // Every link to buying the book (it goes in the cart on the shop page) counts as a lead,
       // so ads can optimize for it.
       document.querySelectorAll('a[href="/#buy"]').forEach(a => {
-        a.addEventListener('click', () => fbq('track', 'Lead', { content_name: 'shop' }));
+        a.addEventListener('click', () => {
+          fbq('track', 'Lead', { content_name: 'shop' });
+          window.gtag?.('event', 'generate_lead', { lead_source: 'zarot-chapter-1' });
+        });
       });
     })();
   </script>

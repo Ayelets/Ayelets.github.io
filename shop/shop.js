@@ -33,6 +33,33 @@
   document.querySelectorAll('.price[data-price]').forEach(function (el) { el.innerHTML = priceHTML(el.dataset.price); });
   document.querySelectorAll('.sale-banner').forEach(function (el) { el.hidden = !saleOn; });
 
+  // Analytics: shop steps go to Google Analytics (ecommerce events) and to the Meta Pixel,
+  // so both can show how many people view, add to cart, start checkout and pay.
+  // The hidden test item is never reported.
+  function gaItem(id, qty) {
+    return { item_id: id, item_name: PRODUCTS[id].name, price: priceOf(id), quantity: qty || 1 };
+  }
+  function track(gaEvent, gaParams, fbEvent, fbParams) {
+    try {
+      if (window.gtag) gtag('event', gaEvent, gaParams);
+      if (fbEvent && window.fbq) fbq('track', fbEvent, fbParams);
+    } catch (e) {}
+  }
+  function trackItems(gaEvent, fbEvent, ids) {
+    ids = ids.filter(function (id) { return id !== 'test'; });
+    if (!ids.length) return;
+    var items = ids.map(function (id) { return gaItem(id, cart[id]); });
+    var value = items.reduce(function (s, it) { return s + it.price * it.quantity; }, 0);
+    track(gaEvent, { currency: 'ILS', value: value, items: items },
+      fbEvent, { currency: 'ILS', value: value, content_ids: ids, content_type: 'product' });
+  }
+  function trackOne(gaEvent, fbEvent, id, qty) {
+    if (id === 'test') return;
+    var value = priceOf(id) * (qty || 1);
+    track(gaEvent, { currency: 'ILS', value: value, items: [gaItem(id, qty)] },
+      fbEvent, { currency: 'ILS', value: value, content_ids: [id], content_type: 'product' });
+  }
+
   var KEY = 'shop-cart';
   var cart = load();
 
@@ -119,6 +146,7 @@
   function add(id, n) {
     cart[id] = (cart[id] || 0) + (n || 1);
     save(); render();
+    trackOne('add_to_cart', 'AddToCart', id, n || 1);
   }
   function showToast(msg) {
     toast.textContent = msg;
@@ -165,6 +193,7 @@
     var img = qv.querySelector('.qv-img img');
     img.src = p.img; img.alt = p.name;
     qv.showModal();
+    trackOne('view_item', 'ViewContent', id, 1);
   }
   qv.addEventListener('click', function (e) {
     var t = e.target.closest('button');
@@ -222,6 +251,10 @@
     } catch (e2) {}
 
     var items = Object.keys(cart).map(function (id) { return { id: id, qty: cart[id] }; });
+    // The thanks page reports the purchase with these items, once the payment is confirmed.
+    var gaItems = Object.keys(cart).map(function (id) { return gaItem(id, cart[id]); });
+    try { localStorage.setItem('shop-order-items', JSON.stringify(gaItems)); } catch (e4) {}
+    if (!cart.test) track('add_shipping_info', { currency: 'ILS', value: cartSum, shipping_tier: method, items: gaItems });
     payBtn.disabled = true;
     payBtn.textContent = 'פותח את דף התשלום…';
     formError.hidden = true;
@@ -270,7 +303,10 @@
     } else if (t.dataset.remove) { delete cart[t.dataset.remove]; save(); render(); }
     else if (t.classList.contains('cart-btn')) openCart();
     else if (t.classList.contains('cart-close')) dialog.close();
-    else if (t === checkoutBtn) showStep('checkout');
+    else if (t === checkoutBtn) {
+      showStep('checkout');
+      trackItems('begin_checkout', 'InitiateCheckout', Object.keys(cart));
+    }
     else if (t.classList.contains('back-btn')) showStep('cart');
   });
   // Click on the backdrop closes the cart
@@ -278,6 +314,11 @@
     if (e.target !== dialog) return;
     var r = dialog.getBoundingClientRect();
     if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) dialog.close();
+  });
+
+  // WhatsApp button: counted as a contact
+  document.querySelectorAll('a[href*="wa.me"]').forEach(function (a) {
+    a.addEventListener('click', function () { track('contact_whatsapp', { link_url: a.href }, 'Contact'); });
   });
 
   var y = document.getElementById('year');

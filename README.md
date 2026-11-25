@@ -23,6 +23,12 @@
 - `checkout-worker/` — השרת הקטן ב-Cloudflare שפותח את דף התשלום ב-SUMIT. ההוראות ב-`checkout-worker/README.md`.
 - `orders-sheet/` — הסקריפט ששומר כל הזמנה בגיליון Google Sheets, עם עמודה לסמן מי קיבל את ההזמנה, ושולח הודעה לקבוצת טלגרם על כל תשלום. ההוראות ב-`orders-sheet/README.md`.
 
+## מדידה (Google Analytics ו-Meta Pixel)
+- **החנות** (`shop/shop.js`, `shop/thanks/index.html`): צפייה במוצר, הוספה לעגלה, תחילת תשלום, בחירת משלוח, ורכישה בדף התודה (פעם אחת לכל הזמנה). מוצר הבדיקה לא נספר.
+- **ווטסאפ**: לחיצה על הכפתור נספרת כ-`contact_whatsapp` ב-GA וכ-Contact ב-Meta.
+- **פורטפוליו** (`script.js`): `view_artwork` עם שם העבודה שנפתחה בתצוגה הגדולה.
+- **הפרק הראשון**: `chapter_page` עם מספר העמוד (פעם אחת לכל עמוד בביקור), `chapter_finished`, ו-`generate_lead` בלחיצה על ״אני רוצה לקנות״.
+
 ## הוספת עבודה חדשה
 1. שימי את קובץ ה-PNG בתיקיית `images` (שם הקובץ הוא גם הכותרת).
 2. הוסיפי שורה לרשימה `WORKS` בקובץ `tools/optimize_images.py` — שם הקובץ ושם קצר באנגלית.
